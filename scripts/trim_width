@@ -6,8 +6,10 @@ use Tie::File;
 # takes a JSON pseudo-comment line of this form:
 # <trailing spaces>"//<spaces><comment key>"<spaces>:<spaces>"<comment value>"
 # and rewrites it as:
-# <trailing spaces>"//<one space><comment key>":<one space>"<comment 1>",
-# <trailing spaces>"//<one space><comment key>":<one space>"<comment 2>",
+# <trailing spaces>"//<one space><comment key-1>":<one space>"<comment 1>",
+# <trailing spaces>"//<one space><comment key-2>":<one space>"<comment 2>",
+# ...
+# <trailing spaces>"//<one space><comment key-N>":<one space>"<comment N>",
 # and so on to fit the given width.
 
 sub split_line {
@@ -17,8 +19,8 @@ sub split_line {
     my ($leading_spaces, $key, $value) = ($1, $3, $6);
     my $ends_with_comma = ($line =~ /,$/);
 
-    # first 4 chars are '"// ', second 4 chars are '": "'
-    my $value_start = (length $leading_spaces) + 4 + (length $key) + 4;
+    # 4 chars are '"// ', 2 chars are "-<broken comment number>" and 4 chars are '": "'
+    my $value_start = (length $leading_spaces) + 4 + 2 + (length $key) + 4;
     die "Pseudo-comment key: $key too long to be fit within $width chars. Rephrase text"
 	if ($value_start > $width);
 
@@ -31,21 +33,23 @@ sub split_line {
     my @out;
     my %seen;
     my $key_value_line;
+    my $token = 1;
     while (my $word = shift @words) {
 	if ((length $split_value) + 1 + (length $word) + 1 < $avail_space) {
 	    $split_value = join(' ', $split_value, $word);
 	} else {
 	    die "Pseudo-comment value: cannot break $value to be fit within $width chars. Rephrase text"
 		if $seen{$word};
-	    $key_value_line = $leading_spaces . _w("// " . $key) . ": " . _w($split_value);
+	    $key_value_line = $leading_spaces . _w("// " . $key . "-" . $token) . ": " . _w($split_value);
 	    $key_value_line = join ('', $key_value_line, ',');
 	    push @out, $key_value_line;
 	    unshift @words, $word;
 	    $seen{$word} = 1;
 	    $split_value = "";
+	    $token += 1;
 	}
     }
-    $key_value_line = $leading_spaces . _w("// " . $key) . ": " . _w($split_value);
+    $key_value_line = $leading_spaces . _w("// " . $key . "-" . $token) . ": " . _w($split_value);
     $key_value_line = join ('', $key_value_line, ',');
     push @out, $key_value_line;
 
