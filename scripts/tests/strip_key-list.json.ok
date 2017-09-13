@@ -1,0 +1,7 @@
+{
+    "dishwasher:dishwasher": {
+        "cycle": "quick rinse",
+        "cycle2": "quick rinse",
+        "final": "wow"
+    }
+}

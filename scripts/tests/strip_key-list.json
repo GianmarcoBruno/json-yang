@@ -1,0 +1,13 @@
+{
+    "dishwasher:dishwasher": {
+        "cycle": "quick rinse",
+        "// a list comment": [
+	  "hi!",
+	  "ouch",
+	  "the last"
+	],
+        "cycle2": "quick rinse",
+        "// a comment but not at the end": "hi!",
+        "final": "wow"
+    }
+}

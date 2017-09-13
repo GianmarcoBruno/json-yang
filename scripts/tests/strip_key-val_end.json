@@ -1,0 +1,6 @@
+{
+    "dishwasher:dishwasher": {
+        "cycle": "quick rinse",
+        "// a simple comment": "hi!"
+    }
+}
