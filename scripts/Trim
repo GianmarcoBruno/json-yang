@@ -1,0 +1,164 @@
+#!/usr/bin/perl -ws
+
+use strict;
+use Tie::File;
+
+use File::Copy;
+use vars qw($w $i $test);
+$w ||= 72;
+$i ||= 2;
+my $file = $ARGV[0] || help();
+my $file2 = $file . "_tmp";
+copy($file, $file2) or die "copy failed: $!";
+
+tie my @array, 'Tie::File', $file2 or die "cannot work on $file2";
+
+# takes a JSON pseudo-comment line of this form:
+# <trailing spaces>"//<spaces><comment key>"<spaces>:<spaces>"<comment value>"
+# and rewrites it as:
+# <trailing spaces>"//<one space><comment key>": [
+# "comment token 1",           indented by i wrt to previous line
+# "comment token 2",               "    "
+# ..
+# "comment token N"
+# ]
+# plus a comma if needed
+# to fit the given width.
+
+sub ends_with_comma {
+    return ($_[0] =~ /,$/);
+}
+sub split_comment_line {
+    my ($line, $width, $indent) = @_;
+
+    $line =~ /^(\s*)"\/\/(\s*)(.*)"(\s*):(\s*)"(.*)"/;
+    my ($leading_spaces, $key, $value) = ($1, $3, $6);
+
+    # 4 chars are '"// ' and 4 chars are '": ['
+    my $value_start = (length $leading_spaces) + 4 + (length $key) + 4;
+    die "Pseudo-comment key: $key too long to be fit within $width chars. Rephrase text"
+	if ($value_start > $width);
+
+    my @words = split " ", $value;
+    my $comment_so_far = shift @words;
+    # 3 chars are the opening and closing " and the ending comma
+    my $avail_space = $width - length($leading_spaces) - 3 - $indent;
+    die "Pseudo-comment value: cannot break $value to be fit within $width chars. Rephrase text"
+	if (length($comment_so_far) > $avail_space);
+
+    my $key_value_line = $leading_spaces . _w("// " . $key) . ": [";
+    my @out;
+    $out[0] = $key_value_line;
+
+    my %seen;
+    while (my $word = shift @words) {
+	if ((length $comment_so_far) + (length $word) <= $avail_space) {
+	    $comment_so_far = join(' ', $comment_so_far, $word);
+	} else {
+	    die "Pseudo-comment value: cannot break $value to be fit within $width chars. Rephrase text"
+		if $seen{$word};
+	    $key_value_line = $leading_spaces . " " x $indent . _w($comment_so_far) . ",";
+	    $key_value_line =~s/^ //;
+	    push @out, $key_value_line;
+	    unshift @words, $word;
+	    $seen{$word} = 1;
+	    $comment_so_far = "";
+	}
+    }
+    $key_value_line = $leading_spaces . " " x $indent . _w($comment_so_far);
+    push @out, $key_value_line;
+
+    my $last_line = $leading_spaces . "]";
+    $last_line .= "," if ends_with_comma($line);
+    push @out, $last_line;
+
+    return @out;
+}
+
+
+# we split a non-comment line in a line for the key and another for the value
+sub split_noncomment_line {
+    my ($line, $width, $indent) = @_;
+
+    $line =~ /^(\s*)"(\s*)(.*)"(\s*):(\s*)"(.*)"/;
+    my ($leading_spaces, $key, $value) = ($1, $3, $6);
+
+    my $key_line = $leading_spaces . _w($key) . ":";
+    my $value_line = " " x $indent . $leading_spaces . _w($value);
+    $value_line = join ('', $value_line, ',') if (ends_with_comma($line));
+
+    my @out = ($key_line);
+    push @out, $value_line;
+    return @out;
+}
+
+sub _w {
+    my ($x) = @_;
+    return '"' . $x . '"';
+}
+
+sub is_comment {
+    my ($str) = @_;
+    return ($str =~ /^(\s*)"\/\//) ? 1 : 0;
+}
+
+sub final_check {
+    my %too_long;
+    my $i = 0;
+    for my $line (@array) {
+	$too_long{$i} = $line if (length($line) > $w);
+	$i += 1;
+    }
+    if (%too_long) {
+	print "Lines exceeding $w chars:\n";
+	map { print $_ . " : " . $too_long{$_} . "\n" } keys %too_long;
+    } else {
+	print "All lines are now <= $w chars long\n";
+    }
+
+    copy($file2, $file) or die "back copy failed: $!";
+    unlink $file2;
+}
+
+sub help {
+    my $str = <<'MSG';
+usage: trim_width [-w <WIDTH>] [-i <INDENT>] [-test] <FILE>
+Rearrange the contents of the given <FILE> including JSON pseudo-comments by 
+wrapping them to fit the given page <WIDTH>.
+JSON pseudo-comments are key-value pairs where the key starts with "//".
+If <WIDTH> is not given, the RFCs standard width 72 is used.
+Long non-comment lines are split and the second line is indented by <INDENT>
+spaces, 2 if not specified.
+This manipulation is done in-place unless -test is passed.
+If -test is given, the file F.json is left unchanged and a modified
+F.json_tmp is produced. The final check is not done because messes up the 
+test output.
+
+MSG
+    print "\n$str\n";
+    exit 1;
+}
+
+#-----------------------------------------------------------------------
+
+my $line_number = 0; # changes in flight!
+while (my $line = $array[$line_number]) {
+    chomp $line;
+    $line =~ s/\r//;
+    if ((length $line) > $w) {
+	if (is_comment($line)) {
+	    my @new_lines = split_comment_line($line, $w, $i);
+	    splice @array, $line_number, 1, @new_lines;
+	    $line_number += scalar(@new_lines) - 1;
+	} else {
+	    #warn "splitting non-comment line longer than $w";
+	    # try basic split
+	    my @new_lines = split_noncomment_line($line, $w, $i);
+	    splice @array, $line_number, 1, @new_lines;
+	    $line_number += scalar(@new_lines) - 1;
+	}
+    }
+    $line_number += 1;
+}
+
+final_check() unless $test;
