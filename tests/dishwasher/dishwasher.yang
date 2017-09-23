@@ -1,0 +1,120 @@
+module dishwasher {
+  yang-version 1.1;
+
+  namespace "http://example.net/dishwasher";
+
+  prefix "dw";
+
+  import dishwasher-types {
+    prefix "dwt";
+  }
+
+  contact
+      "Gianmarco Bruno
+       <mailto: gianmarco.bruno@ericsson.com>
+       Carlo Perocchio
+       <mailto: carlo.perocchio@ericsson.com>";
+
+  description
+    "Model for the dishwasher.";
+
+  revision 2017-05-18 {
+    description
+      "Initial revision.";
+  }
+
+  /* Typedefs */
+
+  typedef cycle {
+    type dwt:cycle;
+    default "smart wash";
+  }
+
+  typedef phase {
+    type enumeration {
+      enum "stand-by";
+      enum "warm-up";
+      enum "washing";
+      enum "drying";
+    }
+    default "stand-by";
+    description
+      "Basically the machine state";
+  }
+
+  /* Groupings */
+
+  /* State data and Configuration */
+
+  container dishwasher {
+    description
+      "State data and configuration of a dishwasher.";
+    leaf phase {
+      type phase;
+      config "false";
+      mandatory "true";
+      description "Current state of the dishwasher.";
+    }
+    leaf cycle {
+      type cycle;
+      mandatory "true";
+      description "Selected washing cycle.";
+    }
+    leaf operating {
+      type boolean;
+      mandatory "true";
+      config "false";
+      description "Operating status of the machine (true means all OK).";
+    }
+  }
+
+  /* RPCs */
+
+  rpc start-resume {
+    description
+      "Start the dishwasher - same method to resume.";
+  }
+
+  rpc cancel-drain {
+    description
+      "Cancel the cycle and drain.";
+  }
+
+  rpc delay-by-hours {
+    input {
+      leaf delay-hour {
+        type int8;
+	/* restrict to 1..24 hours*/
+      }
+    }
+    description
+      "Start the dishwasher after given number of hours.";
+  }
+
+  rpc time-to-start {
+    output {
+      leaf delay-hour {
+        type string {
+          pattern
+	  '((([0-1][0-9])|2[0-3]):[0-5][0-9])';
+          length "5";
+	}
+      }
+    }
+    description
+      "Time after which the dishwasher will start - displayed as HH:MM.";
+  }
+
+  /* Notifications */
+
+  notification halted {
+    description
+      "The dishwasher has been halted for some problem";
+    leaf state {
+      type phase;
+      mandatory "true";
+      description
+        "The state of the dishwasher when the problem occurred.";
+    }
+  }
+}

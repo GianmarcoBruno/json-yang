@@ -1,0 +1,40 @@
+{
+  "ietf-te:te": {
+    "globals": {
+      "named-explicit-paths": {
+        "named-explicit-path": [
+          {
+            "name": "odu2-service-named-explicit-path",
+            "config": {
+              "name": "odu2-service-named-explicit-path",
+              "explicit-route-objects": {
+                "explicit-route-object": [
+                  {
+                    "index": 0,
+                    "explicit-route-usage": "ietf-te-types:route-include-ero",
+                    "config": {
+                      "index": 0,
+                      "unnumbered-hop": {
+                        "router-id": "10.0.0.3",
+                        "interface-id": 1,
+                        "hop-type": "STRICT"
+                      }
+                    },
+                    "state": {
+                      "index": 0,
+                      "unnumbered-hop": {
+                        "router-id": "10.0.0.3",
+                        "interface-id": 1,
+                        "hop-type": "STRICT"
+                      }
+                    }
+                  }
+                ]
+              }
+            }
+          }
+        ]
+      }
+    }
+  }
+}

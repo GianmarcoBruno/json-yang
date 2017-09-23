@@ -1,0 +1,22 @@
+module dishwasher-types {
+  prefix "dwt";
+
+  namespace "http://example.net/dishwasher-types";
+  revision 2017-05-19 {
+    description
+     "Initial revision.";
+  }
+
+  /*** collection of basic types related to dishwashers ***/
+  typedef cycle {
+    type enumeration {
+      enum "smart wash";
+      enum "normal wash";
+      enum "light wash";
+      enum "fast wash";
+      enum "quick rinse";
+    }
+    description
+      "Washing cycles selectable by the user";
+    }
+}

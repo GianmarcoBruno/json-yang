@@ -7,7 +7,6 @@ import argparse
 import json
 from collections import OrderedDict
 
-from pprint import pprint
 from datetime import datetime
 
 indent = 2
@@ -43,11 +42,8 @@ def traverse(d, Clean):
     pattern = re.compile("//")
     if isinstance(d, dict):
         for k in d.keys():
-            if (isinstance(d[k], basestring) or isinstance(d[k], list)):
-               # k is key of a string value so may be a comment
-               if (pattern.search(k)):
-                   if (Clean):
-                       del d[k]
+            if (pattern.search(k) and Clean):
+                del d[k]
             else:
                 traverse(d[k], Clean)
     elif isinstance(d, list):

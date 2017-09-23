@@ -1,0 +1,33 @@
+#!/bin/bash
+
+function run_this {
+    # we assume that the whole chain is OK if the last command 
+    # prints on stderr "No errors founds.". We capture it and
+    # discart everything else.
+    # RERUN THE TEST FROM ITS DIRECTORY BECAUSE IF VALIDATION FAILS
+    # IN THE LAST STEP IT PRINTS "No errors found"
+    $1 2> .stderr 1> /dev/null
+    if [ "`tail -n 1 .stderr`" = "No errors found." ]
+    then
+	echo -e "\e[1;32mOK\e[0m"
+    else
+	echo -e "\e[1;31mFAILED\e[0m"
+    fi
+    rm .stderr
+}
+
+cd tests
+echo "-----------------------------------------------------"
+echo "Running tests in ./tests: false positives possible"
+echo "Run from their respective directory to see full trace"
+echo "-----------------------------------------------------"
+for dir in `ls -d ./*/`
+do
+    cd $dir
+    for script in `ls *.sh`
+    do
+	printf '%-50s%10s\n' "${dir}${script}" "`run_this $script`"
+    done
+    cd ..
+done
+cd ..

@@ -1,0 +1,81 @@
+#!/bin/bash
+# gianmarco.bruno@ericsson.com, carlo.perocchio@ericsson.com
+
+if [ -z "$3" ]
+then
+    echo "usage: validate <YANG_FILE> <JSON_FILE> <WHAT>"
+    echo "WHAT one of: data, config"
+    echo "exiting: did nothing"
+    exit 1
+fi
+
+YANG_FILE=$1
+JSON_FILE=$2
+WHAT=$3
+
+function all_yang_files_in_dir {
+    DIR=`dirname $1`
+    ALL_YANG_FILES="`ls ${DIR}/*.yang`"
+}
+
+function exit_if_failed {
+    if [ $? -ne 0 ]
+    then
+	echo $* failed
+	exit 1
+    fi
+}
+
+# pseudo-comments has been provisionally defined in the IETF TEAS Transport NBI
+# Design Team in JSON as fictitious key/value pairs on a single line:
+# "// TEXT" :" OTHER TEXT", for example "// router-id": "NODE-S3-ID"
+
+function cleanup {
+    rm -f *.xml *.sch *.jtox *.rng *.dsrl *.tmp
+}
+echo "(0) cleaning .."
+cleanup
+
+echo "(0) building list of all yang files"
+# results are in $ALL_YANG_FILES
+all_yang_files_in_dir $YANG_FILE
+sed "s/ /\n/g" <<< $ALL_YANG_FILES
+
+echo "(1) writing jtox .."
+JTOX_FILE=${YANG_FILE%.yang}.jtox
+pyang -p . -f jtox -o $JTOX_FILE $ALL_YANG_FILES
+exit_if_failed "writing jtox"
+
+echo "preparing step (2) stripping pseudo-comments from JSON .."
+# we want to keep the original JSON unchanged
+JSON_TMP=${JSON_FILE}.tmp
+python ../../scripts/Stripper.py --infile=${JSON_FILE} --outfile=${JSON_TMP} --clean
+exit_if_failed "stripping comments"
+
+echo "(2) converting JSON to XML .."
+XML_BASE=${JSON_FILE%.json}
+XML_TMP=${XML_BASE}_tmp.xml
+XML_FILE=${XML_BASE}.xml
+json2xml -t $WHAT -o $XML_TMP $JTOX_FILE $JSON_TMP
+exit_if_failed "converting JSON to XML"
+
+# the prettyfier is in ../..
+python ../../scripts/xml2pretty.py -i $XML_TMP -o $XML_FILE
+exit_if_failed "beautifying XML"
+rm $XML_TMP
+
+echo "(3) writing schemas .."
+yang2dsdl -t $WHAT $ALL_YANG_FILES
+exit_if_failed "writing schemas"
+
+echo "preparing step (4) .."
+DSRL_FILE=`ls *.dsrl`
+BASE=${DSRL_FILE%-${WHAT}.dsrl}
+
+echo "(4) validating XML .."
+yang2dsdl -s -j -b $BASE -t $WHAT -v $XML_FILE
+exit_if_failed "validation"
+
+# do not write anything on stdout otherwise
+# the test driver gets confused
+cleanup
