@@ -39,10 +39,22 @@ sub split_comment_line {
     die "Pseudo-comment key: $key too long to be fit within $width chars. Rephrase text"
 	if ($value_start > $width);
 
-    my @words = split " ", $value;
-    my $comment_so_far = shift @words;
     # 3 chars are the opening and closing " and the ending comma
     my $avail_space = $width - length($leading_spaces) - 3 - $indent;
+
+    # try shortcut
+    if ((length $leading_spaces) + 3 + $indent + (length $value) <= $width) {
+	my @out;
+        my $key_value_line = $leading_spaces . _w("// " . $key) . ":";
+	$out[0] = $key_value_line;
+	my $last_line = $leading_spaces . " " x $indent . _w($value);
+        $last_line .= "," if ends_with_comma($line);
+	$out[1] = $last_line;
+	return @out;
+    }
+
+    my @words = split " ", $value;
+    my $comment_so_far = shift @words;
     die "Pseudo-comment value: cannot break $value to be fit within $width chars. Rephrase text"
 	if (length($comment_so_far) > $avail_space);
 

@@ -1,12 +1,13 @@
 #!/usr/bin/perl -w
 
-use Test::More tests => 4;
+use Test::More tests => 5;
 use File::Compare;
 my $t = "tests";
 Trim_test("$t/trim_nothing.json", "$t/trim_nothing.json.ok", 4);
 Trim_test("$t/trim_nothing_w40.json", "$t/trim_nothing_w40.json.ok", 4, 40);
 Trim_test("$t/trim_RFC_i4.json", "$t/trim_RFC_i4.json.ok", 4);
 Trim_test("$t/trim_RFC_i2.json", "$t/trim_RFC_i2.json.ok", 2);
+Trim_test("$t/trim_shortcomments.json", "$t/trim_shortcomments.json.ok", 2);
 
 sub Trim_test {
     my ($input, $benchmark, $indent, $width) = @_;
