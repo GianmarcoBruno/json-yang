@@ -3,18 +3,11 @@
 import sys
 import re
 import argparse
-
 import json
 from collections import OrderedDict
 
-from datetime import datetime
-
-indent = 2
-
+pattern = re.compile("//")
 def Stripper(InFile, OutFile, Clean):
-
-    print "Clean: %s"%(Clean)
-    print "Indentation: %s"%(indent)
 
     try:
         with open(InFile) as infile:
@@ -36,10 +29,8 @@ def Stripper(InFile, OutFile, Clean):
     except:
         sys.exit("%s: unable to open outfile"%(OutFile))
 
-
 #------------------------------------------------------------------------------
 def traverse(d, Clean):
-    pattern = re.compile("//")
     if isinstance(d, dict):
         for k in d.keys():
             if (pattern.search(k) and Clean):
