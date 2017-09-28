@@ -1,0 +1,134 @@
+{
+  "ietf-te:te": {
+    "globals": {
+      "named-explicit-paths": {
+        "named-explicit-path": [
+          {
+            "name": "odu2-service-named-explicit-path",
+            "config": {
+              "name": "odu2-service-named-explicit-path",
+              "explicit-route-objects": {
+                "explicit-route-object": [
+                  {
+                    "index": 0,
+                    "explicit-route-usage": "ietf-te-types:route-include-ero",
+                    "config": {
+                      "index": 0,
+                      "unnumbered-hop": {
+                        "router-id": "10.0.0.3",
+                        "// router-id": "NODE-S3-ID",
+                        "interface-id": 1,
+                        "hop-type": "STRICT"
+                      }
+                    },
+                    "state": {
+                      "index": 0,
+                      "unnumbered-hop": {
+                        "router-id": "10.0.0.3",
+                        "interface-id": 1,
+                        "hop-type": "STRICT"
+                      }
+                    }
+                  }
+                ]
+              }
+            },
+            "state": {
+              "name": "odu2-service-named-explicit-path",
+              "explicit-route-objects": {
+                "explicit-route-object": [
+                  {
+                    "index": 0,
+                    "explicit-route-usage": "ietf-te-types:route-include-ero",
+                    "config": {
+                      "index": 0,
+                      "unnumbered-hop": {
+                        "router-id": "10.0.0.3",
+                        "interface-id": 1,
+                        "hop-type": "STRICT"
+                      }
+                    },
+                    "state": {
+                      "index": 0,
+                      "unnumbered-hop": {
+                        "router-id": "10.0.0.3",
+                        "interface-id": 1,
+                        "hop-type": "STRICT"
+                      }
+                    }
+                  }
+                ]
+              }
+            }
+          }
+        ]
+      }
+    },
+    "tunnels": {
+      "tunnel": [
+        {
+          "name": "odu2-service",
+          "identifier": 1,
+          "config": {
+            "name": "odu2-service",
+            "type": "ietf-te-types:tunnel-p2p",
+            "identifier": 1,
+            "description": "to-be-added",
+            "protection-type": "ietf-te-types:lsp-prot-unprotected",
+            "admin-status": "ietf-te-types:state-up",
+            "bidirectional": {
+              "association": {
+                "type": "ietf-te-types:bidir-assoc-corouted"
+              }
+            }
+          },
+          "state": {
+            "name": "odu2-service",
+            "type": "ietf-te-types:tunnel-p2p",
+            "identifier": 1,
+            "description": "to-be-added",
+            "protection-type": "ietf-te-types:lsp-prot-unprotected",
+            "admin-status": "ietf-te-types:state-up",
+            "bidirectional": {
+              "association": {
+                "type": "ietf-te-types:bidir-assoc-corouted"
+              }
+            },
+            "oper-status": "ietf-te-types:state-up"
+          },
+          "bandwidth": {
+            "config": {
+	      "specification-type": "SPECIFIED",
+              "set-bandwidth": 10000
+             },
+            "state": {
+	      "specification-type": "SPECIFIED",
+              "set-bandwidth": 10000,
+              "signaled-bandwidth": 10000
+            }
+          },
+          "p2p-primary-paths": {
+            "p2p-primary-path": [
+              {
+                "name": "odu2-service-explicit-path",
+                "config": {
+                  "name": "odu2-service-explicit-path",
+                  "named-explicit-path": "odu2-service-named-explicit-path",
+                  "path-computation-method": "ietf-te-types:path-explicitly-defined"
+                },
+                "state": {
+                  "name": "odu2-service-explicit-path",
+                  "named-explicit-path": "odu2-service-named-explicit-path",
+                  "path-computation-method": "ietf-te-types:path-explicitly-defined",
+                  "lsps": {
+                    "lsp": []
+                  }
+                }
+              }
+            ]
+          }
+        }
+      ]
+    }
+  }
+}
