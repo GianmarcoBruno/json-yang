@@ -11,10 +11,12 @@ NBI Design Team (https://github.com/danielkinguk/transport-nbi).
 
 See `validation.md` for a description of the process.
 
-Prerequisites:
+Prerequisites on Linux:
 
+- `bash 4.3.11`
 - `python 2.7.6`
-- `pyang`
+- `pyang 1.7.1`
+- `jing 20131210`
 - `perl 5.18` for testing only
 
 ## Thanks
