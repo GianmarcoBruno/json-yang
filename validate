@@ -12,6 +12,7 @@ fi
 YANG_FILE=$1
 JSON_FILE=$2
 WHAT=$3
+THIS_SCRIPT_DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
 
 function all_yang_files_in_dir {
     DIR=`dirname $1`
@@ -49,7 +50,7 @@ exit_if_failed "writing jtox"
 echo "preparing step (2) stripping pseudo-comments from JSON .."
 # we want to keep the original JSON unchanged
 JSON_TMP=${JSON_FILE}.tmp
-python ../../scripts/Stripper.py --infile=${JSON_FILE} --outfile=${JSON_TMP} --clean
+python $THIS_SCRIPT_DIR/scripts/Stripper.py --infile=${JSON_FILE} --outfile=${JSON_TMP} --clean
 exit_if_failed "stripping comments"
 
 echo "(2) converting JSON to XML .."
@@ -59,8 +60,7 @@ XML_FILE=${XML_BASE}.xml
 json2xml -t $WHAT -o $XML_TMP $JTOX_FILE $JSON_TMP
 exit_if_failed "converting JSON to XML"
 
-# the prettyfier is in ../..
-python ../../scripts/xml2pretty.py -i $XML_TMP -o $XML_FILE
+python $THIS_SCRIPT_DIR/scripts/xml2pretty.py -i $XML_TMP -o $XML_FILE
 exit_if_failed "beautifying XML"
 rm $XML_TMP
 
