@@ -65,15 +65,11 @@ exit_if_failed "beautifying XML"
 rm $XML_TMP
 
 echo "(3) writing schemas .."
-yang2dsdl -t $WHAT $ALL_YANG_FILES
+yang2dsdl -t $WHAT -b _placeholder $ALL_YANG_FILES
 exit_if_failed "writing schemas"
 
-echo "preparing step (4) .."
-DSRL_FILE=`ls *.dsrl`
-BASE=${DSRL_FILE%-${WHAT}.dsrl}
-
 echo "(4) validating XML .."
-yang2dsdl -s -j -b $BASE -t $WHAT -v $XML_FILE
+yang2dsdl -s -j -b _placeholder -t $WHAT -v $XML_FILE
 exit_if_failed "validation"
 
 # do not write anything on stdout otherwise
