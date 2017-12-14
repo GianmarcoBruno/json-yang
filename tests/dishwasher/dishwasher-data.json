@@ -1,0 +1,7 @@
+{
+  "dishwasher:dishwasher": {
+    "cycle": "quick rinse",
+    "phase": "warm-up",
+    "operating": true
+  }
+}

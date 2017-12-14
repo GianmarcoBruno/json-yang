@@ -1,0 +1,7 @@
+<?xml version="1.0" ?>
+<nc:config xmlns:dw="http://example.net/dishwasher" xmlns:dwt="http://example.net/dishwasher-types" xmlns:nc="urn:ietf:params:xml:ns:netconf:base:1.0">
+  <dw:dishwasher>
+    <dw:cycle>quick rinse</dw:cycle>
+  </dw:dishwasher>
+</nc:config>
+
