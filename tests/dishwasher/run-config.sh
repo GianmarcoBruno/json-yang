@@ -1,2 +1,2 @@
 #!/bin/bash
-../../validate dishwasher.yang dishwasher-config.json config
+../../validate dishwasher-config.json config

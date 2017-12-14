@@ -1,22 +1,22 @@
 #!/bin/bash
 # gianmarco.bruno@ericsson.com, carlo.perocchio@ericsson.com
 
-if [ -z "$3" ]
+if [ -z "$2" ]
 then
-    echo "usage: validate <YANG_FILE> <JSON_FILE> <WHAT>"
+    echo "usage: validate <JSON_FILE> <WHAT> [<YANG_DIR>]"
     echo "WHAT one of: data, config"
+    echo "YANG_DIR is the local directory unless specified"
     echo "exiting: did nothing"
     exit 1
 fi
 
-YANG_FILE=$1
-JSON_FILE=$2
-WHAT=$3
+JSON_FILE=$1
+WHAT=$2
+YANG_DIR=${3-.}
 THIS_SCRIPT_DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
 
 function all_yang_files_in_dir {
-    DIR=`dirname $1`
-    ALL_YANG_FILES="`ls ${DIR}/*.yang`"
+    ALL_YANG_FILES="`ls ${YANG_DIR}/*.yang`"
 }
 
 function exit_if_failed {
@@ -32,18 +32,18 @@ function exit_if_failed {
 # "// TEXT" :" OTHER TEXT", for example "// router-id": "NODE-S3-ID"
 
 function cleanup {
-    rm -f *.xml *.sch *.jtox *.rng *.dsrl *.tmp
+    rm -f *.sch *.jtox *.rng *.dsrl *.tmp
 }
 echo "(0) cleaning .."
 cleanup
 
 echo "(0) building list of all yang files"
 # results are in $ALL_YANG_FILES
-all_yang_files_in_dir $YANG_FILE
+all_yang_files_in_dir $YANG_DIR
 sed "s/ /\n/g" <<< $ALL_YANG_FILES
 
 echo "(1) writing jtox .."
-JTOX_FILE=${YANG_FILE%.yang}.jtox
+JTOX_FILE=_temporary.jtox
 pyang -p . -f jtox -o $JTOX_FILE $ALL_YANG_FILES
 exit_if_failed "writing jtox"
 
