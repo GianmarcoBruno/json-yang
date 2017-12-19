@@ -19,9 +19,7 @@ def Stripper(InFile, OutFile, Clean):
     # do the work
     filteredData = traverse(originalData, Clean)
 
-    # OrderedDict() is used to be on the safe side - though seems not necessary so far
-    formattedResult = json.dumps(OrderedDict(filteredData), indent=indent, separators=(',', ': '))
-    
+    formattedResult = json.dumps(filteredData, indent=indent, separators=(',', ': '))
     try:
         with open(OutFile, 'w') as outfile:
             outfile.write(formattedResult)
