@@ -26,7 +26,7 @@ do
     cd $dir
     for script in `ls *.sh`
     do
-	printf '%-50s%10s\n' "${dir}${script}" "`run_this $script`"
+	printf '%-50s%10s\n' "${dir}${script}" "`run_this ./$script`"
     done
     cd ..
 done

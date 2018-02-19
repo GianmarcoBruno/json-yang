@@ -15,7 +15,7 @@ Prerequisites on Linux:
 
 - `bash 4.3.11`
 - `python 2.7.6`
-- `pyang 1.7.1`
+- `pyang 1.7.1` exactly, not later
 - `jing 20131210`
 - `perl 5.18` for testing only
 
