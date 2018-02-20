@@ -22,7 +22,7 @@ function all_yang_files_in_dir {
 function exit_if_failed {
     if [ $? -ne 0 ]
     then
-	echo $* failed
+	echo $1
 	exit 1
     fi
 }
@@ -40,6 +40,7 @@ cleanup
 echo "(0) building list of all yang files"
 # results are in $ALL_YANG_FILES
 all_yang_files_in_dir $YANG_DIR
+exit_if_failed "unable to write list of yang files (perhaps empty?)"
 sed "s/ /\n/g" <<< $ALL_YANG_FILES
 
 echo "(1) writing jtox .."
