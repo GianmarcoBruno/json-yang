@@ -134,7 +134,7 @@ sub final_check {
 
 sub help {
     my $str = <<'MSG';
-usage: trim_width [-w <WIDTH>] [-i <INDENT>] [-test] <FILE>
+usage: Trim [-w <WIDTH>] [-i <INDENT>] [-test] <FILE>
 Rearrange the contents of the given <FILE> including JSON pseudo-comments by 
 wrapping them to fit the given page <WIDTH>.
 JSON pseudo-comments are key-value pairs where the key starts with "//".

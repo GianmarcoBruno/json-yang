@@ -1,13 +1,11 @@
 #!/usr/bin/env python
 
 import sys
-import re
 import argparse
-
 import json
 from collections import OrderedDict
 
-def Stripper(InFile, OutFile, indent):
+def Indent(InFile, OutFile, givenIndent):
 
     try:
         with open(InFile) as infile:
@@ -15,7 +13,7 @@ def Stripper(InFile, OutFile, indent):
     except:
         sys.exit("%s: unable to open input file - perhaps malformed JSON?"%(OutFile))
 
-    formattedResult = json.dumps(OrderedDict(originalData), indent=indent, separators=(',', ': '))
+    formattedResult = json.dumps(OrderedDict(originalData), indent=givenIndent, separators=(',', ': '))
     
     try:
         with open(OutFile, 'w') as outfile:
@@ -41,9 +39,8 @@ def main():
                             nargs=1)
     args = parser.parse_args()
 
-    global indent
     indent = 2 if (args.indent==None) else int(args.indent[0])
-    Stripper(args.infile[0], args.outfile[0], indent)
+    Indent(args.infile[0], args.outfile[0], indent)
 
 #------------------------------------------------------------------------------
 if __name__ == '__main__':
