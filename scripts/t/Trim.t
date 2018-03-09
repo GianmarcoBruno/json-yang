@@ -2,7 +2,7 @@
 
 use Test::More tests => 6;
 use File::Compare;
-my $t = "tests";
+my $t = "t";
 Trim_test("$t/trim_nothing.json", "$t/trim_nothing.json.ok", 4);
 Trim_test("$t/trim_nothing72.json", "$t/trim_nothing72.json.ok", 1000);
 Trim_test("$t/trim_nothing_w40.json", "$t/trim_nothing_w40.json.ok", 4, 40);

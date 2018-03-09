@@ -3,7 +3,7 @@
 use Test::More tests => 6;
 use File::Compare;
 
-my $t = "tests";
+my $t = "t";
 Stripper_test("$t/strip_nothing.json", "$t/strip_nothing.json.ok", 4);
 Stripper_test("$t/strip_key-val.json", "$t/strip_key-val.json.ok", 4);
 Stripper_test("$t/strip_key-val_end.json", "$t/strip_key-val_end.json.ok", 4);
