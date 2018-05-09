@@ -1,0 +1,15 @@
+#!/usr/bin/perl -ws
+
+use strict;
+use FindBin;
+push @INC, $FindBin::Bin;
+
+require ModelFetcher;
+
+# This scripts parses a JSON file and downloads the yang modules 
+# required to validate it which are written 
+
+my $input = $ARGV[0] or die "need input file";
+
+my $fetcher = new ModelFetcher(file => $input);
+$fetcher->fetchModels() or print "no models found\n";
