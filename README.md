@@ -17,6 +17,7 @@ Prerequisites on Linux:
 - `python 2.7.6`
 - `pyang 1.7.1` exactly, not later
 - `jing 20131210`
+- `rfcstrip 0.2` patched to accept `-f`
 - `perl 5.18` for testing only
 
 ## Thanks
