@@ -51,7 +51,7 @@ exit_if_failed "writing jtox"
 echo "preparing step (2) stripping pseudo-comments from JSON .."
 # we want to keep the original JSON unchanged
 JSON_TMP=${JSON_FILE}.tmp
-python $THIS_SCRIPT_DIR/scripts/Stripper.py --infile=${JSON_FILE} --outfile=${JSON_TMP} --clean
+python $THIS_SCRIPT_DIR/scripts/Stripper.py -i=${JSON_FILE} -o=${JSON_TMP} --clean
 exit_if_failed "stripping comments"
 
 echo "(2) converting JSON to XML .."

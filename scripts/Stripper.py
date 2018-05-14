@@ -7,7 +7,7 @@ import json
 from collections import OrderedDict
 
 pattern = re.compile("//")
-def Stripper(InFile, OutFile, Clean):
+def Stripper(InFile, OutFile, Clean, Indent):
 
     try:
         with open(InFile) as infile:
@@ -19,7 +19,7 @@ def Stripper(InFile, OutFile, Clean):
     # do the work
     filteredData = traverse(originalData, Clean)
 
-    formattedResult = json.dumps(filteredData, indent=indent, separators=(',', ': '))
+    formattedResult = json.dumps(filteredData, indent=Indent, separators=(',', ': '))
     try:
         with open(OutFile, 'w') as outfile:
             outfile.write(formattedResult)
@@ -43,28 +43,27 @@ def traverse(d, Clean):
 #------------------------------------------------------------------------------
 def main():
     parser = argparse.ArgumentParser(description='Strip pseudo-comments from JSON')
-    parser.add_argument('--infile',
-                            help='input file',
-                            required=True,
-                            nargs=1)
-    parser.add_argument('--outfile',
-                            help='output file',
-                            required=True,
-                            nargs=1)
+    parser.add_argument('-i',
+        help='input file',
+        required=True,
+        nargs=1)
+    parser.add_argument('-o',
+        help='output file if specified, otherwise rewrite in place',
+        required=False,
+        nargs=1)
     parser.add_argument('--indent',
-                            help='JSON indentation',
-                            required=False,
-                            nargs=1)
+        help='JSON indentation',
+        required=False,
+        nargs=1)
     parser.add_argument('--clean',
-                            action='store_true',
-                            required=False,
-                            help='remove all comments')
+        action='store_true',
+        required=False,
+        help='remove all comments')
     args = parser.parse_args()
 
-    global indent
     indent = 2 if (args.indent==None) else int(args.indent[0])
-
-    Stripper(args.infile[0], args.outfile[0], args.clean)
+    outfile = args.i[0] if (args.o==None) else args.o[0]
+    Stripper(args.i[0], outfile, args.clean, indent)
 
 #------------------------------------------------------------------------------
 if __name__ == '__main__':

@@ -17,7 +17,7 @@ sub Stripper_test {
     my $Test = Test::More->builder;
 
     my $output = $input . "_tmp";
-    system("python Stripper.py --infile $input --outfile $output --indent $indent --clean"); 
+    system("python Stripper.py -i $input -o $output --indent $indent --clean"); 
     my $ok = $Test->ok(compare($output, $benchmark) == 0, "Stripper: $input");
     
     print "Stripper: $input ";

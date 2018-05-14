@@ -25,22 +25,23 @@ def Indent(InFile, OutFile, givenIndent):
 #------------------------------------------------------------------------------
 def main():
     parser = argparse.ArgumentParser(description='Slurp a JSON file and reformat indentation')
-    parser.add_argument('--infile',
-                            help='input file',
-                            required=True,
-                            nargs=1)
-    parser.add_argument('--outfile',
-                            help='output file',
-                            required=True,
-                            nargs=1)
+    parser.add_argument('-i',
+        help='input file',
+        required=True,
+        nargs=1)
+    parser.add_argument('-o',
+        help='output file if specified, otherwise rewrite in place',
+        required=False,
+        nargs=1)
     parser.add_argument('--indent',
-                            help='indentation',
-                            required=False,
-                            nargs=1)
+        help='indentation',
+        required=False,
+        nargs=1)
     args = parser.parse_args()
 
     indent = 2 if (args.indent==None) else int(args.indent[0])
-    Indent(args.infile[0], args.outfile[0], indent)
+    outfile = args.i[0] if (args.o==None) else args.o[0]
+    Indent(args.i[0], outfile, indent)
 
 #------------------------------------------------------------------------------
 if __name__ == '__main__':
