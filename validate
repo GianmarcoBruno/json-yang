@@ -3,9 +3,14 @@
 
 if [ -z "$2" ]
 then
-    echo "usage: validate <JSON_FILE> <WHAT> [<YANG_DIR>]"
+    echo "usage: [FETCH='y'] validate <JSON_FILE> <WHAT> [<YANG_DIR>]"
     echo "WHAT one of: data, config"
     echo "YANG_DIR is the local directory unless specified"
+    echo "if FETCH is specified, validation is made using modules"
+    echo "specified in the JSON as e.g.:"
+    echo "\"// __REFERENCE_DRAFTS__\": {
+    \"ietf-network@2017-12-18\": \"draft-ietf-i2rs-yang-network-topo-20\"",
+    echo ""
     echo "exiting: did nothing"
     exit 1
 fi
@@ -22,8 +27,18 @@ function all_yang_files_in_dir {
 function exit_if_failed {
     if [ $? -ne 0 ]
     then
-	echo $1
-	exit 1
+	    echo $1
+	    exit 1
+    fi
+}
+
+function fetch_yang_models {
+    if [ -z "$FETCH" ]
+    then
+        echo "..will use local models for validation"
+    else
+        echo "..will download models from the network"
+        ../../json-yang/scripts/fetchModels $1
     fi
 }
 
@@ -34,10 +49,12 @@ function exit_if_failed {
 function cleanup {
     rm -f *.sch *.jtox *.rng *.dsrl *.tmp
 }
+
 echo "(0) cleaning .."
 cleanup
 
 echo "(0) building list of all yang files"
+fetch_yang_models $JSON_FILE
 # results are in $ALL_YANG_FILES
 all_yang_files_in_dir $YANG_DIR
 exit_if_failed "unable to write list of yang files (perhaps empty?)"
