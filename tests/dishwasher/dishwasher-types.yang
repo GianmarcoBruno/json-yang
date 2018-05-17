@@ -7,6 +7,21 @@ module dishwasher-types {
      "Initial revision.";
   }
 
+  /* Identities */
+  identity generic-dishwasher {
+    description "Base dishwasher";
+  }
+
+  identity standalone-dishwasher {
+    base generic-dishwasher;
+    description "Standalone dishwasher";
+  }
+
+  identity embeddable-dishwasher {
+    base generic-dishwasher;
+    description "Embeddable dishwasher";
+  }
+
   /*** collection of basic types related to dishwashers ***/
   typedef cycle {
     type enumeration {

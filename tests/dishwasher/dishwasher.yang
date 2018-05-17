@@ -66,6 +66,12 @@ module dishwasher {
       config "false";
       description "Operating status of the machine (true means all OK).";
     }
+    leaf dishwasher-type {
+      config false;
+      type identityref {
+        base dwt:generic-dishwasher;
+      }
+    }
   }
 
   /* RPCs */

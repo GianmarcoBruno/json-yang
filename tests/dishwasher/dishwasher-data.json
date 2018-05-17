@@ -1,6 +1,8 @@
 {
   "dishwasher:dishwasher": {
     "cycle": "quick rinse",
+    "//": "the identityref is prefixed with the MODULE name, not the prefix",
+    "dishwasher-type": "dishwasher-types:standalone-dishwasher",
     "phase": "warm-up",
     "operating": true
   }
