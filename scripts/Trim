@@ -1,9 +1,12 @@
 #!/usr/bin/perl -ws
 
 use strict;
-use Tie::File;
 
 use File::Copy;
+use FindBin;
+push @INC, $FindBin::Bin;
+use Tie::File;
+
 use vars qw($w $i $test);
 $w ||= 72;
 $i ||= 2;
