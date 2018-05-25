@@ -1,0 +1,56 @@
+{
+  "//RLT-A": "1+0 configuration of Near End node",
+  "// __REFERENCE_DRAFTS__": {
+    "ietf-interfaces@2014-05-08": "rfc7223",
+    "iana-if-type": "rfc7224",
+    "ietf-microwave-radio-link@2018-03-30": "draft-ietf-ccamp-mw-yang-05",
+    "ietf-interface-protection@2018-03-30": "draft-ietf-ccamp-mw-yang-05",
+    "ietf-microwave-types@2018-03-30": "draft-ietf-ccamp-mw-yang-05"
+  },
+  "ietf-interfaces:interfaces": {
+    "ietf-interfaces:interface": [
+      {
+        "name": "RLT-A",
+        "description": "Radio Link Terminal A",
+        "type": "ietf-microwave-types:radio-link-terminal",
+        "ietf-microwave-radio-link:id": "RLT-A",
+        "ietf-microwave-radio-link:mode": "ietf-microwave-types:one-plus-zero",
+        "ietf-microwave-radio-link:carrier-terminations": [
+          "RLT-A:CT-1"
+        ]
+      },
+      {
+        "name": "RLT-A:CT-1",
+        "description": "Carrier Termination 1",
+        "type": "ietf-microwave-types:carrier-termination",
+        "ietf-microwave-radio-link:carrier-id": "A",
+        "ietf-microwave-radio-link:tx-enabled": true,
+        "ietf-microwave-radio-link:tx-frequency": 10728000,
+        "ietf-microwave-radio-link:duplex-distance": 644000,
+        "ietf-microwave-radio-link:channel-separation": 28,
+        "ietf-microwave-radio-link:polarization": "not-specified",
+        "ietf-microwave-radio-link:power-mode": "rtpc",
+        "ietf-microwave-radio-link:coding-modulation-mode": "single",
+        "ietf-microwave-radio-link:maximum-nominal-power": "22.2",
+        "ietf-microwave-radio-link:selected-cm": "ietf-microwave-types:qam-512"
+      }
+    ]
+  },
+  "// info": "analogo a dishwasher: modello aumentato, no prefisso",
+  "ietf-microwave-radio-link:radio-link-protection-groups": {
+    "protection-group": [
+      {
+        "name": "PG1",
+        "operation-type": "revertive",
+        "members": [
+          "RLT-A",
+          "RLT-A:CT-1"
+        ],
+        "working-entity": [
+          "RLT-A",
+          "RLT-A:CT-1"
+        ]
+      }
+    ]
+  }
+}
