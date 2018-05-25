@@ -38,7 +38,7 @@ function fetch_yang_models {
         echo "..will use local models for validation"
     else
         echo "..will download models from the network"
-        ../../json-yang/scripts/fetchModels $1
+        $THIS_SCRIPT_DIR/scripts/fetchModels $1
     fi
 }
 
