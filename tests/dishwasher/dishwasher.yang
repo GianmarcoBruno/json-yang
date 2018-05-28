@@ -23,25 +23,6 @@ module dishwasher {
       "Initial revision.";
   }
 
-  /* Typedefs */
-
-  typedef cycle {
-    type dwt:cycle;
-    default "smart wash";
-  }
-
-  typedef phase {
-    type enumeration {
-      enum "stand-by";
-      enum "warm-up";
-      enum "washing";
-      enum "drying";
-    }
-    default "stand-by";
-    description
-      "Basically the machine state";
-  }
-
   /* Groupings */
 
   /* State data and Configuration */
@@ -50,27 +31,52 @@ module dishwasher {
     description
       "State data and configuration of a dishwasher.";
     leaf phase {
-      type phase;
+      type identityref {
+        base dwt:dishwasher-phase;
+      }
       config "false";
       mandatory "true";
       description "Current state of the dishwasher.";
     }
+
     leaf cycle {
-      type cycle;
+      type identityref {
+        base dwt:dishwasher-cycle;
+      }
       mandatory "true";
       description "Selected washing cycle.";
     }
+
     leaf operating {
       type boolean;
       mandatory "true";
       config "false";
       description "Operating status of the machine (true means all OK).";
     }
-    leaf dishwasher-type {
+
+    leaf format {
       config false;
       type identityref {
-        base dwt:generic-dishwasher;
+        base dwt:dishwasher-format;
       }
+    }
+
+    leaf s-n {
+      config false;
+      mandatory true;
+      type dwt:serial-number;
+      // must argument is an XPath, so . refers to s-n
+      must ". != 'XX476WW-E'" {
+        description "disallowed S/N. S/N ends with -S or -E";
+      }
+      must ". != 'AS640MX-S'" {
+        description "disallowed S/N. S/N ends with -S or -E";
+      }
+      /* seems not implemented by pyang
+      must "re-match(., '..666..-..')" {
+        description "disallowed S/N. S/N ends with -S or -E";
+      }
+      */
     }
   }
 
@@ -117,7 +123,9 @@ module dishwasher {
     description
       "The dishwasher has been halted for some problem";
     leaf state {
-      type phase;
+      type identityref {
+        base dwt:dishwasher-phase;
+      }
       mandatory "true";
       description
         "The state of the dishwasher when the problem occurred.";

@@ -8,30 +8,72 @@ module dishwasher-types {
   }
 
   /* Identities */
-  identity generic-dishwasher {
+  /* Form factor */
+  identity dishwasher-format {
     description "Base dishwasher";
   }
 
-  identity standalone-dishwasher {
-    base generic-dishwasher;
+  identity standalone {
+    base dishwasher-format;
     description "Standalone dishwasher";
   }
 
-  identity embeddable-dishwasher {
-    base generic-dishwasher;
+  identity embeddable {
+    base dishwasher-format;
     description "Embeddable dishwasher";
   }
 
-  /*** collection of basic types related to dishwashers ***/
-  typedef cycle {
-    type enumeration {
-      enum "smart wash";
-      enum "normal wash";
-      enum "light wash";
-      enum "fast wash";
-      enum "quick rinse";
+  /* Cycles */
+  identity dishwasher-cycle {
+    description
+     "base identity for supported dishwasher cycles";
+  }
+
+  identity smart-wash {
+    base dishwasher-cycle;
+  }
+
+  identity normal-start {
+    base dishwasher-cycle;
+  }
+
+  identity light-start {
+    base dishwasher-cycle;
+  }
+
+  identity fast-start {
+    base dishwasher-cycle;
+  }
+
+  identity quick-rinse {
+    base dishwasher-cycle;
+  }
+
+  /* Phases */
+  identity dishwasher-phase {
+  }
+
+  identity stand-by {
+    base dishwasher-phase;
+  }
+
+  identity warm-up {
+    base dishwasher-phase;
+  }
+
+  identity washing {
+    base dishwasher-phase;
+  }
+
+  identity drying {
+    base dishwasher-phase;
+  }
+
+  typedef serial-number {
+    type string {
+      pattern '[A-Z][A-Z][0-9][0-9][0-9][A-Z][A-Z]-[E|S]';
     }
     description
-      "Washing cycles selectable by the user";
+      "Same code of EU car plates, just a regex";
     }
 }

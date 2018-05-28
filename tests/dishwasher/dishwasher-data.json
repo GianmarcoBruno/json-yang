@@ -1,9 +1,9 @@
 {
   "dishwasher:dishwasher": {
-    "cycle": "quick rinse",
-    "//": "the identityref is prefixed with the MODULE name, not the prefix",
-    "dishwasher-type": "dishwasher-types:standalone-dishwasher",
-    "phase": "warm-up",
-    "operating": true
+    "cycle": "dishwasher-types:quick-rinse",
+    "format": "dishwasher-types:standalone",
+    "phase": "dishwasher-types:warm-up",
+    "operating": true,
+    "s-n": "AS640MX-E"
   }
 }

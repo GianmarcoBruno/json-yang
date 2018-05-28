@@ -1,5 +1,5 @@
 {
   "dishwasher:dishwasher": {
-    "cycle": "quick rinse"
+    "cycle": "dishwasher-types:normal-start"
   }
 }
