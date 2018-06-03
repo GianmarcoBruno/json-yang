@@ -35,22 +35,5 @@
         "ietf-microwave-radio-link:selected-cm": "ietf-microwave-types:qam-512"
       }
     ]
-  },
-  "// info": "analogo a dishwasher: modello aumentato, no prefisso",
-  "ietf-microwave-radio-link:radio-link-protection-groups": {
-    "protection-group": [
-      {
-        "name": "PG1",
-        "operation-type": "revertive",
-        "members": [
-          "RLT-A",
-          "RLT-A:CT-1"
-        ],
-        "working-entity": [
-          "RLT-A",
-          "RLT-A:CT-1"
-        ]
-      }
-    ]
   }
 }
