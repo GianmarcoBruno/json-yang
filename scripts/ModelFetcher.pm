@@ -2,6 +2,7 @@
 
 package ModelFetcher;
 use JSON;
+use File::Copy;
 use File::Slurp;
 use File::Temp qw/tempfile/;
 
@@ -47,13 +48,13 @@ sub fetchModels {
     my $models = $self->getModels();
     return unless $models;
     while (my ($model, $document) = each %$models) {
-	if ($document =~ /^rfc/) {
-	    fetchModel("rfc", $model, $document);
-	} elsif ($document =~ /^draft/) {
-	    fetchModel("id", $model, $document);
-	} else {
-	    print "ERROR: $document does not start with neither 'rfc' nor 'draft' - skipping";
-	}
+        if ($document =~ /^rfc/) {
+            fetchModel("rfc", $model, $document);
+        } elsif ($document =~ /^draft/) {
+            fetchModel("id", $model, $document);
+        } else {
+            print "ERROR: $document does not start with neither 'rfc' nor 'draft' - skipping";
+        }
     }
     return $models;
 }
@@ -66,7 +67,8 @@ sub fetchModel {
     print "fetching $model from $location\n";
     system("curl $location > $tmpfile");
     system("rfcstrip -f $model.yang $tmpfile\n");
-    unlink $tmpfile;
+    copy($tmpfile, "$document.txt") or warn "cannot copy $tmpfile failed!";
+    #unlink $tmpfile;
 }
 
 1;
