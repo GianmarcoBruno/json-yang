@@ -7,8 +7,10 @@ use FindBin;
 push @INC, $FindBin::Bin;
 use Tie::File;
 
+my $RFC_WIDTH = 68;
+
 use vars qw($w $i $test);
-$w ||= 72;
+$w ||= $RFC_WIDTH;
 $i ||= 2;
 my $file = $ARGV[0] || help();
 my $file2 = $file . "_tmp";
@@ -136,12 +138,12 @@ sub final_check {
 }
 
 sub help {
-    my $str = <<'MSG';
+    my $str = <<"MSG";
 usage: Trim [-w <WIDTH>] [-i <INDENT>] [-test] <FILE>
 Rearrange the contents of the given <FILE> including JSON pseudo-comments by 
 wrapping them to fit the given page <WIDTH>.
 JSON pseudo-comments are key-value pairs where the key starts with "//".
-If <WIDTH> is not given, the RFCs standard width 72 is used.
+If <WIDTH> is not given it is set to $RFC_WIDTH to fit nicely in the RFC width.
 Long non-comment lines are split and the second line is indented by <INDENT>
 spaces, 2 if not specified.
 This manipulation is done in-place unless -test is passed.
