@@ -1,11 +1,11 @@
 {
   "dishwasher:dishwasher": {
     "cycle": "quick rinse",
-    "// a simple comment": "this is a very very long line that does not fit in the desired character limit!",
+    "// comment": "which does not fit in the desired character limit!",
     "and now": "it's done"
   },
   "very long field": "this is a non-comment extremely long field not a the end",
   "computation_requested": "true",
   "another very long field": "this is a non-comment extremely long field at the end",
-  "// final comment": "this text should be put below without creating a JSON array"
+  "// final comment": "JSON finished"
 }
