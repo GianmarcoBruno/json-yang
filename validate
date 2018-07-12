@@ -78,7 +78,7 @@ XML_FILE=${XML_BASE}.xml
 json2xml -t $WHAT -o $XML_TMP $JTOX_FILE $JSON_TMP
 exit_if_failed "converting JSON to XML"
 
-python $THIS_SCRIPT_DIR/scripts/xml2pretty.py -i $XML_TMP -o $XML_FILE
+xmllint --format $XML_TMP > $XML_FILE
 exit_if_failed "beautifying XML"
 rm $XML_TMP
 
