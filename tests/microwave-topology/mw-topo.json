@@ -241,16 +241,16 @@
                 "ietf-microwave-topology:mw-link-frequency": 10728000,
                 "ietf-microwave-topology:mw-link-channel-separation": 28000,
                 "ietf-microwave-topology:mw-link-current-modulation": "ietf-microwave-types:qam-512",
-                "ietf-microwave-topology:mw-link-nominal-bandwidth": "1000",
-                "ietf-microwave-topology:mw-link-current-bandwidth": "1000",
+                "ietf-microwave-topology:mw-link-nominal-bandwidth": "0x1p10",
+                "ietf-microwave-topology:mw-link-current-bandwidth": "0x1p10",
                 "ietf-microwave-topology:mw-link-availability": [
                   {
                     "ietf-microwave-topology:availability": 95,
-                    "ietf-microwave-topology:mw-link-bandwidth": "5000"
+                    "ietf-microwave-topology:mw-link-bandwidth": "0x1p10"
                   },
                   {
                     "ietf-microwave-topology:availability": 99,
-                    "ietf-microwave-topology:mw-link-bandwidth": "1000"
+                    "ietf-microwave-topology:mw-link-bandwidth": "0x1p10"
                   }
                 ]
               }
@@ -288,16 +288,16 @@
                 "ietf-microwave-topology:mw-link-frequency": 10728000,
                 "ietf-microwave-topology:mw-link-channel-separation": 28000,
                 "ietf-microwave-topology:mw-link-current-modulation": "ietf-microwave-types:qam-512",
-                "ietf-microwave-topology:mw-link-nominal-bandwidth": "1000",
-                "ietf-microwave-topology:mw-link-current-bandwidth": "1000",
+                "ietf-microwave-topology:mw-link-nominal-bandwidth": "0x1p10",
+                "ietf-microwave-topology:mw-link-current-bandwidth": "0x1p10",
                 "ietf-microwave-topology:mw-link-availability": [
                   {
                     "ietf-microwave-topology:availability": 95,
-                    "ietf-microwave-topology:mw-link-bandwidth": "5000"
+                    "ietf-microwave-topology:mw-link-bandwidth": "0x1p10"
                   },
                   {
                     "ietf-microwave-topology:availability": 99,
-                    "ietf-microwave-topology:mw-link-bandwidth": "1000"
+                    "ietf-microwave-topology:mw-link-bandwidth": "0x1p10"
                   }
                 ]
               }
@@ -319,16 +319,16 @@
                 "ietf-microwave-topology:mw-link-frequency": 10728000,
                 "ietf-microwave-topology:mw-link-channel-separation": 28000,
                 "ietf-microwave-topology:mw-link-current-modulation": "ietf-microwave-types:qam-512",
-                "ietf-microwave-topology:mw-link-nominal-bandwidth": "1000",
-                "ietf-microwave-topology:mw-link-current-bandwidth": "1000",
+                "ietf-microwave-topology:mw-link-nominal-bandwidth": "0x1p10",
+                "ietf-microwave-topology:mw-link-current-bandwidth": "0x1p10",
                 "ietf-microwave-topology:mw-link-availability": [
                   {
                     "ietf-microwave-topology:availability": 95,
-                    "ietf-microwave-topology:mw-link-bandwidth": "5000"
+                    "ietf-microwave-topology:mw-link-bandwidth": "0x1p10"
                   },
                   {
                     "ietf-microwave-topology:availability": 99,
-                    "ietf-microwave-topology:mw-link-bandwidth": "1000"
+                    "ietf-microwave-topology:mw-link-bandwidth": "0x1p10"
                   }
                 ]
               }
@@ -350,16 +350,16 @@
                 "ietf-microwave-topology:mw-link-frequency": 10728000,
                 "ietf-microwave-topology:mw-link-channel-separation": 28000,
                 "ietf-microwave-topology:mw-link-current-modulation": "ietf-microwave-types:qam-512",
-                "ietf-microwave-topology:mw-link-nominal-bandwidth": "1000",
-                "ietf-microwave-topology:mw-link-current-bandwidth": "1000",
+                "ietf-microwave-topology:mw-link-nominal-bandwidth": "0x1p10",
+                "ietf-microwave-topology:mw-link-current-bandwidth": "0x1p10",
                 "ietf-microwave-topology:mw-link-availability": [
                   {
                     "ietf-microwave-topology:availability": 95,
-                    "ietf-microwave-topology:mw-link-bandwidth": "5000"
+                    "ietf-microwave-topology:mw-link-bandwidth": "0x1p10"
                   },
                   {
                     "ietf-microwave-topology:availability": 99,
-                    "ietf-microwave-topology:mw-link-bandwidth": "1000"
+                    "ietf-microwave-topology:mw-link-bandwidth": "0x1p10"
                   }
                 ]
               }
@@ -381,16 +381,16 @@
                 "ietf-microwave-topology:mw-link-frequency": 10728000,
                 "ietf-microwave-topology:mw-link-channel-separation": 28000,
                 "ietf-microwave-topology:mw-link-current-modulation": "ietf-microwave-types:qam-512",
-                "ietf-microwave-topology:mw-link-nominal-bandwidth": "1000",
-                "ietf-microwave-topology:mw-link-current-bandwidth": "1000",
+                "ietf-microwave-topology:mw-link-nominal-bandwidth": "0x1p10",
+                "ietf-microwave-topology:mw-link-current-bandwidth": "0x1p10",
                 "ietf-microwave-topology:mw-link-availability": [
                   {
                     "ietf-microwave-topology:availability": 95,
-                    "ietf-microwave-topology:mw-link-bandwidth": "5000"
+                    "ietf-microwave-topology:mw-link-bandwidth": "0x1p10"
                   },
                   {
                     "ietf-microwave-topology:availability": 99,
-                    "ietf-microwave-topology:mw-link-bandwidth": "1000"
+                    "ietf-microwave-topology:mw-link-bandwidth": "0x1p10"
                   }
                 ]
               }
@@ -412,16 +412,16 @@
                 "ietf-microwave-topology:mw-link-frequency": 10728000,
                 "ietf-microwave-topology:mw-link-channel-separation": 28000,
                 "ietf-microwave-topology:mw-link-current-modulation": "ietf-microwave-types:qam-512",
-                "ietf-microwave-topology:mw-link-nominal-bandwidth": "1000",
-                "ietf-microwave-topology:mw-link-current-bandwidth": "1000",
+                "ietf-microwave-topology:mw-link-nominal-bandwidth": "0x1p10",
+                "ietf-microwave-topology:mw-link-current-bandwidth": "0x1p10",
                 "ietf-microwave-topology:mw-link-availability": [
                   {
                     "ietf-microwave-topology:availability": 95,
-                    "ietf-microwave-topology:mw-link-bandwidth": "5000"
+                    "ietf-microwave-topology:mw-link-bandwidth": "0x1p10"
                   },
                   {
                     "ietf-microwave-topology:availability": 99,
-                    "ietf-microwave-topology:mw-link-bandwidth": "1000"
+                    "ietf-microwave-topology:mw-link-bandwidth": "0x1p10"
                   }
                 ]
               }
@@ -443,16 +443,16 @@
                 "ietf-microwave-topology:mw-link-frequency": 10728000,
                 "ietf-microwave-topology:mw-link-channel-separation": 28000,
                 "ietf-microwave-topology:mw-link-current-modulation": "ietf-microwave-types:qam-512",
-                "ietf-microwave-topology:mw-link-nominal-bandwidth": "1000",
-                "ietf-microwave-topology:mw-link-current-bandwidth": "1000",
+                "ietf-microwave-topology:mw-link-nominal-bandwidth": "0x1p10",
+                "ietf-microwave-topology:mw-link-current-bandwidth": "0x1p10",
                 "ietf-microwave-topology:mw-link-availability": [
                   {
                     "ietf-microwave-topology:availability": 95,
-                    "ietf-microwave-topology:mw-link-bandwidth": "5000"
+                    "ietf-microwave-topology:mw-link-bandwidth": "0x1p10"
                   },
                   {
                     "ietf-microwave-topology:availability": 99,
-                    "ietf-microwave-topology:mw-link-bandwidth": "1000"
+                    "ietf-microwave-topology:mw-link-bandwidth": "0x1p10"
                   }
                 ]
               }
