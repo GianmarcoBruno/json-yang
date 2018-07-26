@@ -77,7 +77,14 @@ module dishwasher {
         description "disallowed S/N. S/N ends with -S or -E";
       }
       */
+
     }
+
+      container admin {
+         leaf owner {
+            type string;
+         }
+      }
   }
 
   /* RPCs */
@@ -89,7 +96,15 @@ module dishwasher {
 
   rpc cancel-drain {
     description
-      "Cancel the cycle and drain.";
+      "Cancel the cycle and drain.
+      On purpose we assume that the input is the owner name";
+      input {
+        leaf user {
+          type leafref {
+            path "/dishwasher/admin/owner";
+          }
+        }
+      }
   }
 
   rpc delay-by-hours {

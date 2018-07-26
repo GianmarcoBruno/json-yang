@@ -4,6 +4,9 @@
     "format": "dishwasher-types:standalone",
     "phase": "dishwasher-types:warm-up",
     "operating": true,
-    "s-n": "AS640MX-E"
+    "s-n": "AS640MX-E",
+    "admin" : {
+      "owner": "Helen" 
+    }
   }
 }
