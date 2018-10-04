@@ -17,7 +17,8 @@ fi
 
 JSON_FILE=$1
 WHAT=$2
-YANG_DIR=${3-.}
+YANG_DIR=$3
+: YANG_DIR=${YANG_DIR:=.}
 THIS_SCRIPT_DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
 
 function all_yang_files_in_dir {
@@ -62,7 +63,7 @@ sed "s/ /\n/g" <<< $ALL_YANG_FILES
 
 echo "(1) writing jtox .."
 JTOX_FILE=_temporary.jtox
-pyang -p . -f jtox -o $JTOX_FILE $ALL_YANG_FILES
+pyang -p $YANG_DIR -f jtox -o $JTOX_FILE $ALL_YANG_FILES
 exit_if_failed "writing jtox"
 
 echo "preparing step (2) stripping pseudo-comments from JSON .."
