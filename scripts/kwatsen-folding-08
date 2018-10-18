@@ -46,7 +46,7 @@
      foldcol=`expr "$maxcol" - 1` # for the inserted '\' char
 
      # ensure input file doesn't contain a TAB
-     grep "\t" $infile >> /dev/null 2>&1
+     grep -P "\t" $infile >> /dev/null 2>&1
      if [ $? -eq 0 ]; then
        echo
        echo "Error: infile contains a TAB character, which is not allowed."
@@ -76,7 +76,7 @@
        # init recursive env
        cp $infile /tmp/wip
      fi
-     gsed "/.\{$testcol\}/s/\(.\{$foldcol\}\)/\1\\\\\n\\\\/" < /tmp/wip >> /tmp/wip2
+     sed "/.\{$testcol\}/s/\(.\{$foldcol\}\)/\1\\\\\n\\\\/" < /tmp/wip >> /tmp/wip2
      diff /tmp/wip /tmp/wip2 > /dev/null 2>&1
      if [ $? -eq 1 ]; then
        mv /tmp/wip2 /tmp/wip
@@ -95,7 +95,7 @@
      ## Leaving here in case anyone can fix it.
      #echo "$header" > $outfile
      #echo "" >> $outfile
-     #gsed "/.\{$testcol\}/s/\(.\{$foldcol\}\)/\1\\\\\n\\\\/g" < $infile >> $outfile
+     #sed "/.\{$testcol\}/s/\(.\{$foldcol\}\)/\1\\\\\n\\\\/g" < $infile >> $outfile
 
      return 0
    }
@@ -116,7 +116,7 @@
      awk "NR>2" $infile > /tmp/wip
 
      # unfold wip file
-     gsed ":x; /.*\\\\\$/N; s/\\\\\n[ ]*\\\\//; tx; s/\t//g" /tmp/wip > $outfile
+     sed ":x; /.*\\\\\$/N; s/\\\\\n[ ]*\\\\//; tx; s/\t//g" /tmp/wip > $outfile
 
      # clean up and return
      rm /tmp/wip
