@@ -20,6 +20,7 @@ Prerequisites on Linux:
 - `xmllint`
 - `rfcstrip 0.2` patched to accept `-f`
 - `perl 5.18` for testing only
+-  the folding/unfolding script is downloaded from (https://tools.ietf.org/html/draft-kwatsen-netmod-artwork-folding-08)
 
 ## Thanks
 
