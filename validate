@@ -1,9 +1,8 @@
 #!/bin/bash
 # gianmarco.bruno@ericsson.com, carlo.perocchio@ericsson.com
 
-if [ -z "$2" ]
-then
-    echo "usage: [FETCH='y'] validate <JSON_FILE> <WHAT> [<YANG_DIR>]"
+print_usage() {
+    echo "usage: [FETCH='y'] validate -j <JSON_FILE> -w <WHAT> [-y <YANG_DIR>]"
     echo "WHAT one of: data, config"
     echo "YANG_DIR is the local directory unless specified"
     echo "if FETCH is specified, validation is made using modules"
@@ -13,11 +12,11 @@ then
     echo ""
     echo "exiting: did nothing"
     exit 1
-fi
+}
 
-JSON_FILE=$1
-WHAT=$2
-YANG_DIR=$3
+JSON_FILE=""
+WHAT=""
+YANG_DIR=""
 : YANG_DIR=${YANG_DIR:=.}
 THIS_SCRIPT_DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
 TEMP_DIR=$(mktemp -d)
@@ -61,7 +60,34 @@ function cleanup {
     rm -rf $TEMP_DIR
 }
 
+process_args() {
+     while [ "$1" != "" ]; do
+       if [ "$1" == "-h" -o "$1" == "--help" ]; then
+         print_usage
+         exit 1
+       fi
+       if [ "$1" == "-j" ]; then
+         JSON_FILE="$2"
+       fi
+       if [ "$1" == "-y" ]; then
+         YANG_DIR="$2"
+         shift
+       fi
+       if [ "$1" == "-w" ]; then
+         WHAT="$2"
+         shift
+       fi
+       shift
+     done
+}
+
 main() {
+    if [ "$#" == "0" ]; then
+        print_usage
+        exit 1
+    fi
+
+    process_args $@
 
     echo "(0) building list of all yang files"
     fetch_yang_models $JSON_FILE
@@ -116,6 +142,7 @@ main() {
     # do not write anything on stdout otherwise
     # the test driver gets confused
     cleanup
+    return 0
 }
 
 main "$@"
