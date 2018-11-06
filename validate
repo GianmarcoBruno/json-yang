@@ -38,8 +38,8 @@ function all_yang_files_in_dir {
 function exit_if_failed {
     if [ $? -ne 0 ]
     then
-	    echo $1
-	    exit 1
+        echo $1
+        exit 1
     fi
 }
 
@@ -61,56 +61,61 @@ function cleanup {
     rm -rf $TEMP_DIR
 }
 
-echo "(0) building list of all yang files"
-fetch_yang_models $JSON_FILE
-# results are in $ALL_YANG_FILES
-all_yang_files_in_dir $YANG_DIR
-exit_if_failed "unable to write list of yang files (perhaps empty?)"
-sed "s/ /\n/g" <<< $ALL_YANG_FILES
+main() {
 
-echo "(1) writing jtox .."
-JTOX_FILE=$TEMP_DIR/_temporary.jtox
-pyang -p $YANG_DIR -f jtox -o $JTOX_FILE $ALL_YANG_FILES
-exit_if_failed "writing jtox"
+    echo "(0) building list of all yang files"
+    fetch_yang_models $JSON_FILE
+    # results are in $ALL_YANG_FILES
+    all_yang_files_in_dir $YANG_DIR
+    exit_if_failed "unable to write list of yang files (perhaps empty?)"
+    sed "s/ /\n/g" <<< $ALL_YANG_FILES
 
-echo "preparing step (2) stripping pseudo-comments from JSON .."
-# we want to keep the original JSON unchanged
-JSON_TMP=${TEMP_DIR}/$(basename $JSON_FILE)
-python $THIS_SCRIPT_DIR/scripts/Stripper.py -i=${JSON_FILE} -o=${JSON_TMP} --clean
-exit_if_failed "stripping comments"
+    echo "(1) writing jtox .."
+    JTOX_FILE=$TEMP_DIR/_temporary.jtox
+    pyang -p $YANG_DIR -f jtox -o $JTOX_FILE $ALL_YANG_FILES
+    exit_if_failed "writing jtox"
 
-echo "(2) converting JSON to XML .."
-XML_BASE=$(basename ${JSON_FILE%.json})
-XML_TMP=$TEMP_DIR/${XML_BASE}_tmp.xml
-XML_FILE=$TEMP_DIR/${XML_BASE}.xml
-json2xml -t $WHAT -o $XML_TMP $JTOX_FILE $JSON_TMP
-exit_if_failed "converting JSON to XML"
+    echo "preparing step (2) stripping pseudo-comments from JSON .."
+    # we want to keep the original JSON unchanged
+    JSON_TMP=${TEMP_DIR}/$(basename $JSON_FILE)
+    python $THIS_SCRIPT_DIR/scripts/Stripper.py -i=${JSON_FILE} -o=${JSON_TMP} --clean
+    exit_if_failed "stripping comments"
 
-xmllint --format $XML_TMP > $XML_FILE
-exit_if_failed "beautifying XML"
-rm $XML_TMP
+    echo "(2) converting JSON to XML .."
+    XML_BASE=$(basename ${JSON_FILE%.json})
+    XML_TMP=$TEMP_DIR/${XML_BASE}_tmp.xml
+    XML_FILE=$TEMP_DIR/${XML_BASE}.xml
+    json2xml -t $WHAT -o $XML_TMP $JTOX_FILE $JSON_TMP
+    exit_if_failed "converting JSON to XML"
 
-echo "(3) writing schemas .."
-# It seems that yang2dsdl wants the yang modules in the dir it was called from
-# So we move temporarily there and then resume from the current directory.
+    xmllint --format $XML_TMP > $XML_FILE
+    exit_if_failed "beautifying XML"
+    rm $XML_TMP
 
-CWD=$(pwd)
-pushd .
-cd $YANG_DIR
-pwd
-yang2dsdl -t $WHAT -d $TEMP_DIR -b _placeholder *.yang
-popd
-exit_if_failed "writing schemas"
+    echo "(3) writing schemas .."
+    # It seems that yang2dsdl wants the yang modules in the dir it was called from
+    # So we move temporarily there and then resume from the current directory.
 
-echo "(4) validating XML .."
-# For same purpose we move temporarily to the directory where the schemas are placed.
+    CWD=$(pwd)
+    pushd .
+    cd $YANG_DIR
+    pwd
+    yang2dsdl -t $WHAT -d $TEMP_DIR -b _placeholder *.yang
+    popd
+    exit_if_failed "writing schemas"
 
-pushd .
-cd $TEMP_DIR
-yang2dsdl -s -j -b _placeholder -t $WHAT -v $XML_FILE
-popd
-exit_if_failed "validation"
+    echo "(4) validating XML .."
+    # For same purpose we move temporarily to the directory where the schemas are placed.
 
-# do not write anything on stdout otherwise
-# the test driver gets confused
-cleanup
+    pushd .
+    cd $TEMP_DIR
+    yang2dsdl -s -j -b _placeholder -t $WHAT -v $XML_FILE
+    popd
+    exit_if_failed "validation"
+
+    # do not write anything on stdout otherwise
+    # the test driver gets confused
+    cleanup
+}
+
+main "$@"
