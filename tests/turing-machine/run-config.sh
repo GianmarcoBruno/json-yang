@@ -1,2 +1,2 @@
 #!/bin/bash
-../../validate turing-machine-config.json config
+../../validate -j turing-machine-config.json -w config

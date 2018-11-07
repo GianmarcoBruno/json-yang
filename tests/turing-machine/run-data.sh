@@ -1,2 +1,2 @@
 #!/bin/bash
-../../validate turing-machine-data.json data
+../../validate -j turing-machine-data.json -w data

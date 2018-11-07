@@ -7,4 +7,4 @@
 
 JSON=interface_1+0_config.json
 echo "JSON instance: " $JSON
-../../validate $JSON config
+../../validate -j $JSON -w config

@@ -1,2 +1,2 @@
 #!/bin/bash
-../../validate dishwasher-config.json config
+../../validate -j dishwasher-config.json -w config -y .

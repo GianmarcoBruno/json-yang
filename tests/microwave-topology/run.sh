@@ -6,4 +6,4 @@
 
 JSON=mw-topo.json
 echo "JSON instance: " $JSON
-../../../json-yang/validate $JSON data
+../../../json-yang/validate -j $JSON -w data

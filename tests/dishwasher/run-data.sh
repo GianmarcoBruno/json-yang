@@ -1,2 +1,2 @@
 #!/bin/bash
-../../validate dishwasher-data.json data
+../../validate -j dishwasher-data.json -w data
