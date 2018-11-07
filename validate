@@ -2,10 +2,10 @@
 # gianmarco.bruno@ericsson.com, carlo.perocchio@ericsson.com
 
 print_usage() {
-    echo "usage: [FETCH='y'] validate -j <JSON_FILE> -w <WHAT> [-y <YANG_DIR>]"
+    echo "usage: validate -j <JSON_FILE> -w <WHAT> [-y <YANG_DIR>] [-f]"
     echo "WHAT one of: data, config"
     echo "YANG_DIR is the local directory unless specified"
-    echo "if FETCH is specified, validation is made using modules"
+    echo "if -f (FETCH) is specified, validation is made using modules"
     echo "specified in the JSON as e.g.:"
     echo "\"// __REFERENCE_DRAFTS__\": {
     \"ietf-network@2017-12-18\": \"draft-ietf-i2rs-yang-network-topo-20\"",
@@ -20,6 +20,7 @@ YANG_DIR=""
 : YANG_DIR=${YANG_DIR:=.}
 THIS_SCRIPT_DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
 TEMP_DIR=$(mktemp -d)
+FETCH=false
 
 # to suppress pushd/popd messages
 pushd () {
@@ -43,12 +44,12 @@ function exit_if_failed {
 }
 
 function fetch_yang_models {
-    if [ -z "$FETCH" ]
+    if [ "$FETCH" = true ]
     then
-        echo "..will use local models for validation"
-    else
         echo "..will download models from the network"
         $THIS_SCRIPT_DIR/scripts/fetchModels $1
+    else
+        echo "..will use local models for validation"
     fi
 }
 
@@ -71,6 +72,10 @@ process_args() {
        fi
        if [ "$1" == "-y" ]; then
          YANG_DIR="$2"
+         shift
+       fi
+       if [ "$1" == "-f" ]; then
+         FETCH=true
          shift
        fi
        if [ "$1" == "-w" ]; then
