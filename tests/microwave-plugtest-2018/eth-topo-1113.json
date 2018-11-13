@@ -7,7 +7,7 @@
     "ietf-network@2018-02-26": "rfc8345",
     "ietf-network-topology@2018-02-26": "rfc8345",
     "ietf-te-topology@2018-06-15": "draft-ietf-teas-yang-te-topo-18",
-    "ietf-eth-te-topology@2017-09-12": "draft-zheng-ccamp-client-topo-yang-02"
+    "ietf-eth-te-topology@2018-03-01": "draft-zheng-ccamp-client-topo-yang-03"
   },
   "ietf-network:networks": {
     "network": [
@@ -24,7 +24,7 @@
         "ietf-te-topology:te": {
           "name": "eth-topo"
         },
-        "ietf-te-topology:node": [
+        "node": [
           {
             "//comment": "node NE41",
             "node-id": "10.100.60.41",
@@ -47,7 +47,7 @@
                 },
                 "ietf-eth-te-topology:svc": {
                   "//comment": "should be true when at tp 1 of NE11",
-                  "client-facing": "false"
+                  "client-facing": false
                 }
               },
               {
@@ -61,7 +61,7 @@
                 },
                 "ietf-eth-te-topology:svc": {
                   "//comment": "should be true when at tp 2 of NE81",
-                  "client-facing": "false"
+                  "client-facing": false
                 }
               }
             ]
@@ -69,7 +69,7 @@
           {
             "//comment": "node NE42",
             "node-id": "10.100.60.42",
-            "te-node-id": "10.100.60.42",
+            "ietf-te-topology:te-node-id": "10.100.60.42",
             "ietf-te-topology:te": {
               "te-node-attributes": {
                 "name": "NE42"
@@ -87,7 +87,7 @@
                   "oper-status": "up"
                 },
                 "ietf-eth-te-topology:svc": {
-                  "client-facing": "false"
+                  "client-facing": false
                 }
               },
               {
@@ -100,13 +100,13 @@
                   "oper-status": "up"
                 },
                 "ietf-eth-te-topology:svc": {
-                  "client-facing": "true"
+                  "client-facing": true
                 }
               }
             ]
           }
         ],
-        "ietf-te-topology:link": [
+        "ietf-network-topology:link": [
           {
             "//comment": "link 1, NE41->NE42",
             "link-id": "teNodeId/10.100.60.41/tpId/2",
@@ -121,13 +121,13 @@
             "ietf-te-topology:te": {
               "te-link-attributes": {
                 "ietf-te-topology:underlay": {
-                  "enabled": "true",
+                  "enabled": true,
                   "primary-path": {
                     "network-ref": "providerId/2001/clientId/3001/topologyId/mw-native-topology",
                     "path-element": [
                       {
-                        "path-element-id": "1",
-                        "index": "1",
+                        "path-element-id": 1,
+                        "index": 1,
                         "num-unnum-hop": {
                           "node-id": "10.100.60.41",
                           "link-tp-id": 1,
@@ -138,8 +138,8 @@
                   }
                 },
                 "admin-status": "up",
-                "max-bandwidth": "10000",
-                "available-bandwidth": "10000"
+                "ietf-eth-te-topology:max-bandwidth": "10000",
+                "ietf-eth-te-topology:available-bandwidth": "10000"
               },
               "oper-status": "up"
             }
@@ -158,13 +158,13 @@
             "ietf-te-topology:te": {
               "te-link-attributes": {
                 "ietf-te-topology:underlay": {
-                  "enabled": "true",
+                  "enabled": true,
                   "primary-path": {
                     "network-ref": "providerId/2001/clientId/3001/topologyId/mw-native-topology",
                     "path-element": [
                       {
-                        "path-element-id": "2",
-                        "index": "2",
+                        "path-element-id": 2,
+                        "index": 2,
                         "num-unnum-hop": {
                           "node-id": "10.100.60.42",
                           "link-tp-id": 1,
@@ -175,8 +175,8 @@
                   }
                 },
                 "admin-status": "up",
-                "max-bandwidth": "10000",
-                "available-bandwidth": "10000"
+                "ietf-eth-te-topology:max-bandwidth": "10000",
+                "ietf-eth-te-topology:available-bandwidth": "10000"
               },
               "oper-status": "up"
             }
