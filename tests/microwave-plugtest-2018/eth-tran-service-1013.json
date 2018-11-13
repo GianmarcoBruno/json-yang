@@ -1,0 +1,61 @@
+{
+  "// __LAST_UPDATE__": "November 13, 2018",
+  "// __REFERENCE_DRAFTS__": {
+    "ietf-routing-types@2017-12-04": "rfc8294",
+    "ietf-te-types@2018-06-12": "draft-ietf-teas-yang-te-15",
+    "ietf-eth-tran-types@2018-08-30": "draft-zheng-ccamp-client-signal-yang-02",
+    "ietf-eth-tran-service@2018-08-30": "draft-zheng-ccamp-client-signal-yang-02"
+  },
+  "ietf-eth-tran-service:etht-svc": {
+    "globals": {
+      "etht-svc-bandwidth-profiles": [
+        {
+          "bandwidth-profile-name": "profile_eth_service_evpl223_777c939a-022f-43ea-93c5-89550b5b1c21",
+          "bandwidth-profile-type": "mef-10-bwp",
+          "CIR": "5000",
+          "EIR": "5000",
+          "color-aware": "true",
+          "coupling-flag": "true"
+        }
+      ]
+    },
+    "etht-svc-instances": [
+      {
+        "etht-svc-name": "eth_eth_service_evpl223_777c939a-022f-43ea-93c5-89550b5b1c21",
+        "etht-svc-type": "p2p-svc",
+        "access-provider-id": 2001,
+        "access-client-id": 3001,
+        "access-topology-id": "eth-native-topology",
+        "etht-svc-access-ports": [
+          {
+            "access-port-id": "0",
+            "access-node-id": "10.100.60.11",
+            "access-ltp-id": "1",
+            "service-classification-type": "vlan-classification",
+            "outer-tag": {
+              "tag-type": "classify-c-vlan",
+              "vlan-value": "100"
+            },
+            "ingress-egress-bandwidth-profile-name": "profile_eth_service_evpl223_777c939a-022f-43ea-93c5-89550b5b1c21"
+          },
+          {
+            "access-port-id": "1",
+            "access-node-id": "10.100.60.82",
+            "access-ltp-id": "2",
+            "service-classification-type": "vlan-classification",
+            "outer-tag": {
+              "tag-type": "classify-c-vlan",
+              "vlan-value": "100"
+            },
+            "ingress-egress-bandwidth-profile-name": "profile_eth_service_evpl223_777c939a-022f-43ea-93c5-89550b5b1c21"
+          }
+        ],
+        "admin-status": "tunnel-state-up",
+        "state": {
+          "operational-state": "tunnel-state-up",
+          "provisioning-state": "lsp-state-up"
+        }
+      }
+    ]
+  }
+}
