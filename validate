@@ -87,12 +87,18 @@ process_args() {
 }
 
 main() {
-    if [ "$#" == "0" ]; then
+    process_args $@
+
+    # check for mandatory parameters
+    if [[ "$WHAT" == "" || "$JSON_FILE" == "" ]]; then
         print_usage
         exit 1
     fi
 
-    process_args $@
+    if [ ! -f $JSON_FILE ]; then
+        echo "given file $JSON_FILE does not exists"
+        exit 1
+    fi
 
     echo "(0) building list of all yang files"
     fetch_yang_models $JSON_FILE
