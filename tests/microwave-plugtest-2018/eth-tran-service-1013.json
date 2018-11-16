@@ -14,8 +14,8 @@
           "bandwidth-profile-type": "mef-10-bwp",
           "CIR": "5000",
           "EIR": "5000",
-          "color-aware": "true",
-          "coupling-flag": "true"
+          "color-aware": true,
+          "coupling-flag": true
         }
       ]
     },
@@ -28,24 +28,24 @@
         "access-topology-id": "eth-native-topology",
         "etht-svc-access-ports": [
           {
-            "access-port-id": "0",
+            "access-port-id": 0,
             "access-node-id": "10.100.60.11",
             "access-ltp-id": "1",
             "service-classification-type": "vlan-classification",
             "outer-tag": {
               "tag-type": "classify-c-vlan",
-              "vlan-value": "100"
+              "vlan-value": 100
             },
             "ingress-egress-bandwidth-profile-name": "profile_eth_service_evpl223_777c939a-022f-43ea-93c5-89550b5b1c21"
           },
           {
-            "access-port-id": "1",
+            "access-port-id": 1,
             "access-node-id": "10.100.60.82",
             "access-ltp-id": "2",
             "service-classification-type": "vlan-classification",
             "outer-tag": {
               "tag-type": "classify-c-vlan",
-              "vlan-value": "100"
+              "vlan-value": 100
             },
             "ingress-egress-bandwidth-profile-name": "profile_eth_service_evpl223_777c939a-022f-43ea-93c5-89550b5b1c21"
           }
