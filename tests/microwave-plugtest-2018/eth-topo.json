@@ -1,5 +1,5 @@
 {
-  "// __LAST_UPDATE__": "November 13, 2018",
+  "// __LAST_UPDATE__": "November 27, 2018",
   "// __REFERENCE_DRAFTS__": {
     "ietf-routing-types@2017-12-04": "rfc8294",
     "ietf-te-types@2018-06-12": "draft-ietf-teas-yang-te-15",
@@ -112,11 +112,11 @@
             "link-id": "teNodeId/10.100.60.41/tpId/2",
             "source": {
               "source-node": "10.100.60.41",
-              "source-tp": 2
+              "source-tp": "2"
             },
             "destination": {
               "dest-node": "10.100.60.42",
-              "dest-tp": 1
+              "dest-tp": "1"
             },
             "ietf-te-topology:te": {
               "te-link-attributes": {
@@ -149,11 +149,11 @@
             "link-id": "teNodeId/10.100.60.42/tpId/1",
             "source": {
               "source-node": "10.100.60.42",
-              "source-tp": 1
+              "source-tp": "1"
             },
             "destination": {
               "dest-node": "10.100.60.41",
-              "dest-tp": 2
+              "dest-tp": "2"
             },
             "ietf-te-topology:te": {
               "te-link-attributes": {
