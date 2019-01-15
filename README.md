@@ -17,10 +17,11 @@ Prerequisites on Linux:
 - `python 2.7.6`
 - `pyang 1.7.1` exactly, not later
 - `jing 20131210`
-- `xmllint`
+- `xmllint` optional
 - `rfcstrip 0.2` patched to accept `-f`
-- `perl 5.18` or later and also the JSON module
-  `sudo apt-get install libjson-perl`
+- `perl 5.18` or later and also the JSON module  
+  `sudo apt-get install libjson-perl` and
+  `sudo apt-get install libfile-slurp-perl`
 -  the folding/unfolding script is downloaded from (https://tools.ietf.org/html/draft-kwatsen-netmod-artwork-folding-08)
 
 ## Thanks
