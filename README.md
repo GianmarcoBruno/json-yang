@@ -19,7 +19,8 @@ Prerequisites on Linux:
 - `jing 20131210`
 - `xmllint`
 - `rfcstrip 0.2` patched to accept `-f`
-- `perl 5.18` for testing only
+- `perl 5.18` or later and also the JSON module
+  `sudo apt-get install libjson-perl`
 -  the folding/unfolding script is downloaded from (https://tools.ietf.org/html/draft-kwatsen-netmod-artwork-folding-08)
 
 ## Thanks
