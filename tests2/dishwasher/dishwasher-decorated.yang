@@ -1,0 +1,61 @@
+module dishwasher-decorated {
+  yang-version 1.1;
+
+  namespace "http://example.net/dishwasher-decorated";
+
+  prefix "dwd";
+
+  import wood-types {
+    prefix "wt";
+  }
+
+  import dishwasher-types {
+    prefix "dwt";
+  }
+
+  import dishwasher {
+    prefix "dw";
+  }
+
+  contact
+      "Gianmarco Bruno
+       <mailto: gianmarco.bruno@ericsson.com>
+       Carlo Perocchio
+       <mailto: carlo.perocchio@ericsson.com>";
+
+  description
+    "A decorated dishwasher is a dishwasher with a certain wood color.
+    Augments the base dishwasher";
+
+  revision 2018-06-01 {
+    description
+      "Initial revision.";
+  }
+
+  augment "/dw:dishwasher" {
+    when "dw:format = 'dwt:standalone'";
+
+    description
+        "only standalone dishwashers have a wood cover";
+
+    /* this leaf will appear inside the top-container
+       of the augmented model */
+    leaf wood-decoration {
+      config false;
+      type identityref {
+        base wt:wood-type;
+      }
+    }
+  }
+
+  /* this container will appear at the same level
+     of the top-container of the augmented model */
+  container deco-extra-info {
+    description "just something external to the augmented model";
+    leaf descriptive-text {
+      config false;
+      type string;
+    }
+  }
+
+}

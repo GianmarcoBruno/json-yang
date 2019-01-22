@@ -55,7 +55,6 @@ module dishwasher {
     }
 
     leaf format {
-      config false;
       type identityref {
         base dwt:dishwasher-format;
       }
