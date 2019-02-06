@@ -23,6 +23,12 @@ module dishwasher {
       "Initial revision.";
   }
 
+  feature remotely-managed {
+    description
+      "this feature means that some operations
+       can be invoked remotely on the dishwasher";
+  }
+
   /* Groupings */
 
   /* State data and Configuration */
