@@ -128,15 +128,14 @@ main() {
     # optionally beautify XML if xmllint is installed
     if [ command -v xmllint >/dev/null 2>&1 ]
     then
+        echo "I require xmllint but it's not installed.  Skipping."
+	cp $XML_TMP $XML_FILE
+    else
         echo "Beautifying XML"
         xmllint --format $XML_TMP > $XML_FILE
         exit_if_failed "beautifying XML"
-    else
-        echo "I require xmllint but it's not installed.  Skipping."
-	cp $XML_TMP $XML_FILE
     fi
     rm $XML_TMP
-    ls -la $XML_FILE
 
     echo "(3) writing schemas .."
     # It seems that yang2dsdl wants the yang modules in the dir it was called from
