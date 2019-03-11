@@ -1,0 +1,11 @@
+module example-foomod {
+
+  namespace "http://example.com/foomod";
+  prefix "foomod";
+
+  container top {
+    leaf foo {
+      type uint8;
+    }
+  }
+}
