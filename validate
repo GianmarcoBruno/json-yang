@@ -2,25 +2,32 @@
 # gianmarco.bruno@ericsson.com, carlo.perocchio@ericsson.com
 
 print_usage() {
-    echo "usage: validate -j <JSON_FILE> -w <WHAT> [-y <YANG_DIR>] [-f]"
+    echo "usage: validate -j <JSON_FILE> -w <WHAT> -y <GIVEN_YANG_GIVEN_DIR> -s <STRATEGY> [-fk]"
     echo "WHAT one of: data, config"
-    echo "YANG_DIR is the local directory unless specified"
+    echo "GIVEN_YANG_GIVEN_DIR is the given directory for YANG models (. unless specified)"
     echo "if -f (FETCH) is specified, validation is made using modules"
     echo "specified in the JSON as e.g.:"
     echo "\"// __REFERENCE_DRAFTS__\": {
     \"ietf-network@2017-12-18\": \"draft-ietf-i2rs-yang-network-topo-20\"",
+    echo "if -k is specified, temporary directories are kept"
+    echo "STRATEGY is one of pyang (default) or yanglint"
     echo ""
     echo "exiting: did nothing"
     exit 1
 }
 
+alias yanglint="docker run --rm -i --mount type=bind,source=\"$(pwd)\",target=/opt/yanglint docker-yanglint-i:0.4"
+
 JSON_FILE=""
 WHAT=""
-YANG_DIR=""
-: YANG_DIR=${YANG_DIR:=.}
+YANG_GIVEN_DIR=""
+: YANG_GIVEN_DIR=${YANG_GIVEN_DIR:=.}
 THIS_SCRIPT_DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
-TEMP_DIR=$(mktemp -d)
+TARGET_DIR=target
+YANG_FETCH_DIR=fetched_yang_models
 FETCH=false
+KEEP=false
+STRATEGY=pyang
 
 # to suppress pushd/popd messages
 pushd () {
@@ -32,7 +39,7 @@ popd () {
 }
 
 function all_yang_files_in_dir {
-    ALL_YANG_FILES="`ls ${YANG_DIR}/*.yang`"
+    ALL_YANG_FILES="`ls ${TARGET_DIR}/*.yang`"
 }
 
 function exit_if_failed {
@@ -43,14 +50,18 @@ function exit_if_failed {
     fi
 }
 
+# usage: fetch_yang_models $JSON_FILE $YANG_FETCH_DIR $TARGET_DIR
 function fetch_yang_models {
+    echo $1 $2 $3
     if [ "$FETCH" = true ]
     then
         echo "..will download models from the network"
-        $THIS_SCRIPT_DIR/scripts/fetchModels $1
+        perl $THIS_SCRIPT_DIR/scripts/fetchModels $1 $2
     else
         echo "..will use local models for validation"
     fi
+    # in all cases
+    [ -d "$2" ] && cp $2/*.yang $3
 }
 
 # pseudo-comments has been provisionally defined in the IETF TEAS Transport NBI
@@ -58,37 +69,155 @@ function fetch_yang_models {
 # "// TEXT" :" OTHER TEXT", for example "// router-id": "NODE-S3-ID"
 
 function cleanup {
-    rm -rf $TEMP_DIR
+    rm -rf $TARGET_DIR
 }
 
 process_args() {
-     while [ "$1" != "" ]; do
-       if [ "$1" == "-h" -o "$1" == "--help" ]; then
+     while (( "$#" )); do
+       case "$1" in
+       -h)
          print_usage
          exit 1
-       fi
-       if [ "$1" == "-j" ]; then
+	 ;;
+       -j)
          JSON_FILE="$2"
-       fi
-       if [ "$1" == "-y" ]; then
-         YANG_DIR="$2"
-         shift
-       fi
-       if [ "$1" == "-f" ]; then
-         FETCH=true
-         shift
-       fi
-       if [ "$1" == "-w" ]; then
+	 shift 2
+	 ;;
+       -y)
+         YANG_GIVEN_DIR="$2"
+	 shift 2
+	 ;;
+       -w)
          WHAT="$2"
-         shift
-       fi
-       shift
+	 shift 2
+	 ;;
+       -s)
+         STRATEGY="$2"
+	 shift 2
+	 ;;
+       -f)
+         FETCH=true
+	 shift
+	 ;;
+       -k)
+         KEEP=true
+	 shift
+	 ;;
+       -*)
+         echo "unrecognized input $1"
+	 print_usage
+	 exit 1
+	 ;;
+       esac
      done
+}
+
+function validate_yanglint () {
+    JSON_FILE=$1
+    WHAT=$2
+    TARGET_DIR=$3
+
+    JTOX_FILE=$TARGET_DIR/_temporary.yl
+    JSON_STRIPPED=${TARGET_DIR}/${JSON_FILE%.json}-stripped.json
+    cp $JSON_FILE $JSON_STRIPPED
+
+    for i in $ALL_YANG_FILES
+    do
+	echo "add -i $i" >> $JTOX_FILE
+    done
+    echo "data $JSON_STRIPPED" >> $JTOX_FILE
+    echo "exit" >> $JTOX_FILE
+
+    echo "<<<"
+    cat $JTOX_FILE
+    echo ">>>"
+
+    # strip comments
+    python $THIS_SCRIPT_DIR/scripts/Stripper.py -i $JSON_STRIPPED --indent 2 --clean
+    exit_if_failed "stripping comments"
+
+    # the contract with yanglint is that validation is OK iff
+    # nothing is written on STDERR so we capture and check it
+    # and our testsuite currently expects the magic string
+    # "No errors found." to be happy
+    ANSWER=$(cat $JTOX_FILE | yanglint 2>&1)
+
+    EXIT_CODE=0
+    if [ "z$ANSWER" == "z" ]
+    then
+	>&2 echo "No errors found."
+    else
+	echo $ANSWER
+	EXIT_CODE=1
+    fi
+    return $EXIT_CODE
+}
+
+function validate_pyang() {
+    JSON_FILE=$1
+    WHAT=$2
+    TARGET_DIR=$3
+
+    JTOX_FILE=$TARGET_DIR/_temporary.jtox
+    pyang -p $TARGET_DIR -f jtox -o $JTOX_FILE $ALL_YANG_FILES
+    exit_if_failed "writing jtox"
+
+    echo "preparing step (2) stripping pseudo-comments from JSON .."
+    # we want to keep the original JSON unchanged
+    JSON_TMP=${TARGET_DIR}/$(basename $JSON_FILE)
+    python $THIS_SCRIPT_DIR/scripts/Stripper.py -i=${JSON_FILE} -o=${JSON_TMP} --clean
+    exit_if_failed "stripping comments"
+
+    echo "(2) converting JSON to XML .."
+    XML_BASE=$(basename ${JSON_FILE%.json})
+    XML_TMP=${XML_BASE}_tmp.xml
+    XML_FILE=${XML_BASE}.xml
+    json2xml -t $WHAT -o $TARGET_DIR/$XML_TMP $JTOX_FILE $JSON_TMP
+    exit_if_failed "converting JSON to XML"
+
+    # optionally beautify XML if xmllint is installed
+    if [ command -v xmllint >/dev/null 2>&1 ]
+    then
+        echo "I require xmllint but it's not installed.  Skipping."
+	cp $TARGET_DIR/$XML_TMP $TARGET_DIR/$XML_FILE
+    else
+        echo "Beautifying XML"
+        xmllint --format $TARGET_DIR/$XML_TMP > $TARGET_DIR/$XML_FILE
+        exit_if_failed "beautifying XML"
+    fi
+    rm $TARGET_DIR/$XML_TMP
+
+    echo "(3) writing schemas .."
+    # It seems that yang2dsdl wants the yang modules in the dir it was called from
+    # So we move temporarily there and then resume from the current directory.
+
+    pushd .
+    cd $TARGET_DIR
+    pwd
+    yang2dsdl -t $WHAT -d . -b _placeholder *.yang
+    popd
+    exit_if_failed "writing schemas"
+
+    echo "(4) validating XML .."
+    # For same purpose we move temporarily to the directory where the schemas are placed.
+
+    pushd .
+    cd $TARGET_DIR
+    yang2dsdl -s -j -b _placeholder -t $WHAT -v $XML_FILE
+    popd
 }
 
 main() {
     process_args $@
 
+    echo "#######################"
+    echo "JSON_FILE      $JSON_FILE"
+    echo "YANG_GIVEN_DIR $YANG_GIVEN_DIR"
+    echo "WHAT           $WHAT"
+    echo "KEEP           $KEEP"
+    echo "FETCH          $FETCH"
+    echo "STRATEGY       $STRATEGY"
+    #exit 5
     # check for mandatory parameters
     if [[ "$WHAT" == "" || "$JSON_FILE" == "" ]]; then
         print_usage
@@ -100,68 +229,47 @@ main() {
         exit 1
     fi
 
+    if [ -d "$TARGET_DIR" ]; then
+	echo "target directory exists .. exiting"
+	exit 1
+    fi
+    mkdir $TARGET_DIR
+
+    if [ -d "$YANG_FETCH_DIR" ]; then
+        echo "fetch directory exists .. exiting"
+	exit 1
+    fi
+    [ $FETCH=="true" ] && mkdir $YANG_FETCH_DIR
+
     echo "(0) building list of all yang files"
-    fetch_yang_models $JSON_FILE
+
+    fetch_yang_models $JSON_FILE $YANG_FETCH_DIR $TARGET_DIR
+
+    echo "(0) overwrite with yang files in given directory"
+    cp $YANG_GIVEN_DIR/*.yang $TARGET_DIR 2> /dev/null
     # results are in $ALL_YANG_FILES
-    all_yang_files_in_dir $YANG_DIR
+    all_yang_files_in_dir $TARGET_DIR
     exit_if_failed "unable to write list of yang files (perhaps empty?)"
     sed "s/ /\n/g" <<< $ALL_YANG_FILES
 
     echo "(1) writing jtox .."
-    JTOX_FILE=$TEMP_DIR/_temporary.jtox
-    pyang -p $YANG_DIR -f jtox -o $JTOX_FILE $ALL_YANG_FILES
-    exit_if_failed "writing jtox"
 
-    echo "preparing step (2) stripping pseudo-comments from JSON .."
-    # we want to keep the original JSON unchanged
-    JSON_TMP=${TEMP_DIR}/$(basename $JSON_FILE)
-    python $THIS_SCRIPT_DIR/scripts/Stripper.py -i=${JSON_FILE} -o=${JSON_TMP} --clean
-    exit_if_failed "stripping comments"
-
-    echo "(2) converting JSON to XML .."
-    XML_BASE=$(basename ${JSON_FILE%.json})
-    XML_TMP=$TEMP_DIR/${XML_BASE}_tmp.xml
-    XML_FILE=$TEMP_DIR/${XML_BASE}.xml
-    json2xml -t $WHAT -o $XML_TMP $JTOX_FILE $JSON_TMP
-    exit_if_failed "converting JSON to XML"
-
-    # optionally beautify XML if xmllint is installed
-    if [ command -v xmllint >/dev/null 2>&1 ]
-    then
-        echo "I require xmllint but it's not installed.  Skipping."
-	cp $XML_TMP $XML_FILE
+    if [ $STRATEGY == "pyang" ]; then
+	validate_pyang $JSON_FILE $WHAT $TARGET_DIR
+    elif [ $STRATEGY == "yanglint" ]; then
+	validate_yanglint $JSON_FILE $WHAT $TARGET_DIR
     else
-        echo "Beautifying XML"
-        xmllint --format $XML_TMP > $XML_FILE
-        exit_if_failed "beautifying XML"
+	echo "unknown strategy $STRATEGY"
+	exit 1
     fi
-    rm $XML_TMP
 
-    echo "(3) writing schemas .."
-    # It seems that yang2dsdl wants the yang modules in the dir it was called from
-    # So we move temporarily there and then resume from the current directory.
-
-    CWD=$(pwd)
-    pushd .
-    cd $YANG_DIR
-    pwd
-    yang2dsdl -t $WHAT -d $TEMP_DIR -b _placeholder *.yang
-    popd
-    exit_if_failed "writing schemas"
-
-    echo "(4) validating XML .."
-    # For same purpose we move temporarily to the directory where the schemas are placed.
-
-    pushd .
-    cd $TEMP_DIR
-    yang2dsdl -s -j -b _placeholder -t $WHAT -v $XML_FILE
-    popd
     exit_if_failed "validation"
 
     # do not write anything on stdout otherwise
     # the test driver gets confused
-    cleanup
+    [ $KEEP = "true" ] || cleanup
     return 0
 }
+
 
 main "$@"

@@ -4,7 +4,10 @@ package ModelFetcher;
 use JSON;
 use File::Copy;
 use File::Slurp;
+use File::Spec;
 use File::Temp qw/tempfile/;
+use strict;
+use warnings;
 
 my $JSON = JSON->new();
 
@@ -49,9 +52,9 @@ sub fetchModels {
     return unless $models;
     while (my ($model, $document) = each %$models) {
         if ($document =~ /^rfc/) {
-            fetchModel("rfc", $model, $document);
+            $self->fetchModel("rfc", $model, $document);
         } elsif ($document =~ /^draft/) {
-            fetchModel("id", $model, $document);
+            $self->fetchModel("id", $model, $document);
         } else {
             print "ERROR: $document does not start with neither 'rfc' nor 'draft' - skipping";
         }
@@ -59,16 +62,18 @@ sub fetchModels {
     return $models;
 }
 
-# static
+# download $model from $document and write into desired directory
 sub fetchModel {
-    my ($fragment, $model, $document) = @_;
+    my ($self, $fragment, $model, $document) = @_;
     my ($fh, $tmpfile) = tempfile();
     my $location = "https://tools.ietf.org/$fragment/$document.txt";
+    my $destination = $self->{target};
     print "fetching $model from $location\n";
     system("curl $location > $tmpfile");
-    system("rfcstrip -f $model.yang $tmpfile\n");
-    copy($tmpfile, "$document.txt") or warn "cannot copy $tmpfile failed!";
-    #unlink $tmpfile;
+    my $fetchedFile = File::Spec->catfile($destination, "$document.txt");
+    copy($tmpfile, $fetchedFile) or warn "cannot copy $tmpfile failed!";
+    system("rfcstrip -d $destination -f $model.yang $fetchedFile\n");
+    unlink $tmpfile;
 }
 
 1;

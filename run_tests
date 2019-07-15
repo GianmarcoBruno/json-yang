@@ -6,7 +6,14 @@ function run_this {
     # discart everything else.
     # RERUN THE TEST FROM ITS DIRECTORY BECAUSE IF VALIDATION FAILS
     # IN THE LAST STEP IT PRINTS "No errors found"
+    if [ -f ".skipTest" ]; then
+	echo -e "\e[1;32mSKIPPED\e[0m"
+	exit 0
+    fi
+
+    rm -rf target fetched_yang_models
     $1 2> .stderr 1> /dev/null
+
     if [ "`tail -n 1 .stderr`" = "No errors found." ]
     then
 	echo -e "\e[1;32mOK\e[0m"

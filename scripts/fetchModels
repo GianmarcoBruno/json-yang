@@ -10,6 +10,7 @@ require ModelFetcher;
 # required to validate it which are written 
 
 my $input = $ARGV[0] or die "need input file";
+my $target = $ARGV[1] or die "need target directory to place files";
 
-my $fetcher = new ModelFetcher(file => $input);
+my $fetcher = new ModelFetcher(file => $input, target => $target);
 $fetcher->fetchModels() or print "no models found\n";
