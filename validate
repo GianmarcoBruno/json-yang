@@ -2,7 +2,7 @@
 # gianmarco.bruno@ericsson.com, carlo.perocchio@ericsson.com
 
 print_usage() {
-    echo "usage: validate -j <JSON_FILE> -w <WHAT> -y <GIVEN_YANG_GIVEN_DIR> -s <STRATEGY> [-fk]"
+    echo "usage: validate -j <JSON_FILE> -w <WHAT> -y <GIVEN_YANG_GIVEN_DIR> -s <STRATEGY> [-fkv]"
     echo "WHAT one of: data, config"
     echo "GIVEN_YANG_GIVEN_DIR is the given directory for YANG models (. unless specified)"
     echo "if -f (FETCH) is specified, validation is made using modules"
@@ -11,6 +11,7 @@ print_usage() {
     \"ietf-network@2017-12-18\": \"draft-ietf-i2rs-yang-network-topo-20\"",
     echo "if -k is specified, temporary directories are kept"
     echo "STRATEGY is one of pyang (default) or yanglint"
+    echo "v verbose"
     echo ""
     echo "exiting: did nothing"
     exit 1
@@ -28,6 +29,7 @@ YANG_FETCH_DIR=fetched_yang_models
 FETCH=false
 KEEP=false
 STRATEGY=pyang
+VERBOSE=false
 
 # to suppress pushd/popd messages
 pushd () {
@@ -52,13 +54,12 @@ function exit_if_failed {
 
 # usage: fetch_yang_models $JSON_FILE $YANG_FETCH_DIR $TARGET_DIR
 function fetch_yang_models {
-    echo $1 $2 $3
     if [ "$FETCH" = true ]
     then
-        echo "..will download models from the network"
+        [ $VERBOSE = true ] && echo "..will download models from the network"
         perl $THIS_SCRIPT_DIR/scripts/fetchModels $1 $2
     else
-        echo "..will use local models for validation"
+        [ $VERBOSE = true ] && echo "..will use local models for validation"
     fi
     # in all cases
     [ -d "$2" ] && cp $2/*.yang $3
@@ -69,46 +70,50 @@ function fetch_yang_models {
 # "// TEXT" :" OTHER TEXT", for example "// router-id": "NODE-S3-ID"
 
 function cleanup {
-    rm -rf $TARGET_DIR
+    [ $KEEP = true ] || rm -rf $TARGET_DIR
 }
 
 process_args() {
      while (( "$#" )); do
-       case "$1" in
-       -h)
-         print_usage
-         exit 1
-	 ;;
-       -j)
-         JSON_FILE="$2"
-	 shift 2
-	 ;;
-       -y)
-         YANG_GIVEN_DIR="$2"
-	 shift 2
-	 ;;
-       -w)
-         WHAT="$2"
-	 shift 2
-	 ;;
-       -s)
-         STRATEGY="$2"
-	 shift 2
-	 ;;
-       -f)
-         FETCH=true
-	 shift
-	 ;;
-       -k)
-         KEEP=true
-	 shift
-	 ;;
-       -*)
-         echo "unrecognized input $1"
-	 print_usage
-	 exit 1
-	 ;;
-       esac
+         case "$1" in
+         -h)
+             print_usage
+             exit 1
+             ;;
+         -j)
+             JSON_FILE="$2"
+             shift 2
+             ;;
+         -y)
+             YANG_GIVEN_DIR="$2"
+             shift 2
+             ;;
+         -w)
+             WHAT="$2"
+             shift 2
+             ;;
+         -s)
+             STRATEGY="$2"
+             shift 2
+             ;;
+         -f)
+             FETCH=true
+             shift
+             ;;
+         -k)
+             KEEP=true
+             shift
+             ;;
+         -v)
+             VERBOSE=true
+             shift
+             ;;
+         -*)
+             echo "unrecognized input $1"
+             print_usage
+             exit 1
+             ;;
+         esac
      done
 }
 
@@ -122,15 +127,13 @@ function validate_yanglint () {
     cp $JSON_FILE $JSON_STRIPPED
 
     for i in $ALL_YANG_FILES
-    do
-	echo "add -i $i" >> $JTOX_FILE
+        do
+        echo "add -i $i" >> $JTOX_FILE
     done
     echo "data $JSON_STRIPPED" >> $JTOX_FILE
     echo "exit" >> $JTOX_FILE
 
-    echo "<<<"
-    cat $JTOX_FILE
-    echo ">>>"
+    [ $VERBOSE = true ] && echo "<<<" && cat $JTOX_FILE && echo ">>>"
 
     # strip comments
     python $THIS_SCRIPT_DIR/scripts/Stripper.py -i $JSON_STRIPPED --indent 2 --clean
@@ -143,12 +146,11 @@ function validate_yanglint () {
     ANSWER=$(cat $JTOX_FILE | yanglint 2>&1)
 
     EXIT_CODE=0
-    if [ "z$ANSWER" == "z" ]
-    then
-	>&2 echo "No errors found."
+    if [ "z$ANSWER" == "z" ]; then
+        >&2 echo "No errors found."
     else
-	echo $ANSWER
-	EXIT_CODE=1
+        echo $ANSWER
+        EXIT_CODE=1
     fi
     return $EXIT_CODE
 }
@@ -176,10 +178,9 @@ function validate_pyang() {
     exit_if_failed "converting JSON to XML"
 
     # optionally beautify XML if xmllint is installed
-    if [ command -v xmllint >/dev/null 2>&1 ]
-    then
+    if [ command -v xmllint >/dev/null 2>&1 ]; then
         echo "I require xmllint but it's not installed.  Skipping."
-	cp $TARGET_DIR/$XML_TMP $TARGET_DIR/$XML_FILE
+        cp $TARGET_DIR/$XML_TMP $TARGET_DIR/$XML_FILE
     else
         echo "Beautifying XML"
         xmllint --format $TARGET_DIR/$XML_TMP > $TARGET_DIR/$XML_FILE
@@ -210,6 +211,7 @@ function validate_pyang() {
 main() {
     process_args $@
 
+    if [ $VERBOSE = true ]; then
     echo "#######################"
     echo "JSON_FILE      $JSON_FILE"
     echo "YANG_GIVEN_DIR $YANG_GIVEN_DIR"
@@ -217,7 +219,8 @@ main() {
     echo "KEEP           $KEEP"
     echo "FETCH          $FETCH"
     echo "STRATEGY       $STRATEGY"
-    #exit 5
+    fi
+
     # check for mandatory parameters
     if [[ "$WHAT" == "" || "$JSON_FILE" == "" ]]; then
         print_usage
@@ -230,14 +233,14 @@ main() {
     fi
 
     if [ -d "$TARGET_DIR" ]; then
-	echo "target directory exists .. exiting"
-	exit 1
+        echo "target directory exists .. exiting"
+        exit 1
     fi
     mkdir $TARGET_DIR
 
     if [ -d "$YANG_FETCH_DIR" ]; then
         echo "fetch directory exists .. exiting"
-	exit 1
+    exit 1
     fi
     [ $FETCH=="true" ] && mkdir $YANG_FETCH_DIR
 
@@ -255,19 +258,19 @@ main() {
     echo "(1) writing jtox .."
 
     if [ $STRATEGY == "pyang" ]; then
-	validate_pyang $JSON_FILE $WHAT $TARGET_DIR
+        validate_pyang $JSON_FILE $WHAT $TARGET_DIR
     elif [ $STRATEGY == "yanglint" ]; then
-	validate_yanglint $JSON_FILE $WHAT $TARGET_DIR
+        validate_yanglint $JSON_FILE $WHAT $TARGET_DIR
     else
-	echo "unknown strategy $STRATEGY"
-	exit 1
+        echo "unknown strategy $STRATEGY"
+        exit 1
     fi
 
     exit_if_failed "validation"
 
     # do not write anything on stdout otherwise
     # the test driver gets confused
-    [ $KEEP = "true" ] || cleanup
+    cleanup
     return 0
 }
 
