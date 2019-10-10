@@ -30,7 +30,7 @@ def Stripper(InFile, OutFile, Clean, Indent):
 #------------------------------------------------------------------------------
 def traverse(d, Clean):
     if isinstance(d, dict):
-        for k in d.keys():
+        for k in list(d.keys()):
             if (pattern.search(k) and Clean):
                 del d[k]
             else:

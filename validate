@@ -47,7 +47,7 @@ function all_yang_files_in_dir {
 function exit_if_failed {
     if [ $? -ne 0 ]
     then
-        echo $1
+        echo "failed during $1"
         exit 1
     fi
 }
@@ -238,11 +238,11 @@ main() {
     fi
     mkdir $TARGET_DIR
 
-    if [ -d "$YANG_FETCH_DIR" ]; then
-        echo "fetch directory exists .. exiting"
-    exit 1
-    fi
-    [ $FETCH=="true" ] && mkdir $YANG_FETCH_DIR
+    #if [ -d "$YANG_FETCH_DIR" ]; then
+    #    echo "fetch directory exists .. exiting"
+    #exit 1
+    #fi
+    [ $FETCH == "true" ] && mkdir -p $YANG_FETCH_DIR
 
     echo "(0) building list of all yang files"
 
