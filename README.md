@@ -1,6 +1,6 @@
 # json-yang
 
-How to validate JSON against a YANG module.
+A standalone tool to validate instances in JSON format of YANG models.
 
 ## Why
 
@@ -11,18 +11,22 @@ NBI Design Team (https://github.com/danielkinguk/transport-nbi).
 
 See `validation.md` for a description of the process.
 
-Prerequisites on Linux:
+Starting from version `0.3` you can build from scratch the tool on Linux:  
 
 - `bash 4.3.11`
-- `python 2.7.6`
-- `pyang 1.7.1` exactly, not later
+- `python 3`
+- `pyang 2.0.2`
 - `jing 20131210`
-- `xmllint` optional
+- `xmllint`
 - `rfcstrip 0.2` patched to accept `-f`
+- `yanglint` v1.0-rc2
 - `perl 5.18` or later and also the JSON module  
   `sudo apt-get install libjson-perl` and
   `sudo apt-get install libfile-slurp-perl`
--  the folding/unfolding script is downloaded from (https://tools.ietf.org/html/draft-kwatsen-netmod-artwork-folding-08)
+
+or just use the dockerized version.  
+
+The folding/unfolding script can be downloaded from https://tools.ietf.org/html/draft-ietf-netmod-artwork-folding-10.
 
 ## Thanks
 
