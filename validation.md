@@ -22,8 +22,8 @@ JSON-file------> XML-file ----/
 pyang support for the XSD output format was deprecated in 1.5 and removed in 1.7.1.
 1.7.1 is necessary to work with YANG 1.1 so the process stops just at (1).
 
-One right way (DSDL-based)
---------------------------
+The DSDL-based way
+------------------
 
 The steps are outlined below:
 
@@ -58,8 +58,8 @@ Prerequisites: YANG tools and jing to have more useful output in case of failed 
 validation. If you do not want to use jing, remove the `-j` from the `yang2dsdl` in
 step (4).
 
-Another right way (yanglint based)
-----------------------------------
+The yanglint based strategy
+---------------------------
 
 Starting from 0.3, this tool allow you to choose between pyang (2.0.2) or yanglint.
 The first does not support Yang 1.1 (or better, the DSDL plugn we need).
@@ -69,6 +69,7 @@ create a set of instructions (1) for `yanglint`. `yanglint` is invoked non-inter
 and perform the validation.
 
 
+```
 JSON-file --------------+
                         |
 YANG-module -------+    |
@@ -78,6 +79,7 @@ YANG-module -------+    |
 config|data -> yanglint-script ---> output
                     (1)        (2)  
 
+```
 
 How to run examples
 -------------------
