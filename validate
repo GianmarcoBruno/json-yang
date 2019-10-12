@@ -14,7 +14,7 @@ print_usage() {
     echo "v verbose"
     echo ""
     echo "exiting: did nothing"
-    exit 1
+    exit 2
 }
 
 alias yanglint="docker run --rm -i --mount type=bind,source=\"$(pwd)\",target=/opt/yanglint docker-yanglint-i:0.4"
@@ -126,9 +126,10 @@ function validate_yanglint () {
     JSON_STRIPPED=${TARGET_DIR}/${JSON_FILE%.json}-stripped.json
     cp $JSON_FILE $JSON_STRIPPED
 
+    echo "searchpath ${TARGET_DIR}" >> $JTOX_FILE
     for i in $ALL_YANG_FILES
         do
-        echo "add -i $i" >> $JTOX_FILE
+        echo "add $i" >> $JTOX_FILE
     done
     echo "data -t $WHAT $JSON_STRIPPED" >> $JTOX_FILE
     echo "exit" >> $JTOX_FILE
@@ -224,17 +225,17 @@ main() {
     # check for mandatory parameters
     if [[ "$WHAT" == "" || "$JSON_FILE" == "" ]]; then
         print_usage
-        exit 1
+        exit 2
     fi
 
     if [ ! -f $JSON_FILE ]; then
         echo "given file $JSON_FILE does not exists"
-        exit 1
+        exit 2
     fi
 
     if [ -d "$TARGET_DIR" ]; then
         echo "target directory exists .. exiting"
-        exit 1
+        exit 2
     fi
     mkdir $TARGET_DIR
 
@@ -263,7 +264,7 @@ main() {
         validate_yanglint $JSON_FILE $WHAT $TARGET_DIR
     else
         echo "unknown strategy $STRATEGY"
-        exit 1
+        exit 2
     fi
 
     exit_if_failed "validation"

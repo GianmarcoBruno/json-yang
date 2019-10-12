@@ -121,7 +121,6 @@
                   "named-explicit-path": "odu2-service-named-explicit-path",
                   "path-computation-method": "ietf-te-types:path-explicitly-defined",
                   "lsps": {
-                    "lsp": []
                   }
                 }
               }

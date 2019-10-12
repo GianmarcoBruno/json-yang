@@ -1,39 +1,36 @@
 #!/bin/bash
 
 function run_this {
-    # we assume that the whole chain is OK if the last command 
-    # prints on stderr "No errors founds.". We capture it and
-    # discart everything else.
-    # RERUN THE TEST FROM ITS DIRECTORY BECAUSE IF VALIDATION FAILS
-    # IN THE LAST STEP IT PRINTS "No errors found"
+    # every script actually run a set of tests
+    # exit code is O only if they exit all with 0
+    # output is already suppressed by the invoked script
+
     if [ -f ".skipTest" ]; then
-	echo -e "\e[1;32mSKIPPED\e[0m"
-	exit 0
+	echo -e "\e[1;32mSKIPPED\e[0m\n"
+	return 0
     fi
 
-    rm -rf target fetched_yang_models
-    $1 2> .stderr 1> /dev/null
-
-    if [ "`tail -n 1 .stderr`" = "No errors found." ]
+    dir=`basename "$2"`
+    "$1"
+    if [ $? = 0 ]
     then
-	echo -e "\e[1;32mOK\e[0m"
+	echo -e "\e[1;32m$dir OK\e[0m\n"
     else
-	echo -e "\e[1;31mFAILED\e[0m"
+	echo -e "\e[1;31m$dir FAILED\e[0m\n"
     fi
-    rm .stderr
 }
 
-cd tests
+TESTDIR=tests
 echo "-----------------------------------------------------"
-echo "Running tests in ./tests: false positives possible"
+echo "Running tests in $TESTDIR: false positives possible"
 echo "Run from their respective directory to see full trace"
 echo "-----------------------------------------------------"
-for dir in `ls -d ./*/`
-do
+cd $TESTDIR
+for dir in `ls -d ./*/`; do
+    echo `basename $dir`
     cd $dir
-    for script in `ls *.sh`
-    do
-	printf '%-50s%10s\n' "${dir}${script}" "`run_this ./$script`"
+    for script in `ls *.sh`; do
+	run_this $script $dir
     done
     cd ..
 done

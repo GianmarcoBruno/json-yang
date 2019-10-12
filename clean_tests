@@ -1,10 +1,8 @@
 #!/bin/bash
 cd tests
-for dir in `ls -d ./*/`
-do
+for dir in `ls -d ./*/`; do
     echo -ne "cleaning $dir\n" 
     cd $dir
-    rm -f *.xml *.sch *.jtox *.rng *.dsrl
+    rm -rf *.xml *.sch *.jtox *.rng *.dsrl target
     cd ..
 done
-cd ..

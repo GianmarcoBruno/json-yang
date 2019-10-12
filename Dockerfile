@@ -2,7 +2,7 @@ FROM python:3.7.4-buster
 
 MAINTAINER Gianmarco Bruno "gianmarco.bruno@ericsson.com"
 
-ENV VERSION=0.5
+ENV PYANG_VERSION=1.7.1
 ENV LIBYANG_VERSION=v1.0-r2
 
 # build toolchain
@@ -24,12 +24,14 @@ ENV PATH="/opt2/libyang/build:${PATH}"
 
 # we install pyang, xmllint and some perl modules
 
-RUN pip install pyang==2.0.2
+RUN pip install pyang==${PYANG_VERSION}
 
 RUN apt-get update \
     && apt-get install -y libjson-perl \
     && apt-get install -y libfile-slurp-perl \
-    && apt-get install -y libxml2-utils
+    && apt-get install -y libxml2-utils \
+    && apt-get install -y xsltproc \
+    && apt-get install -y jing
 
 # /home/app is where we work and mount the host files
 RUN adduser --home /home/app --disabled-password --gecos "" app

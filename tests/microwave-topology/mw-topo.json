@@ -16,7 +16,7 @@
     "ietf-microwave-radio-link@2018-03-30": "draft-ietf-ccamp-mw-yang-05",
     "ietf-interface-protection@2018-03-30": "draft-ietf-ccamp-mw-yang-05",
     "ietf-microwave-types@2018-03-30": "draft-ietf-ccamp-mw-yang-05",
-    "ietf-microwave-topology@2018-03-05": "draft-ye-ccamp-mw-topo-model-00"
+    "ietf-microwave-topology@2018-03-05": "draft-ye-ccamp-mw-topo-yang-00"
   },
   "ietf-network:networks": {
     "network": [
