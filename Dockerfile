@@ -5,6 +5,10 @@ MAINTAINER Gianmarco Bruno "gianmarco.bruno@ericsson.com"
 ENV PYANG_VERSION=1.7.1
 ENV LIBYANG_VERSION=v1.0-r2
 
+# make the container aware of the versions
+ARG PYANG_VERSION=1.7.1
+ARG LIBYANG_VERSION=v1.0-r2
+
 # build toolchain
 RUN apt-get update && apt-get install -y binutils cmake
 RUN mkdir /opt2 && cd /opt2 && \

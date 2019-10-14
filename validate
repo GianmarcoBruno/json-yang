@@ -14,6 +14,8 @@ print_usage() {
     echo "v verbose"
     echo ""
     echo "exiting: did nothing"
+    echo "this version embeds pyang $PYANG_VERSION"
+    echo "and libyang $LIBYANG_VERSION"
     exit 2
 }
 
