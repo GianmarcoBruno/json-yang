@@ -5,17 +5,20 @@ print_usage() {
     echo "usage: validate -j <JSON_FILE> -w <WHAT> -y <GIVEN_YANG_GIVEN_DIR> -s <STRATEGY> [-fkv]"
     echo "WHAT one of: data, config"
     echo "GIVEN_YANG_GIVEN_DIR is the given directory for YANG models (. unless specified)"
+    echo ""
     echo "if -f (FETCH) is specified, validation is made using modules"
     echo "specified in the JSON as e.g.:"
     echo "\"// __REFERENCE_DRAFTS__\": {
-    \"ietf-network@2017-12-18\": \"draft-ietf-i2rs-yang-network-topo-20\"",
+    \"ietf-network@2017-12-18\": \"draft-ietf-i2rs-yang-network-topo-20\""
+    echo ""
     echo "if -k is specified, temporary directories are kept"
     echo "STRATEGY is one of pyang (default) or yanglint"
     echo "v verbose"
     echo ""
-    echo "exiting: did nothing"
     echo "this version embeds pyang $PYANG_VERSION"
     echo "and libyang $LIBYANG_VERSION"
+    echo ""
+    echo "exiting: did nothing"
     exit 2
 }
 
@@ -27,7 +30,7 @@ YANG_GIVEN_DIR=""
 : YANG_GIVEN_DIR=${YANG_GIVEN_DIR:=.}
 THIS_SCRIPT_DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
 TARGET_DIR=target
-YANG_FETCH_DIR=fetched_yang_models
+YANG_FETCH_DIR=downloads
 FETCH=false
 KEEP=false
 STRATEGY=pyang

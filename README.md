@@ -30,6 +30,14 @@ docker build -t yl:<version>
 docker run -it --rm --mount type=bind,source="$(pwd)",target=/home/app jy:0.4 ...
 ```
 
+It is convenient to add this function to your startup file:
+```
+function validate() {
+    docker run --rm -it --mount type=bind,source="$(pwd)",target=/home/app jy:<YOUR-DESIRED-VERSION> "$@"
+}
+```
+
+
 ## Versions
 
 | version | pyang   | yanglint | notes |
