@@ -42,8 +42,9 @@ function validate() {
 
 | version | pyang   | yanglint | notes |
 | ------- | ------- | -------- | ------|
-| 0.3 | 2.0.2 | 1.0-rc2 | initial dockerized version |
+| 0.5 | 1.7.1 | 1.0-rc2 |  -           |
 | 0.4 | 1.7.1 | 1.0-rc2 | moved back to 1.7.1 as it seems to be the only version to have DSDL plugin supporting Yang 1.1 |
+| 0.3 | 2.0.2 | 1.0-rc2 | initial dockerized version |
 
 The folding/unfolding script can be downloaded from https://tools.ietf.org/html/draft-ietf-netmod-artwork-folding-10.
 
