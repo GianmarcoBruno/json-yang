@@ -1,16 +1,18 @@
-FROM python:3.7.4-buster
+FROM python:3.7.4-slim
 
 MAINTAINER Gianmarco Bruno "gianmarco.bruno@ericsson.com"
 
+# make the container aware of the versions
+ENV JY_VERSION=0.6
 ENV PYANG_VERSION=1.7.1
 ENV LIBYANG_VERSION=v1.0-r2
 
-# make the container aware of the versions
+#ARG JY_VERSION=0.6
 ARG PYANG_VERSION=1.7.1
 ARG LIBYANG_VERSION=v1.0-r2
 
 # build toolchain
-RUN apt-get update && apt-get install -y binutils cmake
+RUN apt-get update && apt-get install -y git binutils cmake libpcre3 libpcre3-dev
 RUN mkdir /opt2 && cd /opt2 && \
     git clone https://github.com/CESNET/libyang.git && \
     cd libyang && git checkout tags/${LIBYANG_VERSION}
@@ -30,12 +32,8 @@ ENV PATH="/opt2/libyang/build:${PATH}"
 
 RUN pip install pyang==${PYANG_VERSION}
 
-RUN apt-get update \
-    && apt-get install -y libjson-perl \
-    && apt-get install -y libfile-slurp-perl \
-    && apt-get install -y libxml2-utils \
-    && apt-get install -y xsltproc \
-    && apt-get install -y jing
+RUN apt-get install -y libxml2-utils \
+    && apt-get install -y xsltproc
 
 # /home/app is where we work and mount the host files
 RUN adduser --home /home/app --disabled-password --gecos "" app
