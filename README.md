@@ -6,36 +6,55 @@ A standalone tool to validate instances in JSON format of YANG models.
 
 The need for some automated tool was expressed in the IETF CCAMP Transport
 NBI Design Team (https://github.com/danielkinguk/transport-nbi).
+How the toolchain is designed is described in `toolchain.md`.  
+Details on the validation process can be found in `validation.md`
 
-## Getting started
+## Installation
 
-See `validation.md` for a description of the process.
+You can run the tool from source or build the docker image.  
+In both case clone this repo:
+```
+git clone https://github.com/GianmarcoBruno/json-yang.git
+cd json-yang
+```
 
-Starting from version `0.3` you can build from scratch the tool on Linux:  
+### Run from source
 
-- `bash 4.3.11`
+Prerequisites:
+- `bash 4.3`
 - `python 3`
-- `pyang 2.0.2`
-- `jing 20131210`
-- `xmllint`
-- `rfcstrip 0.2` patched to accept `-f`
-- `yanglint` v1.0-rc2
-- `perl 5.18` or later and also the JSON module  
-  `sudo apt-get install libjson-perl` and
-  `sudo apt-get install libfile-slurp-perl`
+- `pyang 1.7.1`
+- `xmllint` (optional)
+- `rfcstrip 0.6`
+- `yanglint` v1.0-rc2 to be build by yourself if you want it
 
-or just use the dockerized version:  
+To run the tool and see the options:
 ```
-docker build -t yl:<version>
-docker run -it --rm --mount type=bind,source="$(pwd)",target=/home/app jy:0.4 ...
+./validate
 ```
 
-It is convenient to add this function to your startup file:
+**Note**: specify the path to the script or add its location to your ```$PATH```.
+The tool has been tested on Linux so far.
+
+### Run the docker image
+
+Starting from 0.3 you can build the docker image and then run
+the containerized tool. Assume a generic <version>, e.g. 0.6:
+
+```
+docker build . -t yl:<version>
+```
+
+Then add this function to your ```.bashrc```:
+
 ```
 function validate() {
-    docker run --rm -it --mount type=bind,source="$(pwd)",target=/home/app jy:<YOUR-DESIRED-VERSION> "$@"
+    docker run --rm -it --mount type=bind,source="$(pwd)",target=/home/app jy:<version> "$@"
 }
 ```
+
+Now you can use the dockerized tool as ```validate```.
+**Note**: do not specify the path because this is actually a function call.
 
 
 ## Versions
