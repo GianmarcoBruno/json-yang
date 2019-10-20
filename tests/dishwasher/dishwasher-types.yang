@@ -8,20 +8,6 @@ module dishwasher-types {
   }
 
   /* Identities */
-  /* Form factor */
-  identity dishwasher-format {
-    description "Base dishwasher";
-  }
-
-  identity standalone {
-    base dishwasher-format;
-    description "Standalone dishwasher";
-  }
-
-  identity embeddable {
-    base dishwasher-format;
-    description "Embeddable dishwasher";
-  }
 
   /* Cycles */
   identity dishwasher-cycle {

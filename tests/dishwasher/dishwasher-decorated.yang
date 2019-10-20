@@ -33,7 +33,7 @@ module dishwasher-decorated {
   }
 
   augment "/dw:dishwasher" {
-    //when "dw:format = 'dwt:standalone'";
+    when 'dw:is-standalone';
 
     description
         "only standalone dishwashers have a wood cover";

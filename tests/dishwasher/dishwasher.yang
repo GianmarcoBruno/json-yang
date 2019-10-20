@@ -60,11 +60,8 @@ module dishwasher {
       description "Operating status of the machine (true means all OK).";
     }
 
-    leaf format {
-      config false;
-      type identityref {
-        base dwt:dishwasher-format;
-      }
+    leaf is-standalone {
+      type empty;
     }
 
     leaf s-n {

@@ -14,5 +14,16 @@ for STRATEGY in pyang yanglint; do
 	printf '%-16s%-16s%-8s\n' "$STRATEGY" "$WHAT" "$OUT"
 	rm -f .stderr
     done
+    for WHAT in data; do
+        rm -rf target downloads
+
+        validate -j dishwasher-deco-$WHAT.json -w "$WHAT" -y . -s $STRATEGY 2> .stderr 1> /dev/null
+	OUT=$?
+	EXIT=$((EXIT + OUT))
+	printf '%-16s%-16s%-8s\n' "$STRATEGY" "$WHAT" "$OUT"
+	rm -f .stderr
+    done
 done
+echo "pyang validation expected to fail with data documents"
+echo "because it does not accept empty leaft encoded as ''"
 exit $EXIT

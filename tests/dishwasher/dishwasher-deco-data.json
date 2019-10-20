@@ -4,7 +4,7 @@
     "// only for standalone dishwashers" : "a wood decoration is defined",
     "// note that wood-decoration is defined in the augmentation" :
         "so it must be qualified with its prefix",
-    "format": "dishwasher-types:standalone",
+    "is-standalone": "",
     "dishwasher-decorated:wood-decoration": "wood-types:pine",
     "phase": "dishwasher-types:warm-up",
     "operating": true,
