@@ -53,6 +53,7 @@ function all_yang_files_in_dir {
 function exit_if_failed {
     if [ $? -ne 0 ]
     then
+        cleanup
         echo "failed during $1"
         exit 1
     fi
@@ -236,11 +237,13 @@ main() {
 
     if [ ! -f $JSON_FILE ]; then
         echo "given file $JSON_FILE does not exists"
+	cleanup
         exit 2
     fi
 
     if [ -d "$TARGET_DIR" ]; then
         echo "target directory exists .. exiting"
+	cleanup
         exit 2
     fi
     mkdir $TARGET_DIR
