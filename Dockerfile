@@ -1,14 +1,7 @@
-FROM python:3.7.4-slim
+FROM python:3.7.4-slim as mybuilder
 
 MAINTAINER Gianmarco Bruno "gianmarco.bruno@ericsson.com"
 
-# make the container aware of the versions
-ENV JY_VERSION=0.6
-ENV PYANG_VERSION=1.7.1
-ENV LIBYANG_VERSION=v1.0-r2
-
-#ARG JY_VERSION=0.6
-ARG PYANG_VERSION=1.7.1
 ARG LIBYANG_VERSION=v1.0-r2
 
 # build toolchain
@@ -25,14 +18,32 @@ RUN cd /opt2/libyang && git checkout ${LIBYANG_VERSION} -b ${LIBYANG_VERSION} &&
     mkdir build && cd build && cmake -D CMAKE_BUILD_TYPE:String="Release" .. && \
     make && make install
 
+# builder pattern
+
+FROM python:3.7.4-slim
+
+# make the container aware of the versions
+ENV JY_VERSION=0.6
+ENV PYANG_VERSION=1.7.1
+ENV LIBYANG_VERSION=v1.0-r2
+
+# copy yanglint code
+COPY --from=mybuilder /opt2/libyang/build/* /opt2/libyang/build/
+
+# yanglint libraries
+COPY --from=mybuilder /usr/local/lib/libyang.so.1.0.2 /usr/local/lib/
+RUN  cd /usr/local/lib && ln -s libyang.so.1.0.2 libyang.so.1 && ln -s libyang.so.1 libyang.so.so
+COPY --from=mybuilder /usr/local/lib/libyang/extensions /usr/local/lib/libyang/extensions
+COPY --from=mybuilder /usr/local/lib/libyang/user_types /usr/local/lib/libyang/user_types
+
 # to make the build target directory visible
 ENV PATH="/opt2/libyang/build:${PATH}"
 
-# we install pyang, xmllint and some perl modules
-
+# we install pyang, xmllint and xsltproc
+ARG PYANG_VERSION=1.7.1
 RUN pip install pyang==${PYANG_VERSION}
 
-RUN apt-get install -y libxml2-utils \
+RUN apt-get update && apt-get install -y libxml2-utils \
     && apt-get install -y xsltproc
 
 # /home/app is where we work and mount the host files

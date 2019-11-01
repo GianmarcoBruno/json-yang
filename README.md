@@ -61,6 +61,7 @@ Now you can use the dockerized tool as ```validate```.
 
 | version | pyang   | yanglint | notes |
 | ------- | ------- | -------- | ------|
+| 0.6 | 1.7.1 | 1.0-rc2 | reduced images size from 1.46G to 248M -  only 69M on top of the base image |
 | 0.5 | 1.7.1 | 1.0-rc2 |  -           |
 | 0.4 | 1.7.1 | 1.0-rc2 | moved back to 1.7.1 as it seems to be the only version to have DSDL plugin supporting Yang 1.1 |
 | 0.3 | 2.0.2 | 1.0-rc2 | initial dockerized version |

@@ -136,7 +136,7 @@ function validate_yanglint () {
     echo "searchpath ${TARGET_DIR}" >> $JTOX_FILE
     for i in $ALL_YANG_FILES
         do
-        echo "add $i" >> $JTOX_FILE
+        echo "add -i $i" >> $JTOX_FILE
     done
     echo "data -t $WHAT $JSON_STRIPPED" >> $JTOX_FILE
     echo "exit" >> $JTOX_FILE
