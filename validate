@@ -2,18 +2,18 @@
 # gianmarco.bruno@ericsson.com, carlo.perocchio@ericsson.com
 
 print_usage() {
-    echo "usage: validate -j <JSON_FILE> -w <WHAT> -y <MODELS_DIR> -s <STRATEGY> [-fkv]"
+    echo "usage: validate -j <JSON_FILE> -w <WHAT> [options]"
+    echo ""
+    echo "JSON_FILE will be parsed if annonated"
     echo "WHAT one of: data, config"
-    echo "MODELS_DIR is the given directory for YANG models (models unless specified)"
     echo ""
-    echo "if -f (FETCH) is specified, validation is made using modules"
-    echo "specified in the JSON as e.g.:"
-    echo "\"// __REFERENCE_DRAFTS__\": {
-    \"ietf-network@2017-12-18\": \"draft-ietf-i2rs-yang-network-topo-20\""
-    echo ""
-    echo "if -k is specified, temporary directories are kept"
-    echo "STRATEGY is one of pyang (default) or yanglint"
-    echo "v verbose"
+    echo "options:"
+    echo "-m MODELS_DIR is the given directory for YANG models ('models' unless specified)"
+    echo "-f fetch and download the annonated documents and models (default false)"
+    echo "-p (preserve) do not overwrite fetched models with those under 'models' (default false)"
+    echo "-k keep target directory (default false)"
+    echo "-s STRATEGY is one of pyang or yanglint (default)"
+    echo "-v verbose"
     echo ""
     echo "this is jy  $JY_VERSION"
     echo "uses pyang  $PYANG_VERSION"
@@ -33,7 +33,7 @@ FETCH=false
 KEEP=false
 STRATEGY=yanglint
 VERBOSE=false
-FORCE_FETCH=false
+PRESERVE_FETCHED=false
 
 THIS_SCRIPT_DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
 
@@ -59,7 +59,7 @@ function exit_if_failed {
     fi
 }
 
-# usage: fetch_yang_models $JSON_FILE $DOWNLOAD_DIR $TARGET_DIR
+# usage: fetch_yang_models $JSON_FILE $DOWNLOAD_DIR
 function fetch_yang_models {
     if [ "$FETCH" = true ]; then
         [ $VERBOSE = true ] && echo "..will download models from the network"
@@ -67,8 +67,6 @@ function fetch_yang_models {
     else
         [ $VERBOSE = true ] && echo "..will use local models for validation"
     fi
-    # in all cases
-    [ -d "$2" ] && cp $2/*.yang $3
 }
 
 # pseudo-comments has been provisionally defined in the IETF TEAS Transport NBI
@@ -112,8 +110,8 @@ process_args() {
              KEEP=true
              shift
              ;;
-         -ff)
-             FORCE_FETCH=true
+         -p)
+             PRESERVE_FETCHED=true
              shift
              ;;
          -v)
@@ -226,17 +224,17 @@ main() {
 
     if [ $VERBOSE = true ]; then
     echo "----------------"
-    echo "JSON_FILE      $JSON_FILE"
+    echo "JSON FILE      $JSON_FILE"
     echo "WHAT           $WHAT"
     echo "-- behaviours --"
-    echo "KEEP           $KEEP"
+    echo "KEEP TARGET    $KEEP"
     echo "FETCH          $FETCH"
     echo "STRATEGY       $STRATEGY"
-    echo "FORCE_FETCH    $FORCE_FETCH"
+    echo "KEEP FETCHED   $PRESERVE_FETCHED"
     echo "-- places --"
-    echo "DOWNLOAD_DIR   $DOWNLOAD_DIR"
-    echo "MODELS_DIR     $MODELS_DIR"
-    echo "TARGET_DIR     $TARGET_DIR"
+    echo "DOWNLOAD DIR   $DOWNLOAD_DIR"
+    echo "MODELS DIR     $MODELS_DIR"
+    echo "TARGET DIR     $TARGET_DIR"
     echo "----------------"
     fi
 
@@ -253,19 +251,20 @@ main() {
     fi
     mkdir $TARGET_DIR
 
-    [ $FETCH == "true" ] && rm -rf $DOWNLOAD_DIR && mkdir -p $DOWNLOAD_DIR
+    if [ $FETCH == "true" ]; then
+        rm -rf $DOWNLOAD_DIR && mkdir -p $DOWNLOAD_DIR
+        [ $VERBOSE == "true" ] && echo "download references and models to $DOWNLOAD_DIR"
+        fetch_yang_models $JSON_FILE $DOWNLOAD_DIR
+    fi	
+    cp $DOWNLOAD_DIR/*.yang $TARGET_DIR
 
-    echo "download references and models to $TARGET_DIR"
-    fetch_yang_models $JSON_FILE $DOWNLOAD_DIR $TARGET_DIR
-
-    [ $FORCE_FETCH == "true" ] && [ $FETCH == "false" ] && echo "fetch must be true to set force_fetch" && exit 2
-
-    if [ $FORCE_FETCH == "true" ]; then
-        echo "force using fetched models in $DOWNLOAD_DIR without overriding"
+    if [ $PRESERVE_FETCHED == "true" ]; then
+        [ $VERBOSE == "true" ] && echo "force using fetched models in $DOWNLOAD_DIR without overriding"
     else
-        echo "override models in $DOWNLOAD_DIR with those in $MODELS_DIR"
-        cp $MODELS_DIR/*.yang $TARGET_DIR 2> /dev/null
+        [ $VERBOSE == "true" ] && echo "override models in $DOWNLOAD_DIR with those in $MODELS_DIR"
+        cp $MODELS_DIR/*.yang $TARGET_DIR
     fi
+
     all_yang_files_in_dir $TARGET_DIR
     exit_if_failed "unable to write list of yang files (perhaps empty?)"
     sed "s/ /\n/g" <<< $ALL_YANG_FILES
