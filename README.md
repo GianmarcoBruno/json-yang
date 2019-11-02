@@ -24,9 +24,10 @@ Prerequisites:
 - `bash 4.3`
 - `python 3`
 - `pyang 1.7.1`
-- `xmllint` (optional)
+- `xml linter` (libxml2-utils on Alpine Linux or libxml2 on Cygwin)
+- `xslt processor` (xlstproc on Alpline Linux or libxslt on Cygwin)
 - `rfcstrip 0.6`
-- `yanglint` v1.0-rc2 to be build by yourself if you want it
+- `yanglint` v1.0-rc2 to be build by yourself if you want it (Linux only)
 
 To run the tool and see the options:
 ```
