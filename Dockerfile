@@ -22,11 +22,6 @@ RUN cd /opt2/libyang && git checkout ${LIBYANG_VERSION} -b ${LIBYANG_VERSION} &&
 
 FROM python:3.7.4-slim
 
-# make the container aware of the versions
-ENV JY_VERSION=0.7
-ENV PYANG_VERSION=1.7.1
-ENV LIBYANG_VERSION=v1.0-r2
-
 # copy yanglint code
 COPY --from=mybuilder /opt2/libyang/build/* /opt2/libyang/build/
 
@@ -58,5 +53,10 @@ COPY scripts /opt/app/scripts
 ENV PATH="/opt/app:${PATH}"
 
 USER app
+
+# make the container aware of the versions
+ENV JY_VERSION=0.8
+ENV PYANG_VERSION=1.7.1
+ENV LIBYANG_VERSION=v1.0-r2
 
 ENTRYPOINT ["validate"]

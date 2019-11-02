@@ -9,9 +9,9 @@ NBI Design Team (https://github.com/danielkinguk/transport-nbi).
 How the toolchain is designed is described in `toolchain.md`.  
 Details on the validation process can be found in `validation.md`
 
-## Docker installation (preferred)
+## Docker installation
 
-The preferred way is to build and use the docker image - currently tested only on Linux.  
+The easiest way is to build and use the docker image on Linux.  
 ```
 docker build . -t yl:<version>
 ```
@@ -24,10 +24,10 @@ function validate() {
 }
 ```
 
-Now you can use the containerized tool as just ```validate```.
+Now you can use the containerized tool as just ```validate```.  
 **Note**: do not specify the path because this is actually a function call.
 
-### Installation from source
+### Installation from source on Linux
 
 Prerequisites:
 - `bash 4.3`
@@ -54,6 +54,7 @@ The tool has been tested on Linux so far.
 
 | version | pyang   | yanglint | notes |
 | ------- | ------- | -------- | ------|
+| 0.8 | 1.7.1 | 1.0-rc2 | bug fixes and various improvements |
 | 0.7 | 1.7.1 | 1.0-rc2 | distinct "downloads", "models" and "target" directories |
 | 0.6 | 1.7.1 | 1.0-rc2 | reduced images size from 1.46G to 248M -  only 69M on top of the base image |
 | 0.5 | 1.7.1 | 1.0-rc2 |  -           |

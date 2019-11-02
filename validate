@@ -4,13 +4,18 @@
 print_usage() {
     echo "usage: validate -j <JSON_FILE> -w <WHAT> [options]"
     echo ""
-    echo "JSON_FILE will be parsed if annonated"
-    echo "WHAT one of: data, config"
+    echo "JSON_FILE is a document annotated with references and models like:"
+    echo '"// __REFERENCE_DRAFTS__": {'
+    echo '    "ietf-routing-types@2017-12-04": "rfc8294",'
+    echo '    "ietf-te-types@2019-07-05": "draft-ietf-teas-yang-te-types-10",'
+    echo '    "ietf-eth-tran-types@2019-03-27": "draft-ietf-ccamp-client-signal-yang-00",'
+    echo '    "ietf-eth-tran-service@2019-03-27": "draft-ietf-ccamp-client-signal-yang-00"'
+    echo ' },'
+    echo "WHAT is one of: data, config"
     echo ""
     echo "options:"
-    echo "-m MODELS_DIR is the given directory for YANG models ('models' unless specified)"
-    echo "-f fetch and download the annonated documents and models (default false)"
-    echo "-p (preserve) do not overwrite fetched models with those under 'models' (default false)"
+    echo "-m M1 -m M2 .. are the directories where models are looked for (the rightmost wins)"
+    echo "-f fetch to 'downloads' directory the cited documents and models (default false)"
     echo "-k keep target directory (default false)"
     echo "-s STRATEGY is one of pyang or yanglint (default)"
     echo "-v verbose"
@@ -27,13 +32,12 @@ print_usage() {
 JSON_FILE=""
 WHAT=""
 TARGET_DIR=target
-MODELS_DIR=models
+MODELS_DIR=""
 DOWNLOAD_DIR=downloads
 FETCH=false
 KEEP=false
 STRATEGY=yanglint
 VERBOSE=false
-PRESERVE_FETCHED=false
 
 THIS_SCRIPT_DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
 
@@ -44,10 +48,6 @@ pushd () {
 
 popd () {
     command popd "$@" > /dev/null
-}
-
-function all_yang_files_in_dir {
-    ALL_YANG_FILES="`ls ${TARGET_DIR}/*.yang`"
 }
 
 function exit_if_failed {
@@ -82,20 +82,17 @@ process_args() {
          case "$1" in
          -h)
              print_usage
-             exit 1
              ;;
          -j)
              JSON_FILE="$2"
-	     [ -z "$JSON_FILE" ] && print_usage && exit 2
              shift 2
              ;;
          -m)
-             MODELS_DIR="$2"
+             MODELS_DIR="$MODELS_DIR $2"
              shift 2
              ;;
          -w)
              WHAT="$2"
-	     [ -z "$WHAT" ] && print_usage && exit 2
              shift 2
              ;;
          -s)
@@ -110,10 +107,6 @@ process_args() {
              KEEP=true
              shift
              ;;
-         -p)
-             PRESERVE_FETCHED=true
-             shift
-             ;;
          -v)
              VERBOSE=true
              shift
@@ -125,6 +118,8 @@ process_args() {
              ;;
          esac
      done
+     [ -z "$JSON_FILE" ] && print_usage
+     [ -z "$WHAT" ] && print_usage
 }
 
 function validate_yanglint () {
@@ -132,13 +127,12 @@ function validate_yanglint () {
     WHAT=$2
     TARGET_DIR=$3
 
-    JTOX_FILE=$TARGET_DIR/_temporary.yl
+    JTOX_FILE=$TARGET_DIR/_temp.yanglint
     JSON_STRIPPED=${TARGET_DIR}/${JSON_FILE%.json}-stripped.json
     cp $JSON_FILE $JSON_STRIPPED
 
     echo "searchpath ${TARGET_DIR}" >> $JTOX_FILE
-    for i in $ALL_YANG_FILES
-        do
+    for i in $ALL_YANG_FILES; do
         echo "add -i $i" >> $JTOX_FILE
     done
     echo "data -t $WHAT $JSON_STRIPPED" >> $JTOX_FILE
@@ -230,18 +224,11 @@ main() {
     echo "KEEP TARGET    $KEEP"
     echo "FETCH          $FETCH"
     echo "STRATEGY       $STRATEGY"
-    echo "KEEP FETCHED   $PRESERVE_FETCHED"
     echo "-- places --"
     echo "DOWNLOAD DIR   $DOWNLOAD_DIR"
     echo "MODELS DIR     $MODELS_DIR"
     echo "TARGET DIR     $TARGET_DIR"
     echo "----------------"
-    fi
-
-    if [ ! -f $JSON_FILE ]; then
-        echo "given file $JSON_FILE does not exists"
-	cleanup
-        exit 2
     fi
 
     if [ -d "$TARGET_DIR" ]; then
@@ -251,23 +238,24 @@ main() {
     fi
     mkdir $TARGET_DIR
 
+    # fetch to $DOWNLOAD_DIR
     if [ $FETCH == "true" ]; then
         rm -rf $DOWNLOAD_DIR && mkdir -p $DOWNLOAD_DIR
         [ $VERBOSE == "true" ] && echo "download references and models to $DOWNLOAD_DIR"
         fetch_yang_models $JSON_FILE $DOWNLOAD_DIR
-    fi	
-    cp $DOWNLOAD_DIR/*.yang $TARGET_DIR
-
-    if [ $PRESERVE_FETCHED == "true" ]; then
-        [ $VERBOSE == "true" ] && echo "force using fetched models in $DOWNLOAD_DIR without overriding"
-    else
-        [ $VERBOSE == "true" ] && echo "override models in $DOWNLOAD_DIR with those in $MODELS_DIR"
-        cp $MODELS_DIR/*.yang $TARGET_DIR
     fi
 
-    all_yang_files_in_dir $TARGET_DIR
-    exit_if_failed "unable to write list of yang files (perhaps empty?)"
-    sed "s/ /\n/g" <<< $ALL_YANG_FILES
+    # copy yang files from all model directories
+    for THIS_MODELS_DIR in $MODELS_DIR; do
+        [ $VERBOSE == "true" ] && echo "using models in $THIS_MODELS_DIR"
+        MODELS=`ls $THIS_MODELS_DIR/*.yang 2> /dev/null`
+        [ -z "$MODELS" ] && echo "warning: no models in $THIS_MODELS_DIR"
+        cp $THIS_MODELS_DIR/*.yang -t $TARGET_DIR 2> /dev/null
+    done
+
+    ALL_YANG_FILES="`ls ${TARGET_DIR}/*.yang 2> /dev/null`"
+    [ -z "$ALL_YANG_FILES" ] && echo "no yang files in $TARGET_DIR to be evaluated" && cleanup && exit 2
+    sed "s/ /\n/g" <<< $ALL_YANG_FILES > /dev/null
 
     echo "make validation using $STRATEGY"
 
