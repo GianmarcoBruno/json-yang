@@ -2,9 +2,9 @@
 # gianmarco.bruno@ericsson.com, carlo.perocchio@ericsson.com
 
 print_usage() {
-    echo "usage: validate -j <JSON_FILE> -w <WHAT> -y <GIVEN_YANG_GIVEN_DIR> -s <STRATEGY> [-fkv]"
+    echo "usage: validate -j <JSON_FILE> -w <WHAT> -y <MODELS_DIR> -s <STRATEGY> [-fkv]"
     echo "WHAT one of: data, config"
-    echo "GIVEN_YANG_GIVEN_DIR is the given directory for YANG models (. unless specified)"
+    echo "MODELS_DIR is the given directory for YANG models (models unless specified)"
     echo ""
     echo "if -f (FETCH) is specified, validation is made using modules"
     echo "specified in the JSON as e.g.:"
@@ -23,19 +23,19 @@ print_usage() {
     exit 2
 }
 
-alias yanglint="docker run --rm -i --mount type=bind,source=\"$(pwd)\",target=/opt/yanglint docker-yanglint-i:0.4"
-
+# global vars and their defaults
 JSON_FILE=""
 WHAT=""
-YANG_GIVEN_DIR=""
-: YANG_GIVEN_DIR=${YANG_GIVEN_DIR:=.}
-THIS_SCRIPT_DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
 TARGET_DIR=target
-YANG_FETCH_DIR=downloads
+MODELS_DIR=models
+DOWNLOAD_DIR=downloads
 FETCH=false
 KEEP=false
-STRATEGY=pyang
+STRATEGY=yanglint
 VERBOSE=false
+FORCE_FETCH=false
+
+THIS_SCRIPT_DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
 
 # to suppress pushd/popd messages
 pushd () {
@@ -59,10 +59,9 @@ function exit_if_failed {
     fi
 }
 
-# usage: fetch_yang_models $JSON_FILE $YANG_FETCH_DIR $TARGET_DIR
+# usage: fetch_yang_models $JSON_FILE $DOWNLOAD_DIR $TARGET_DIR
 function fetch_yang_models {
-    if [ "$FETCH" = true ]
-    then
+    if [ "$FETCH" = true ]; then
         [ $VERBOSE = true ] && echo "..will download models from the network"
         python3 $THIS_SCRIPT_DIR/scripts/fetchModels.py -i $1 -o $2
     else
@@ -89,14 +88,16 @@ process_args() {
              ;;
          -j)
              JSON_FILE="$2"
+	     [ -z "$JSON_FILE" ] && print_usage && exit 2
              shift 2
              ;;
-         -y)
-             YANG_GIVEN_DIR="$2"
+         -m)
+             MODELS_DIR="$2"
              shift 2
              ;;
          -w)
              WHAT="$2"
+	     [ -z "$WHAT" ] && print_usage && exit 2
              shift 2
              ;;
          -s)
@@ -109,6 +110,10 @@ process_args() {
              ;;
          -k)
              KEEP=true
+             shift
+             ;;
+         -ff)
+             FORCE_FETCH=true
              shift
              ;;
          -v)
@@ -220,19 +225,19 @@ main() {
     process_args $@
 
     if [ $VERBOSE = true ]; then
-    echo "#######################"
+    echo "----------------"
     echo "JSON_FILE      $JSON_FILE"
-    echo "YANG_GIVEN_DIR $YANG_GIVEN_DIR"
     echo "WHAT           $WHAT"
+    echo "-- behaviours --"
     echo "KEEP           $KEEP"
     echo "FETCH          $FETCH"
     echo "STRATEGY       $STRATEGY"
-    fi
-
-    # check for mandatory parameters
-    if [[ "$WHAT" == "" || "$JSON_FILE" == "" ]]; then
-        print_usage
-        exit 2
+    echo "FORCE_FETCH    $FORCE_FETCH"
+    echo "-- places --"
+    echo "DOWNLOAD_DIR   $DOWNLOAD_DIR"
+    echo "MODELS_DIR     $MODELS_DIR"
+    echo "TARGET_DIR     $TARGET_DIR"
+    echo "----------------"
     fi
 
     if [ ! -f $JSON_FILE ]; then
@@ -248,24 +253,24 @@ main() {
     fi
     mkdir $TARGET_DIR
 
-    #if [ -d "$YANG_FETCH_DIR" ]; then
-    #    echo "fetch directory exists .. exiting"
-    #exit 1
-    #fi
-    [ $FETCH == "true" ] && mkdir -p $YANG_FETCH_DIR
+    [ $FETCH == "true" ] && rm -rf $DOWNLOAD_DIR && mkdir -p $DOWNLOAD_DIR
 
-    echo "(0) building list of all yang files"
+    echo "download references and models to $TARGET_DIR"
+    fetch_yang_models $JSON_FILE $DOWNLOAD_DIR $TARGET_DIR
 
-    fetch_yang_models $JSON_FILE $YANG_FETCH_DIR $TARGET_DIR
+    [ $FORCE_FETCH == "true" ] && [ $FETCH == "false" ] && echo "fetch must be true to set force_fetch" && exit 2
 
-    echo "(0) overwrite with yang files in given directory"
-    cp $YANG_GIVEN_DIR/*.yang $TARGET_DIR 2> /dev/null
-    # results are in $ALL_YANG_FILES
+    if [ $FORCE_FETCH == "true" ]; then
+        echo "force using fetched models in $DOWNLOAD_DIR without overriding"
+    else
+        echo "override models in $DOWNLOAD_DIR with those in $MODELS_DIR"
+        cp $MODELS_DIR/*.yang $TARGET_DIR 2> /dev/null
+    fi
     all_yang_files_in_dir $TARGET_DIR
     exit_if_failed "unable to write list of yang files (perhaps empty?)"
     sed "s/ /\n/g" <<< $ALL_YANG_FILES
 
-    echo "(1) writing jtox .."
+    echo "make validation using $STRATEGY"
 
     if [ $STRATEGY == "pyang" ]; then
         validate_pyang $JSON_FILE $WHAT $TARGET_DIR

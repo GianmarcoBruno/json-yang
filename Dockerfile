@@ -23,7 +23,7 @@ RUN cd /opt2/libyang && git checkout ${LIBYANG_VERSION} -b ${LIBYANG_VERSION} &&
 FROM python:3.7.4-slim
 
 # make the container aware of the versions
-ENV JY_VERSION=0.6
+ENV JY_VERSION=0.7
 ENV PYANG_VERSION=1.7.1
 ENV LIBYANG_VERSION=v1.0-r2
 

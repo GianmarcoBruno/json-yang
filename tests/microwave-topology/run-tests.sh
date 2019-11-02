@@ -8,7 +8,7 @@ for STRATEGY in pyang yanglint; do
     for WHAT in data; do
         rm -rf target downloads
 
-        validate -j mw-topo.json -w "$WHAT" -y . -s $STRATEGY -f 2> .stderr 1> /dev/null
+        validate -j mw-topo.json -w "$WHAT" -m . -s $STRATEGY -f 2> .stderr 1> /dev/null
 	OUT=$?
 	EXIT=$((EXIT + OUT))
 	printf '%-16s%-16s%-8s\n' "$STRATEGY" "$WHAT" "$OUT"

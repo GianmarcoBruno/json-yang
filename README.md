@@ -9,39 +9,9 @@ NBI Design Team (https://github.com/danielkinguk/transport-nbi).
 How the toolchain is designed is described in `toolchain.md`.  
 Details on the validation process can be found in `validation.md`
 
-## Installation
+## Docker installation (preferred)
 
-You can run the tool from source or build the docker image.  
-In both case clone this repo:
-```
-git clone https://github.com/GianmarcoBruno/json-yang.git
-cd json-yang
-```
-
-### Run from source
-
-Prerequisites:
-- `bash 4.3`
-- `python 3`
-- `pyang 1.7.1`
-- `xml linter` (libxml2-utils on Alpine Linux or libxml2 on Cygwin)
-- `xslt processor` (xlstproc on Alpline Linux or libxslt on Cygwin)
-- `rfcstrip 0.6`
-- `yanglint` v1.0-rc2 to be build by yourself if you want it (Linux only)
-
-To run the tool and see the options:
-```
-./validate
-```
-
-**Note**: specify the path to the script or add its location to your ```$PATH```.
-The tool has been tested on Linux so far.
-
-### Run the docker image
-
-Starting from 0.3 you can build the docker image and then run
-the containerized tool. Assume a generic <version>, e.g. 0.6:
-
+The preferred way is to build and use the docker image - currently tested only on Linux.  
 ```
 docker build . -t yl:<version>
 ```
@@ -54,14 +24,37 @@ function validate() {
 }
 ```
 
-Now you can use the dockerized tool as ```validate```.
+Now you can use the containerized tool as just ```validate```.
 **Note**: do not specify the path because this is actually a function call.
 
+### Installation from source
+
+Prerequisites:
+- `bash 4.3`
+- `python 3.7`
+- `pyang 1.7.1`
+- `xml linter` (libxml2-utils on Alpine Linux or libxml2 on Cygwin)
+- `xslt processor` (xlstproc on Alpline Linux or libxslt on Cygwin)
+- `rfcstrip 0.6`
+- `yanglint` v1.0-rc2 to be build by yourself if you want it (Linux only)
+
+You can build `yanglint` (https://github.com/CESNET/libyang) or download it
+on Linux. It is is not available on Cygwin, neither it can be compiled as is.
+On Cygwin you will still be able to validate using `pyang` with its limitations.
+
+To run the tool from source:
+```
+./validate
+```
+
+**Note**: specify the path to the script or add its location to your ```$PATH```.
+The tool has been tested on Linux so far.
 
 ## Versions
 
 | version | pyang   | yanglint | notes |
 | ------- | ------- | -------- | ------|
+| 0.7 | 1.7.1 | 1.0-rc2 | distinct "downloads", "models" and "target" directories |
 | 0.6 | 1.7.1 | 1.0-rc2 | reduced images size from 1.46G to 248M -  only 69M on top of the base image |
 | 0.5 | 1.7.1 | 1.0-rc2 |  -           |
 | 0.4 | 1.7.1 | 1.0-rc2 | moved back to 1.7.1 as it seems to be the only version to have DSDL plugin supporting Yang 1.1 |

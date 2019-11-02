@@ -14,27 +14,30 @@ of the cited models ?
 The method
 ----------
 
-In our view a useful toolchain performs these steps:
+The toolchain performs these steps:
 
   1 *extract* the JSON document from RFC
   2 *unfold* the JSON document
   3 *download* the models referenced in the pseudo-comments
-  4 *strip* the pseudo-comments
-  5 *validate* the stripped document against the models according to a strategy
+  4 *override* the downloaded models with other having local modifications
+  5 *prepare* the target directory with used models and scripts
+  6 *strip* the pseudo-comments from the document and put it in the target directory
+  7 *validate* the stripped document against the models according to a strategy
+  8 *clean* the target directory unless we want to keep it
 
 In the opposite direction, starting from a valid RESTCONF document:
-  6 *annotate* the JSON document with the relevant models using pseudo-comments
-  7 *fold* the document
+  9 *annotate* the JSON document with the relevant models using pseudo-comments
+ 10 *fold* the document
 
 Steps 1 is currently done by a tool like `rfcstrip` that can be found at
 https://github.com/mbj4668/rfcstrip
 
-For steps 2 and 7 you can use the approach proposed in
+For steps 2 and 10 you can use the approach proposed in
 https://tools.ietf.org/html/draft-ietf-netmod-artwork-folding-10
 
-Step 6 is done manually by the RFC authors.
+Step 9 is done manually by the RFC authors.
 
-This toolchain currently comprises steps 3, 4 and 5.  
+This toolchain currently comprises steps 3 to 8.  
 The validation strategy, described in `validation.md` can be based on `pyang`
 or `yanglint` libraries that can be found respectively 
 at https://github.com/mbj4668/pyang and https://github.com/CESNET/libyang.

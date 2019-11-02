@@ -9,7 +9,7 @@ for STRATEGY in pyang yanglint; do
 	for JSON in wrong-data1.json wrong-data2.json; do
 	    rm -rf target downloads
 
-	    validate -j $JSON -w data -y . -s $STRATEGY 2> .stderr 1> /dev/null
+	    validate -j $JSON -w data -m . -s $STRATEGY 2> .stderr 1> /dev/null
 	    OUT=$?
 	    EXIT=$((EXIT + OUT))
 	    printf '%-16s%-16s%-32s%-8s\n' "$STRATEGY" "$WHAT" "$JSON" "$OUT"

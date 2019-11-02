@@ -9,7 +9,7 @@ for STRATEGY in pyang yanglint; do
 	for JSON in mw-topo eth-topo eth-tran-service; do
 	    rm -rf target downloads
 
-	    validate -j $JSON.json -w "$WHAT" -y . -s $STRATEGY 2> .stderr 1> /dev/null
+	    validate -j $JSON.json -w "$WHAT" -m . -s $STRATEGY 2> .stderr 1> /dev/null
 	    OUT=$?
 	    EXIT=$((EXIT + OUT))
 	    printf '%-16s%-16s%-32s%-8s\n' "$STRATEGY" "$WHAT" "$JSON" "$OUT"

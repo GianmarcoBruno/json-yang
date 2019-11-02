@@ -8,7 +8,7 @@ for STRATEGY in pyang yanglint; do
     for WHAT in config data; do
         rm -rf target downloads
 
-        validate -j dishwasher-$WHAT.json -w "$WHAT" -y . -s $STRATEGY 2> .stderr 1> /dev/null
+        validate -j dishwasher-$WHAT.json -w "$WHAT" -m . -s $STRATEGY 2> .stderr 1> /dev/null
 	OUT=$?
 	EXIT=$((EXIT + OUT))
 	printf '%-16s%-16s%-8s\n' "$STRATEGY" "$WHAT" "$OUT"
@@ -17,7 +17,7 @@ for STRATEGY in pyang yanglint; do
     for WHAT in data; do
         rm -rf target downloads
 
-        validate -j dishwasher-deco-$WHAT.json -w "$WHAT" -y . -s $STRATEGY 2> .stderr 1> /dev/null
+        validate -j dishwasher-deco-$WHAT.json -w "$WHAT" -m . -s $STRATEGY 2> .stderr 1> /dev/null
 	OUT=$?
 	EXIT=$((EXIT + OUT))
 	printf '%-16s%-16s%-8s\n' "$STRATEGY" "$WHAT" "$OUT"

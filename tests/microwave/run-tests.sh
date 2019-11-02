@@ -8,8 +8,7 @@ for STRATEGY in pyang yanglint; do
     for WHAT in config; do
         rm -rf target downloads
 
-        #validate -j interface_1+0_$WHAT.json -w "$WHAT" -y . -s $STRATEGY 2> .stderr 1> /dev/null
-        validate -j interface_1+0_$WHAT.json -w "$WHAT" -y target -s $STRATEGY -f
+        validate -j interface_1+0_$WHAT.json -w "$WHAT" -m target -s $STRATEGY -f
 	OUT=$?
 	EXIT=$((EXIT + OUT))
 	printf '%-16s%-16s%-8s\n' "$STRATEGY" "$WHAT" "$OUT"
