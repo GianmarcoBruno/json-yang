@@ -54,14 +54,14 @@ The tool has been tested on Linux so far.
 
 | version | pyang   | yanglint | notes |
 | ------- | ------- | -------- | ------|
-| 0.8 | 1.7.1 | 1.0-rc2 | bug fixes and various improvements |
+| 0.8 | 1.7.1 | 1.0-rc2 | fixes, improvements and added "fuf" |
 | 0.7 | 1.7.1 | 1.0-rc2 | distinct "downloads", "models" and "target" directories |
 | 0.6 | 1.7.1 | 1.0-rc2 | reduced images size from 1.46G to 248M -  only 69M on top of the base image |
 | 0.5 | 1.7.1 | 1.0-rc2 |  -           |
 | 0.4 | 1.7.1 | 1.0-rc2 | moved back to 1.7.1 as it seems to be the only version to have DSDL plugin supporting Yang 1.1 |
 | 0.3 | 2.0.2 | 1.0-rc2 | initial dockerized version |
 
-The folding/unfolding script can be downloaded from https://tools.ietf.org/html/draft-ietf-netmod-artwork-folding-10.
+The folding/unfolding program in ```scripts/fuf``` has been extracted from https://tools.ietf.org/html/draft-ietf-netmod-artwork-folding-11.
 
 ## Thanks
 

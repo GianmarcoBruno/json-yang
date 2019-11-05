@@ -1,0 +1,28 @@
+#!/bin/bash
+
+# usage:
+# check_fuf -i
+# 
+# fold <in> and obtain <out>, then unfold <out> in a file <in2>.
+# return 0 or 1 if <in2> is the same as <in> or not.
+
+INPUT=$1
+if [ -z $INPUT ]; then
+  echo "usage: check_fuf <input file>"
+fi
+
+SHA_INPUT=$(sha256sum $INPUT | cut -c 64)
+FOLDED=$INPUT.folded
+
+./fuf -i $INPUT -o $FOLDED
+RESTORED=$INPUT.tmp
+
+./fuf -i $FOLDED -o $RESTORED -r
+SHA_RESTORED=$(sha256sum $RESTORED | cut -c 64)
+
+if [ "$SHA_INPUT" == "$SHA_RESTORED" ]; then
+   echo "$INPUT OK" && exit 0
+else   
+   diff $INPUT $RESTORED
+   exit 1
+fi   
