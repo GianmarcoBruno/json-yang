@@ -5,19 +5,25 @@
 # 
 # fold <in> and obtain <out>, then unfold <out> in a file <in2>.
 # return 0 or 1 if <in2> is the same as <in> or not.
+# return 2 if check was not doable at all
 
 INPUT=$1
-if [ -z $INPUT ]; then
-  echo "usage: check_fuf <input file>"
+[ -z $INPUT ] && echo "usage: check_fuf <input_file>" && exit 2
+[ ! -f $INPUT ] && echo "input is not a regular file: check_fuf <input_file>" && exit 2
+
+if type fuf > /dev/null 2>&1; then
+  : #echo "fuf OK"
+else
+  echo "no fuf available in PATH" && exit 2
 fi
 
 SHA_INPUT=$(sha256sum $INPUT | cut -c 64)
 FOLDED=$INPUT.folded
 
-./fuf -i $INPUT -o $FOLDED
+fuf -i $INPUT -o $FOLDED
 RESTORED=$INPUT.tmp
 
-./fuf -i $FOLDED -o $RESTORED -r
+fuf -i $FOLDED -o $RESTORED -r
 SHA_RESTORED=$(sha256sum $RESTORED | cut -c 64)
 
 if [ "$SHA_INPUT" == "$SHA_RESTORED" ]; then
