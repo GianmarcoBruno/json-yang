@@ -1,0 +1,2776 @@
+{
+  "// __LAST_UPDATE__": "July 7, 2020",
+  "// __TITLE__": "ETSI SOL017 mapping with IETF ACTN mapping: WIM Topology example",
+  "// __REFERENCE_DRAFTS__": {
+    "ietf-routing-types@2017-12-04": "rfc8294",
+    "ietf-te-types@2020-06-10": "rfc8776",
+    "ietf-network@2018-02-26": "rfc8345",
+    "ietf-network-topology@2018-02-26": "rfc8345",
+    "ietf-te-topology@2019-02-07": "draft-ietf-teas-yang-te-topo-22"
+  },
+  "// __MISSING_ATTRIBUTES__": false,
+
+  "// __COMMENT__ ": [
+    "TE router ids from 198.51.100.0/24 reserved for documentation by RFC5737",
+    "Single domain network 64511  reserved for documentation by RFC5398"
+  ],
+
+  "ietf-network:networks": {
+    "network": [
+      {
+        "network-id": "providerId/201/clientId/300/topologyId/white-topology",
+        "network-types": {
+          "ietf-te-topology:te-topology": {}
+        },
+        "ietf-te-topology:te-topology-identifier": {
+          "provider-id": 201,
+          "client-id": 300,
+          "topology-id": "white-topology"
+        },
+        "ietf-te-topology:te": {
+          "name": "WIM Topology"
+        },
+        "ietf-network:node": [
+          {
+            "// __COMMENT__: PE-031": [
+              "The PE node where Site#3 is attached where is located the ERP of the blacksmith workshop",
+              "Interfaces:",
+              "1. ge-1/0/1 to backbone P-1 node ",
+              "   10 G",
+              "6. ge-0/0/6 to CE node ",
+              "TE ROUTER ID = 198.51.100.31"
+            ],
+            "node-id": "198.51.100.31",
+            "ietf-te-topology:te-node-id": "198.51.100.31",
+            "ietf-te-topology:te": {
+              "te-node-attributes": {
+                "name": "PE-031",
+                "admin-status": "up",
+                "domain-id": 64511
+              },
+              "oper-status": "up"
+            },
+            "ietf-network-topology:termination-point": [
+              {
+                "tp-id": "10.1.31.2",
+                "ietf-te-topology:te-tp-id": "10.1.31.2",
+                "ietf-te-topology:te": {
+                  "name": "ge-1/0/1",
+                  "admin-status": "up",
+                  "interface-switching-capability": [
+                    {
+                      "switching-capability": "ietf-te-types:switching-psc1",
+                      "encoding": "ietf-te-types:lsp-encoding-packet",
+                      "max-lsp-bandwidth": [
+                        {
+                          "priority": 0,
+                          "te-bandwidth": {
+                             "generic": "0x1p10"
+                          }
+                        },
+                        {
+                          "priority": 1,
+                          "te-bandwidth": {
+                             "generic": "0x1p10"
+                          }
+                        },
+                        {
+                          "priority": 2,
+                          "te-bandwidth": {
+                             "generic": "0x1p10"
+                          }
+                        },
+                        {
+                          "priority": 3,
+                          "te-bandwidth": {
+                             "generic": "0x1p10"
+                          }
+                        },
+                        {
+                          "priority": 4,
+                          "te-bandwidth": {
+                             "generic": "0x1p10"
+                          }
+                        },
+                        {
+                          "priority": 5,
+                          "te-bandwidth": {
+                             "generic": "0x1p10"
+                          }
+                        },
+                        {
+                          "priority": 6,
+                          "te-bandwidth": {
+                             "generic": "0x1p10"
+                          }
+                        },
+                        {
+                          "priority": 7,
+                          "te-bandwidth": {
+                             "generic": "0x1p10"
+                          }
+                        }
+                      ]
+                    }
+                  ],
+                  "oper-status": "up"
+                }
+              },
+              {
+                "// __COMMENT__": "INTERFACE TO CE",
+                "tp-id": "6",
+                "ietf-te-topology:te-tp-id": 6,
+                "ietf-te-topology:te": {
+                  "name": "ge-0/0/6",
+                  "admin-status": "up",
+                  "// __COMMENT__": [
+                    "used bearer-reference for service creation can be equal to inter-domain-plug-id",
+                    "in used service creation example is INVENTORY-ID=FIBER:Site#3-ANVIL:10143",
+                    "for PE-031"
+                  ],
+                  "inter-domain-plug-id": "SU5WRU5UT1JZLUlEPUZJQkVSOlNpdGUjMy1BTlZJTDoxMDE0Mw==",
+                  "oper-status": "up"
+                }
+              }
+            ]
+          },
+          {
+            "// __COMMENT__: P-1": [
+              "The P node of the backbone nexthop for PE-031 and for PE-076",
+              "Interfaces:",
+              "1. ge-0/1/1 to backbone PE-031 node",
+              "   10 G",
+              "2. ge-0/1/2 to backbone PE-076 node",
+              "   10 G",
+              "3. ge-0/1/3 to backbone P-3 node nexthop for PE-235",
+              "   10 G",
+              "4. ge-0/1/2 to backbone P-2",
+              "   10 G",
+              "TE ROUTER ID = 198.51.100.1"
+            ],
+            "node-id": "198.51.100.1",
+            "ietf-te-topology:te-node-id": "198.51.100.1",
+            "ietf-te-topology:te": {
+              "te-node-attributes": {
+                "name": "P-1",
+                "admin-status": "up",
+                "domain-id": 64511
+              },
+              "oper-status": "up"
+            },
+            "ietf-network-topology:termination-point": [
+              {
+                "tp-id": "10.1.31.1",
+                "ietf-te-topology:te-tp-id": "10.1.31.1",
+                "ietf-te-topology:te": {
+                  "name": "ge-0/1/1",
+                  "admin-status": "up",
+                  "interface-switching-capability": [
+                    {
+                      "switching-capability": "ietf-te-types:switching-psc1",
+                      "encoding": "ietf-te-types:lsp-encoding-packet",
+                      "max-lsp-bandwidth": [
+                        {
+                          "priority": 0,
+                          "te-bandwidth": {
+                             "generic": "0x1p10"
+                          }
+                        },
+                        {
+                          "priority": 1,
+                          "te-bandwidth": {
+                             "generic": "0x1p10"
+                          }
+                        },
+                        {
+                          "priority": 2,
+                          "te-bandwidth": {
+                             "generic": "0x1p10"
+                          }
+                        },
+                        {
+                          "priority": 3,
+                          "te-bandwidth": {
+                             "generic": "0x1p10"
+                          }
+                        },
+                        {
+                          "priority": 4,
+                          "te-bandwidth": {
+                             "generic": "0x1p10"
+                          }
+                        },
+                        {
+                          "priority": 5,
+                          "te-bandwidth": {
+                             "generic": "0x1p10"
+                          }
+                        },
+                        {
+                          "priority": 6,
+                          "te-bandwidth": {
+                             "generic": "0x1p10"
+                          }
+                        },
+                        {
+                          "priority": 7,
+                          "te-bandwidth": {
+                             "generic": "0x1p10"
+                          }
+                        }
+                      ]
+                    }
+                  ],
+                  "oper-status": "up"
+                }
+              },
+              {
+                "tp-id": "10.1.76.1",
+                "ietf-te-topology:te-tp-id": "10.1.76.1",
+                "ietf-te-topology:te": {
+                  "name": "ge-0/1/2",
+                  "admin-status": "up",
+                  "interface-switching-capability": [
+                    {
+                      "switching-capability": "ietf-te-types:switching-psc1",
+                      "encoding": "ietf-te-types:lsp-encoding-packet",
+                      "max-lsp-bandwidth": [
+                        {
+                          "priority": 0,
+                          "te-bandwidth": {
+                             "generic": "0x1p10"
+                          }
+                        },
+                        {
+                          "priority": 1,
+                          "te-bandwidth": {
+                             "generic": "0x1p10"
+                          }
+                        },
+                        {
+                          "priority": 2,
+                          "te-bandwidth": {
+                             "generic": "0x1p10"
+                          }
+                        },
+                        {
+                          "priority": 3,
+                          "te-bandwidth": {
+                             "generic": "0x1p10"
+                          }
+                        },
+                        {
+                          "priority": 4,
+                          "te-bandwidth": {
+                             "generic": "0x1p10"
+                          }
+                        },
+                        {
+                          "priority": 5,
+                          "te-bandwidth": {
+                             "generic": "0x1p10"
+                          }
+                        },
+                        {
+                          "priority": 6,
+                          "te-bandwidth": {
+                             "generic": "0x1p10"
+                          }
+                        },
+                        {
+                          "priority": 7,
+                          "te-bandwidth": {
+                             "generic": "0x1p10"
+                          }
+                        }
+                      ]
+                    }
+                  ],
+                  "oper-status": "up"
+                }
+              },
+              {
+                "tp-id": "10.1.235.1",
+                "ietf-te-topology:te-tp-id": "10.1.235.1",
+                "ietf-te-topology:te": {
+                  "name": "ge-0/1/3",
+                  "admin-status": "up",
+                  "interface-switching-capability": [
+                    {
+                      "switching-capability": "ietf-te-types:switching-psc1",
+                      "encoding": "ietf-te-types:lsp-encoding-packet",
+                      "max-lsp-bandwidth": [
+                        {
+                          "priority": 0,
+                          "te-bandwidth": {
+                             "generic": "0x1p10"
+                          }
+                        },
+                        {
+                          "priority": 1,
+                          "te-bandwidth": {
+                             "generic": "0x1p10"
+                          }
+                        },
+                        {
+                          "priority": 2,
+                          "te-bandwidth": {
+                             "generic": "0x1p10"
+                          }
+                        },
+                        {
+                          "priority": 3,
+                          "te-bandwidth": {
+                             "generic": "0x1p10"
+                          }
+                        },
+                        {
+                          "priority": 4,
+                          "te-bandwidth": {
+                             "generic": "0x1p10"
+                          }
+                        },
+                        {
+                          "priority": 5,
+                          "te-bandwidth": {
+                             "generic": "0x1p10"
+                          }
+                        },
+                        {
+                          "priority": 6,
+                          "te-bandwidth": {
+                             "generic": "0x1p10"
+                          }
+                        },
+                        {
+                          "priority": 7,
+                          "te-bandwidth": {
+                             "generic": "0x1p10"
+                          }
+                        }
+                      ]
+                    }
+                  ],
+                  "oper-status": "up"
+                }
+              },
+              {
+                "tp-id": "10.1.2.1",
+                "ietf-te-topology:te-tp-id": "10.1.2.1",
+                "ietf-te-topology:te": {
+                  "name": "ge-0/1/4",
+                  "admin-status": "up",
+                  "interface-switching-capability": [
+                    {
+                      "switching-capability": "ietf-te-types:switching-psc1",
+                      "encoding": "ietf-te-types:lsp-encoding-packet",
+                      "max-lsp-bandwidth": [
+                        {
+                          "priority": 0,
+                          "te-bandwidth": {
+                             "generic": "0x1p10"
+                          }
+                        },
+                        {
+                          "priority": 1,
+                          "te-bandwidth": {
+                             "generic": "0x1p10"
+                          }
+                        },
+                        {
+                          "priority": 2,
+                          "te-bandwidth": {
+                             "generic": "0x1p10"
+                          }
+                        },
+                        {
+                          "priority": 3,
+                          "te-bandwidth": {
+                             "generic": "0x1p10"
+                          }
+                        },
+                        {
+                          "priority": 4,
+                          "te-bandwidth": {
+                             "generic": "0x1p10"
+                          }
+                        },
+                        {
+                          "priority": 5,
+                          "te-bandwidth": {
+                             "generic": "0x1p10"
+                          }
+                        },
+                        {
+                          "priority": 6,
+                          "te-bandwidth": {
+                             "generic": "0x1p10"
+                          }
+                        },
+                        {
+                          "priority": 7,
+                          "te-bandwidth": {
+                             "generic": "0x1p10"
+                          }
+                        }
+                      ]
+                    }
+                  ],
+                  "oper-status": "up"
+                }
+              }
+            ]
+          },
+          {
+            "// __COMMENT__: P-2": [
+              "The P node of the backbone ",
+              "Interfaces:",
+              "1. ge-0/2/1 to backbone P-1 node",
+              "   10 G",
+              "2. ge-0/2/3 to backbone P-3 node",
+              "   10 G",
+              "TE ROUTER ID = 198.51.100.2"
+            ],
+            "node-id": "198.51.100.2",
+            "ietf-te-topology:te-node-id": "198.51.100.2",
+            "ietf-te-topology:te": {
+              "te-node-attributes": {
+                "name": "P-2",
+                "admin-status": "up",
+                "domain-id": 64511
+              },
+              "oper-status": "up"
+            },
+            "ietf-network-topology:termination-point": [
+              {
+                "tp-id": "10.1.2.2",
+                "ietf-te-topology:te-tp-id": "10.1.2.2",
+                "ietf-te-topology:te": {
+                  "name": "ge-0/2/1",
+                  "admin-status": "up",
+                  "interface-switching-capability": [
+                    {
+                      "switching-capability": "ietf-te-types:switching-psc1",
+                      "encoding": "ietf-te-types:lsp-encoding-packet",
+                      "max-lsp-bandwidth": [
+                        {
+                          "priority": 0,
+                          "te-bandwidth": {
+                             "generic": "0x1p10"
+                          }
+                        },
+                        {
+                          "priority": 1,
+                          "te-bandwidth": {
+                             "generic": "0x1p10"
+                          }
+                        },
+                        {
+                          "priority": 2,
+                          "te-bandwidth": {
+                             "generic": "0x1p10"
+                          }
+                        },
+                        {
+                          "priority": 3,
+                          "te-bandwidth": {
+                             "generic": "0x1p10"
+                          }
+                        },
+                        {
+                          "priority": 4,
+                          "te-bandwidth": {
+                             "generic": "0x1p10"
+                          }
+                        },
+                        {
+                          "priority": 5,
+                          "te-bandwidth": {
+                             "generic": "0x1p10"
+                          }
+                        },
+                        {
+                          "priority": 6,
+                          "te-bandwidth": {
+                             "generic": "0x1p10"
+                          }
+                        },
+                        {
+                          "priority": 7,
+                          "te-bandwidth": {
+                             "generic": "0x1p10"
+                          }
+                        }
+                      ]
+                    }
+                  ],
+                  "oper-status": "up"
+                }
+              },
+              {
+                "tp-id": "10.2.3.1",
+                "ietf-te-topology:te-tp-id": "10.2.3.1",
+                "ietf-te-topology:te": {
+                  "name": "ge-0/2/3",
+                  "admin-status": "up",
+                  "interface-switching-capability": [
+                    {
+                      "switching-capability": "ietf-te-types:switching-psc1",
+                      "encoding": "ietf-te-types:lsp-encoding-packet",
+                      "max-lsp-bandwidth": [
+                        {
+                          "priority": 0,
+                          "te-bandwidth": {
+                             "generic": "0x1p10"
+                          }
+                        },
+                        {
+                          "priority": 1,
+                          "te-bandwidth": {
+                             "generic": "0x1p10"
+                          }
+                        },
+                        {
+                          "priority": 2,
+                          "te-bandwidth": {
+                             "generic": "0x1p10"
+                          }
+                        },
+                        {
+                          "priority": 3,
+                          "te-bandwidth": {
+                             "generic": "0x1p10"
+                          }
+                        },
+                        {
+                          "priority": 4,
+                          "te-bandwidth": {
+                             "generic": "0x1p10"
+                          }
+                        },
+                        {
+                          "priority": 5,
+                          "te-bandwidth": {
+                             "generic": "0x1p10"
+                          }
+                        },
+                        {
+                          "priority": 6,
+                          "te-bandwidth": {
+                             "generic": "0x1p10"
+                          }
+                        },
+                        {
+                          "priority": 7,
+                          "te-bandwidth": {
+                             "generic": "0x1p10"
+                          }
+                        }
+                      ]
+                    }
+                  ],
+                  "oper-status": "up"
+                }
+              }
+            ]
+          },
+          {
+            "// __COMMENT__: P-3": [
+              "The P node of the backbone nexthop for PE-235",
+              "Interfaces:",
+              "1. ge-0/3/1 to backbone P-1 node nexthop for PE-031 and PE-076",
+              "   10 G",
+              "2. ge-0/3/2 to backbone P-2 node",
+              "   10 G",
+              "3. ge-0/3/10 to backbone PE-235 node",
+              "   10 G",
+              "TE ROUTER ID = 198.51.100.3"
+            ],
+            "node-id": "198.51.100.3",
+            "ietf-te-topology:te-node-id": "198.51.100.3",
+            "ietf-te-topology:te": {
+              "te-node-attributes": {
+                "name": "P-3",
+                "admin-status": "up",
+                "domain-id": 64511
+              },
+              "oper-status": "up"
+            },
+            "ietf-network-topology:termination-point": [
+              {
+                "tp-id": "10.1.3.2",
+                "ietf-te-topology:te-tp-id": "10.1.3.2",
+                "ietf-te-topology:te": {
+                  "name": "ge-0/3/1",
+                  "admin-status": "up",
+                  "interface-switching-capability": [
+                    {
+                      "switching-capability": "ietf-te-types:switching-psc1",
+                      "encoding": "ietf-te-types:lsp-encoding-packet",
+                      "max-lsp-bandwidth": [
+                        {
+                          "priority": 0,
+                          "te-bandwidth": {
+                             "generic": "0x1p10"
+                          }
+                        },
+                        {
+                          "priority": 1,
+                          "te-bandwidth": {
+                             "generic": "0x1p10"
+                          }
+                        },
+                        {
+                          "priority": 2,
+                          "te-bandwidth": {
+                             "generic": "0x1p10"
+                          }
+                        },
+                        {
+                          "priority": 3,
+                          "te-bandwidth": {
+                             "generic": "0x1p10"
+                          }
+                        },
+                        {
+                          "priority": 4,
+                          "te-bandwidth": {
+                             "generic": "0x1p10"
+                          }
+                        },
+                        {
+                          "priority": 5,
+                          "te-bandwidth": {
+                             "generic": "0x1p10"
+                          }
+                        },
+                        {
+                          "priority": 6,
+                          "te-bandwidth": {
+                             "generic": "0x1p10"
+                          }
+                        },
+                        {
+                          "priority": 7,
+                          "te-bandwidth": {
+                             "generic": "0x1p10"
+                          }
+                        }
+                      ]
+                    }
+                  ],
+                  "oper-status": "up"
+                }
+              },
+              {
+                "tp-id": "10.2.3.2",
+                "ietf-te-topology:te-tp-id": "10.2.3.2",
+                "ietf-te-topology:te": {
+                  "name": "ge-0/3/2",
+                  "admin-status": "up",
+                  "interface-switching-capability": [
+                    {
+                      "switching-capability": "ietf-te-types:switching-psc1",
+                      "encoding": "ietf-te-types:lsp-encoding-packet",
+                      "max-lsp-bandwidth": [
+                        {
+                          "priority": 0,
+                          "te-bandwidth": {
+                             "generic": "0x1p10"
+                          }
+                        },
+                        {
+                          "priority": 1,
+                          "te-bandwidth": {
+                             "generic": "0x1p10"
+                          }
+                        },
+                        {
+                          "priority": 2,
+                          "te-bandwidth": {
+                             "generic": "0x1p10"
+                          }
+                        },
+                        {
+                          "priority": 3,
+                          "te-bandwidth": {
+                             "generic": "0x1p10"
+                          }
+                        },
+                        {
+                          "priority": 4,
+                          "te-bandwidth": {
+                             "generic": "0x1p10"
+                          }
+                        },
+                        {
+                          "priority": 5,
+                          "te-bandwidth": {
+                             "generic": "0x1p10"
+                          }
+                        },
+                        {
+                          "priority": 6,
+                          "te-bandwidth": {
+                             "generic": "0x1p10"
+                          }
+                        },
+                        {
+                          "priority": 7,
+                          "te-bandwidth": {
+                             "generic": "0x1p10"
+                          }
+                        }
+                      ]
+                    }
+                  ],
+                  "oper-status": "up"
+                }
+              },
+              {
+                "tp-id": "10.3.235.1",
+                "ietf-te-topology:te-tp-id": "10.3.235.1",
+                "ietf-te-topology:te": {
+                  "name": "ge-0/3/10",
+                  "admin-status": "up",
+                  "interface-switching-capability": [
+                    {
+                      "switching-capability": "ietf-te-types:switching-psc1",
+                      "encoding": "ietf-te-types:lsp-encoding-packet",
+                      "max-lsp-bandwidth": [
+                        {
+                          "priority": 0,
+                          "te-bandwidth": {
+                             "generic": "0x1p10"
+                          }
+                        },
+                        {
+                          "priority": 1,
+                          "te-bandwidth": {
+                             "generic": "0x1p10"
+                          }
+                        },
+                        {
+                          "priority": 2,
+                          "te-bandwidth": {
+                             "generic": "0x1p10"
+                          }
+                        },
+                        {
+                          "priority": 3,
+                          "te-bandwidth": {
+                             "generic": "0x1p10"
+                          }
+                        },
+                        {
+                          "priority": 4,
+                          "te-bandwidth": {
+                             "generic": "0x1p10"
+                          }
+                        },
+                        {
+                          "priority": 5,
+                          "te-bandwidth": {
+                             "generic": "0x1p10"
+                          }
+                        },
+                        {
+                          "priority": 6,
+                          "te-bandwidth": {
+                             "generic": "0x1p10"
+                          }
+                        },
+                        {
+                          "priority": 7,
+                          "te-bandwidth": {
+                             "generic": "0x1p10"
+                          }
+                        }
+                      ]
+                    }
+                  ],
+                  "oper-status": "up"
+                }
+              }
+            ]
+          },
+          {
+            "// __COMMENT__: PE-076": [
+              "The PE node attached via South access of Site#2 where is located the control system for the creation of the rocket propeller",
+              "Interfaces:",
+              "1. ge-0/1/1 to backbone P-1",
+              "   10 G",
+              "3. ge-0/0/3 to CE node",
+              "   10 G",
+              "TE ROUTER ID = 198.51.100.76"
+            ],
+            "node-id": "198.51.100.76",
+            "ietf-te-topology:te-node-id": "198.51.100.76",
+            "ietf-te-topology:te": {
+              "te-node-attributes": {
+                "name": "PE-076",
+                "admin-status": "up",
+                "domain-id": 64511
+              },
+              "oper-status": "up"
+            },
+            "ietf-network-topology:termination-point": [
+              {
+                "tp-id": "10.1.76.2",
+                "ietf-te-topology:te-tp-id": "10.1.76.2",
+                "ietf-te-topology:te": {
+                  "name": "ge-0/1/1",
+                  "admin-status": "up",
+                  "interface-switching-capability": [
+                    {
+                      "switching-capability": "ietf-te-types:switching-psc1",
+                      "encoding": "ietf-te-types:lsp-encoding-packet",
+                      "max-lsp-bandwidth": [
+                        {
+                          "priority": 0,
+                          "te-bandwidth": {
+                             "generic": "0x1p10"
+                          }
+                        },
+                        {
+                          "priority": 1,
+                          "te-bandwidth": {
+                             "generic": "0x1p10"
+                          }
+                        },
+                        {
+                          "priority": 2,
+                          "te-bandwidth": {
+                             "generic": "0x1p10"
+                          }
+                        },
+                        {
+                          "priority": 3,
+                          "te-bandwidth": {
+                             "generic": "0x1p10"
+                          }
+                        },
+                        {
+                          "priority": 4,
+                          "te-bandwidth": {
+                             "generic": "0x1p10"
+                          }
+                        },
+                        {
+                          "priority": 5,
+                          "te-bandwidth": {
+                             "generic": "0x1p10"
+                          }
+                        },
+                        {
+                          "priority": 6,
+                          "te-bandwidth": {
+                             "generic": "0x1p10"
+                          }
+                        },
+                        {
+                          "priority": 7,
+                          "te-bandwidth": {
+                             "generic": "0x1p10"
+                          }
+                        }
+                      ]
+                    }
+                  ],
+                  "oper-status": "up"
+                }
+              },
+              {
+                "// __COMMENT__": "INTERFACE TO CE",
+                "tp-id": "3",
+                "ietf-te-topology:te-tp-id": 3,
+                "ietf-te-topology:te": {
+                  "name": "ge-0/0/3",
+                  "admin-status": "up",
+                  "// __COMMENT__": [
+                    "used bearer-reference for service creation can be equal to inter-domain-plug-id",
+                    "in used service creation example is INVENTORY-ID=FIBER:Site#2-BAILEY:90006",
+                    "for PE-076"
+                  ],
+                  "inter-domain-plug-id": "SU5WRU5UT1JZLUlEPUZJQkVSOlNpdGUjMi1CQUlMRVk6OTAwMDY=",
+                  "oper-status": "up"
+                }
+              }
+            ]
+          },
+          {
+            "// __COMMENT__: PE-235": [
+              "The PE node attached via North access of Site#2 where is located the control system for the creation of the rocket propeller.",
+              "Interfaces:",
+              "1. ge-0/1/1 to backbone P-3",
+              "   10 G",
+              "2. ge-0/0/1 to CE node",
+              "   10 G",
+              "TE ROUTER ID = 198.51.100.235"
+            ],
+            "node-id": "198.51.100.235",
+            "ietf-te-topology:te-node-id": "198.51.100.235",
+            "ietf-te-topology:te": {
+              "te-node-attributes": {
+                "name": "PE-235",
+                "admin-status": "up",
+                "domain-id": 64511
+              },
+              "oper-status": "up"
+            },
+            "ietf-network-topology:termination-point": [
+              {
+                "tp-id": "10.3.235.2",
+                "ietf-te-topology:te-tp-id": "10.3.235.2",
+                "ietf-te-topology:te": {
+                  "name": "ge-0/1/1",
+                  "admin-status": "up",
+                  "interface-switching-capability": [
+                    {
+                      "switching-capability": "ietf-te-types:switching-psc1",
+                      "encoding": "ietf-te-types:lsp-encoding-packet",
+                      "max-lsp-bandwidth": [
+                        {
+                          "priority": 0,
+                          "te-bandwidth": {
+                             "generic": "0x1p10"
+                          }
+                        },
+                        {
+                          "priority": 1,
+                          "te-bandwidth": {
+                             "generic": "0x1p10"
+                          }
+                        },
+                        {
+                          "priority": 2,
+                          "te-bandwidth": {
+                             "generic": "0x1p10"
+                          }
+                        },
+                        {
+                          "priority": 3,
+                          "te-bandwidth": {
+                             "generic": "0x1p10"
+                          }
+                        },
+                        {
+                          "priority": 4,
+                          "te-bandwidth": {
+                             "generic": "0x1p10"
+                          }
+                        },
+                        {
+                          "priority": 5,
+                          "te-bandwidth": {
+                             "generic": "0x1p10"
+                          }
+                        },
+                        {
+                          "priority": 6,
+                          "te-bandwidth": {
+                             "generic": "0x1p10"
+                          }
+                        },
+                        {
+                          "priority": 7,
+                          "te-bandwidth": {
+                             "generic": "0x1p10"
+                          }
+                        }
+                      ]
+                    }
+                  ],
+                  "oper-status": "up"
+                }
+              },
+              {
+                "// __COMMENT__": "INTERFACE TO CE",
+                "tp-id": "1",
+                "ietf-te-topology:te-tp-id": 1,
+                "ietf-te-topology:te": {
+                  "name": "ge-0/0/1",
+                  "admin-status": "up",
+                  "// __COMMENT__": [
+                    "used bearer-reference for service creation can be equal to inter-domain-plug-id",
+                    "in used service creation example is INVENTORY-ID=FIBER:Site#2-ACME:50003",
+                    "for PE-235"
+                  ],
+                  "inter-domain-plug-id": "SU5WRU5UT1JZLUlEPUZJQkVSOlNpdGUjMi1BQ01FOjUwMDAz",
+                  "oper-status": "up"
+                }
+              }
+            ]
+          }
+        ],
+        "ietf-network-topology:link": [
+          {
+            "// __COMMENT__.ACCESS LINK": "PE-031 --> CE Site #3",
+            "link-id": "teNodeId/198.51.100.31/teLinkId/6",
+            "source": {
+              "source-node": "198.51.100.31",
+              "source-tp": 6
+            },
+            "// __COMMENT__": "Access link: destination not present",
+            "ietf-te-topology:te": {
+              "te-link-attributes": {
+                "name": "Access Link PE-031",
+                "interface-switching-capability": [
+                  {
+                    "switching-capability": "ietf-te-types:switching-psc1",
+                    "encoding": "ietf-te-types:lsp-encoding-packet",
+                    "max-lsp-bandwidth": [
+                      {
+                        "priority": 0,
+                        "te-bandwidth": {
+                          "generic": "0x1p10"
+                        }
+                      }
+                    ]
+                  }
+                ],
+                "max-link-bandwidth": {
+                  "te-bandwidth": {
+                    "generic": "0x1p10"
+                  }
+                },
+                "max-resv-link-bandwidth": {
+                  "te-bandwidth": {
+                    "generic": "0x1p10"
+                  }
+                },
+                "unreserved-bandwidth": [
+                  {
+                    "priority": 0,
+                    "te-bandwidth": {
+                      "generic": "0x1p10"
+                    }
+                  }
+                ],
+                "admin-status": "up"
+              },
+              "oper-status": "up"
+            }
+          },
+          {
+            "// __COMMENT__.ACCESS LINK": "PE-076 --> CE South Site #2",
+            "link-id": "teNodeId/198.51.100.76/teLinkId/3",
+            "source": {
+              "source-node": "198.51.100.76",
+              "source-tp": 3
+            },
+            "// __COMMENT__": "Access link: destination not present",
+            "ietf-te-topology:te": {
+              "te-link-attributes": {
+                "name": "Access Link PE-076",
+                "interface-switching-capability": [
+                  {
+                    "switching-capability": "ietf-te-types:switching-psc1",
+                    "encoding": "ietf-te-types:lsp-encoding-packet",
+                    "max-lsp-bandwidth": [
+                      {
+                        "priority": 0,
+                        "te-bandwidth": {
+                          "generic": "0x1p10"
+                        }
+                      }
+                    ]
+                  }
+                ],
+                "max-link-bandwidth": {
+                  "te-bandwidth": {
+                    "generic": "0x1p10"
+                  }
+                },
+                "max-resv-link-bandwidth": {
+                  "te-bandwidth": {
+                    "generic": "0x1p10"
+                  }
+                },
+                "unreserved-bandwidth": [
+                  {
+                    "priority": 0,
+                    "te-bandwidth": {
+                      "generic": "0x1p10"
+                    }
+                  }
+                ],
+                "admin-status": "up"
+              },
+              "oper-status": "up"
+            }
+          },
+          {
+            "// __COMMENT__.ACCESS LINK": "PE-235 --> CE North Site #2",
+            "link-id": "teNodeId/198.51.100.235/teLinkId/1",
+            "source": {
+              "source-node": "198.51.100.235",
+              "source-tp": 1
+            },
+            "// __COMMENT__": "Access link: destination not present",
+            "ietf-te-topology:te": {
+              "te-link-attributes": {
+                "name": "Access Link PE-235",
+                "interface-switching-capability": [
+                  {
+                    "switching-capability": "ietf-te-types:switching-psc1",
+                    "encoding": "ietf-te-types:lsp-encoding-packet",
+                    "max-lsp-bandwidth": [
+                      {
+                        "priority": 0,
+                        "te-bandwidth": {
+                          "generic": "0x1p10"
+                        }
+                      }
+                    ]
+                  }
+                ],
+                "max-link-bandwidth": {
+                  "te-bandwidth": {
+                    "generic": "0x1p10"
+                  }
+                },
+                "max-resv-link-bandwidth": {
+                  "te-bandwidth": {
+                    "generic": "0x1p10"
+                  }
+                },
+                "unreserved-bandwidth": [
+                  {
+                    "priority": 0,
+                    "te-bandwidth": {
+                      "generic": "0x1p10"
+                    }
+                  }
+                ],
+                "admin-status": "up"
+              },
+              "oper-status": "up"
+            }
+          },
+          {
+            "// __COMMENT__.LINK": "PE-031 --> P-1",
+            "link-id": "teNodeId/198.51.100.31/teLinkId/10.1.31.2",
+            "source": {
+              "source-node": "198.51.100.31",
+              "source-tp": "10.1.31.2"
+            },
+            "destination": {
+              "dest-node": "198.51.100.1",
+              "dest-tp": "10.1.31.1"
+            },
+            "ietf-te-topology:te": {
+              "te-link-attributes": {
+                "name": "from PE-031 to P-1",
+                "interface-switching-capability": [
+                  {
+                    "switching-capability": "ietf-te-types:switching-psc1",
+                    "encoding": "ietf-te-types:lsp-encoding-packet",
+                    "max-lsp-bandwidth": [
+                      {
+                        "priority": 0,
+                        "te-bandwidth": {
+                          "generic": "0x1p10"
+                        }
+                      },
+                      {
+                        "priority": 1,
+                        "te-bandwidth": {
+                          "generic": "0x1p10"
+                        }
+                      },
+                      {
+                        "priority": 2,
+                        "te-bandwidth": {
+                          "generic": "0x1p10"
+                        }
+                      },
+                      {
+                        "priority": 3,
+                        "te-bandwidth": {
+                          "generic": "0x1p10"
+                        }
+                      },
+                      {
+                        "priority": 4,
+                        "te-bandwidth": {
+                          "generic": "0x1p10"
+                        }
+                      },
+                      {
+                        "priority": 5,
+                        "te-bandwidth": {
+                          "generic": "0x1p10"
+                        }
+                      },
+                      {
+                        "priority": 6,
+                        "te-bandwidth": {
+                          "generic": "0x1p10"
+                        }
+                      },
+                      {
+                        "priority": 7,
+                        "te-bandwidth": {
+                          "generic": "0x1p10"
+                        }
+                      }
+                    ]
+                  }
+                ],
+                "max-link-bandwidth": {
+                  "te-bandwidth": {
+                    "generic": "0x1p10"
+                  }
+                },
+                "max-resv-link-bandwidth": {
+                  "te-bandwidth": {
+                    "generic": "0x1p10"
+                  }
+                },
+                "unreserved-bandwidth": [
+                  {
+                    "priority": 0,
+                    "te-bandwidth": {
+                      "generic": "0x1p10"
+                    }
+                  },
+                  {
+                    "priority": 1,
+                    "te-bandwidth": {
+                      "generic": "0x1p10"
+                    }
+                  },
+                  {
+                    "priority": 2,
+                    "te-bandwidth": {
+                      "generic": "0x1p10"
+                    }
+                  },
+                  {
+                    "priority": 3,
+                    "te-bandwidth": {
+                      "generic": "0x1p10"
+                    }
+                  },
+                  {
+                    "priority": 4,
+                    "te-bandwidth": {
+                      "generic": "0x1p10"
+                    }
+                  },
+                  {
+                    "priority": 5,
+                    "te-bandwidth": {
+                      "generic": "0x1p10"
+                    }
+                  },
+                  {
+                    "priority": 6,
+                    "te-bandwidth": {
+                      "generic": "0x1p10"
+                    }
+                  },
+                  {
+                    "priority": 7,
+                    "te-bandwidth": {
+                      "generic": "0x1p10"
+                    }
+                  }
+                ],
+                "admin-status": "up"
+              },
+              "oper-status": "up"
+            }
+          },
+          {
+            "// __COMMENT__.LINK": "PE-031 <-- P-1",
+            "link-id": "teNodeId/198.51.100.1/teLinkId/10.1.31.1",
+            "source": {
+              "source-node": "198.51.100.1",
+              "source-tp": "10.1.31.1"
+            },
+            "destination": {
+              "dest-node": "198.51.100.31",
+              "dest-tp": "10.1.31.2"
+            },
+            "ietf-te-topology:te": {
+              "te-link-attributes": {
+                "name": "from P-1 to PE-031",
+                "interface-switching-capability": [
+                  {
+                    "switching-capability": "ietf-te-types:switching-psc1",
+                    "encoding": "ietf-te-types:lsp-encoding-packet",
+                    "max-lsp-bandwidth": [
+                      {
+                        "priority": 0,
+                        "te-bandwidth": {
+                          "generic": "0x1p10"
+                        }
+                      },
+                      {
+                        "priority": 1,
+                        "te-bandwidth": {
+                          "generic": "0x1p10"
+                        }
+                      },
+                      {
+                        "priority": 2,
+                        "te-bandwidth": {
+                          "generic": "0x1p10"
+                        }
+                      },
+                      {
+                        "priority": 3,
+                        "te-bandwidth": {
+                          "generic": "0x1p10"
+                        }
+                      },
+                      {
+                        "priority": 4,
+                        "te-bandwidth": {
+                          "generic": "0x1p10"
+                        }
+                      },
+                      {
+                        "priority": 5,
+                        "te-bandwidth": {
+                          "generic": "0x1p10"
+                        }
+                      },
+                      {
+                        "priority": 6,
+                        "te-bandwidth": {
+                          "generic": "0x1p10"
+                        }
+                      },
+                      {
+                        "priority": 7,
+                        "te-bandwidth": {
+                          "generic": "0x1p10"
+                        }
+                      }
+                    ]
+                  }
+                ],
+                "max-link-bandwidth": {
+                  "te-bandwidth": {
+                    "generic": "0x1p10"
+                  }
+                },
+                "max-resv-link-bandwidth": {
+                  "te-bandwidth": {
+                    "generic": "0x1p10"
+                  }
+                },
+                "unreserved-bandwidth": [
+                  {
+                    "priority": 0,
+                    "te-bandwidth": {
+                      "generic": "0x1p10"
+                    }
+                  },
+                  {
+                    "priority": 1,
+                    "te-bandwidth": {
+                      "generic": "0x1p10"
+                    }
+                  },
+                  {
+                    "priority": 2,
+                    "te-bandwidth": {
+                      "generic": "0x1p10"
+                    }
+                  },
+                  {
+                    "priority": 3,
+                    "te-bandwidth": {
+                      "generic": "0x1p10"
+                    }
+                  },
+                  {
+                    "priority": 4,
+                    "te-bandwidth": {
+                      "generic": "0x1p10"
+                    }
+                  },
+                  {
+                    "priority": 5,
+                    "te-bandwidth": {
+                      "generic": "0x1p10"
+                    }
+                  },
+                  {
+                    "priority": 6,
+                    "te-bandwidth": {
+                      "generic": "0x1p10"
+                    }
+                  },
+                  {
+                    "priority": 7,
+                    "te-bandwidth": {
+                      "generic": "0x1p10"
+                    }
+                  }
+                ],
+                "admin-status": "up"
+              },
+              "oper-status": "up"
+            }
+          },
+          {
+            "// __COMMENT__.LINK": "P-1 --> P-2",
+            "link-id": "teNodeId/198.51.100.1/teLinkId/10.1.2.1",
+            "source": {
+              "source-node": "198.51.100.1",
+              "source-tp": "10.1.2.1"
+            },
+            "destination": {
+              "dest-node": "198.51.100.2",
+              "dest-tp": "10.1.2.2"
+            },
+            "ietf-te-topology:te": {
+              "te-link-attributes": {
+                "name": "from P-1 to P-2",
+                "interface-switching-capability": [
+                  {
+                    "switching-capability": "ietf-te-types:switching-psc1",
+                    "encoding": "ietf-te-types:lsp-encoding-packet",
+                    "max-lsp-bandwidth": [
+                      {
+                        "priority": 0,
+                        "te-bandwidth": {
+                          "generic": "0x1p10"
+                        }
+                      },
+                      {
+                        "priority": 1,
+                        "te-bandwidth": {
+                          "generic": "0x1p10"
+                        }
+                      },
+                      {
+                        "priority": 2,
+                        "te-bandwidth": {
+                          "generic": "0x1p10"
+                        }
+                      },
+                      {
+                        "priority": 3,
+                        "te-bandwidth": {
+                          "generic": "0x1p10"
+                        }
+                      },
+                      {
+                        "priority": 4,
+                        "te-bandwidth": {
+                          "generic": "0x1p10"
+                        }
+                      },
+                      {
+                        "priority": 5,
+                        "te-bandwidth": {
+                          "generic": "0x1p10"
+                        }
+                      },
+                      {
+                        "priority": 6,
+                        "te-bandwidth": {
+                          "generic": "0x1p10"
+                        }
+                      },
+                      {
+                        "priority": 7,
+                        "te-bandwidth": {
+                          "generic": "0x1p10"
+                        }
+                      }
+                    ]
+                  }
+                ],
+                "max-link-bandwidth": {
+                  "te-bandwidth": {
+                    "generic": "0x1p10"
+                  }
+                },
+                "max-resv-link-bandwidth": {
+                  "te-bandwidth": {
+                    "generic": "0x1p10"
+                  }
+                },
+                "unreserved-bandwidth": [
+                  {
+                    "priority": 0,
+                    "te-bandwidth": {
+                      "generic": "0x1p10"
+                    }
+                  },
+                  {
+                    "priority": 1,
+                    "te-bandwidth": {
+                      "generic": "0x1p10"
+                    }
+                  },
+                  {
+                    "priority": 2,
+                    "te-bandwidth": {
+                      "generic": "0x1p10"
+                    }
+                  },
+                  {
+                    "priority": 3,
+                    "te-bandwidth": {
+                      "generic": "0x1p10"
+                    }
+                  },
+                  {
+                    "priority": 4,
+                    "te-bandwidth": {
+                      "generic": "0x1p10"
+                    }
+                  },
+                  {
+                    "priority": 5,
+                    "te-bandwidth": {
+                      "generic": "0x1p10"
+                    }
+                  },
+                  {
+                    "priority": 6,
+                    "te-bandwidth": {
+                      "generic": "0x1p10"
+                    }
+                  },
+                  {
+                    "priority": 7,
+                    "te-bandwidth": {
+                      "generic": "0x1p10"
+                    }
+                  }
+                ],
+                "admin-status": "up"
+              },
+              "oper-status": "up"
+            }
+          },
+          {
+            "// __COMMENT__.LINK": "P-1 <-- P-2",
+            "link-id": "teNodeId/198.51.100.2/teLinkId/10.1.2.2",
+            "source": {
+              "source-node": "198.51.100.2",
+              "source-tp": "10.1.2.2"
+            },
+            "destination": {
+              "dest-node": "198.51.100.1",
+              "dest-tp": "10.1.2.1"
+            },
+            "ietf-te-topology:te": {
+              "te-link-attributes": {
+                "name": "from P-2 to P-1",
+                "interface-switching-capability": [
+                  {
+                    "switching-capability": "ietf-te-types:switching-psc1",
+                    "encoding": "ietf-te-types:lsp-encoding-packet",
+                    "max-lsp-bandwidth": [
+                      {
+                        "priority": 0,
+                        "te-bandwidth": {
+                          "generic": "0x1p10"
+                        }
+                      },
+                      {
+                        "priority": 1,
+                        "te-bandwidth": {
+                          "generic": "0x1p10"
+                        }
+                      },
+                      {
+                        "priority": 2,
+                        "te-bandwidth": {
+                          "generic": "0x1p10"
+                        }
+                      },
+                      {
+                        "priority": 3,
+                        "te-bandwidth": {
+                          "generic": "0x1p10"
+                        }
+                      },
+                      {
+                        "priority": 4,
+                        "te-bandwidth": {
+                          "generic": "0x1p10"
+                        }
+                      },
+                      {
+                        "priority": 5,
+                        "te-bandwidth": {
+                          "generic": "0x1p10"
+                        }
+                      },
+                      {
+                        "priority": 6,
+                        "te-bandwidth": {
+                          "generic": "0x1p10"
+                        }
+                      },
+                      {
+                        "priority": 7,
+                        "te-bandwidth": {
+                          "generic": "0x1p10"
+                        }
+                      }
+                    ]
+                  }
+                ],
+                "max-link-bandwidth": {
+                  "te-bandwidth": {
+                    "generic": "0x1p10"
+                  }
+                },
+                "max-resv-link-bandwidth": {
+                  "te-bandwidth": {
+                    "generic": "0x1p10"
+                  }
+                },
+                "unreserved-bandwidth": [
+                  {
+                    "priority": 0,
+                    "te-bandwidth": {
+                      "generic": "0x1p10"
+                    }
+                  },
+                  {
+                    "priority": 1,
+                    "te-bandwidth": {
+                      "generic": "0x1p10"
+                    }
+                  },
+                  {
+                    "priority": 2,
+                    "te-bandwidth": {
+                      "generic": "0x1p10"
+                    }
+                  },
+                  {
+                    "priority": 3,
+                    "te-bandwidth": {
+                      "generic": "0x1p10"
+                    }
+                  },
+                  {
+                    "priority": 4,
+                    "te-bandwidth": {
+                      "generic": "0x1p10"
+                    }
+                  },
+                  {
+                    "priority": 5,
+                    "te-bandwidth": {
+                      "generic": "0x1p10"
+                    }
+                  },
+                  {
+                    "priority": 6,
+                    "te-bandwidth": {
+                      "generic": "0x1p10"
+                    }
+                  },
+                  {
+                    "priority": 7,
+                    "te-bandwidth": {
+                      "generic": "0x1p10"
+                    }
+                  }
+                ],
+                "admin-status": "up"
+              },
+              "oper-status": "up"
+            }
+          },
+          {
+            "// __COMMENT__.LINK": "P-1 --> P-3",
+            "link-id": "teNodeId/198.51.100.1/teLinkId/10.1.3.1",
+            "source": {
+              "source-node": "198.51.100.1",
+              "source-tp": "10.1.3.1"
+            },
+            "destination": {
+              "dest-node": "198.51.100.3",
+              "dest-tp": "10.1.3.2"
+            },
+            "ietf-te-topology:te": {
+              "te-link-attributes": {
+                "name": "from P-1 to P-3",
+                "interface-switching-capability": [
+                  {
+                    "switching-capability": "ietf-te-types:switching-psc1",
+                    "encoding": "ietf-te-types:lsp-encoding-packet",
+                    "max-lsp-bandwidth": [
+                      {
+                        "priority": 0,
+                        "te-bandwidth": {
+                          "generic": "0x1p10"
+                        }
+                      },
+                      {
+                        "priority": 1,
+                        "te-bandwidth": {
+                          "generic": "0x1p10"
+                        }
+                      },
+                      {
+                        "priority": 2,
+                        "te-bandwidth": {
+                          "generic": "0x1p10"
+                        }
+                      },
+                      {
+                        "priority": 3,
+                        "te-bandwidth": {
+                          "generic": "0x1p10"
+                        }
+                      },
+                      {
+                        "priority": 4,
+                        "te-bandwidth": {
+                          "generic": "0x1p10"
+                        }
+                      },
+                      {
+                        "priority": 5,
+                        "te-bandwidth": {
+                          "generic": "0x1p10"
+                        }
+                      },
+                      {
+                        "priority": 6,
+                        "te-bandwidth": {
+                          "generic": "0x1p10"
+                        }
+                      },
+                      {
+                        "priority": 7,
+                        "te-bandwidth": {
+                          "generic": "0x1p10"
+                        }
+                      }
+                    ]
+                  }
+                ],
+                "max-link-bandwidth": {
+                  "te-bandwidth": {
+                    "generic": "0x1p10"
+                  }
+                },
+                "max-resv-link-bandwidth": {
+                  "te-bandwidth": {
+                    "generic": "0x1p10"
+                  }
+                },
+                "unreserved-bandwidth": [
+                  {
+                    "priority": 0,
+                    "te-bandwidth": {
+                      "generic": "0x1p10"
+                    }
+                  },
+                  {
+                    "priority": 1,
+                    "te-bandwidth": {
+                      "generic": "0x1p10"
+                    }
+                  },
+                  {
+                    "priority": 2,
+                    "te-bandwidth": {
+                      "generic": "0x1p10"
+                    }
+                  },
+                  {
+                    "priority": 3,
+                    "te-bandwidth": {
+                      "generic": "0x1p10"
+                    }
+                  },
+                  {
+                    "priority": 4,
+                    "te-bandwidth": {
+                      "generic": "0x1p10"
+                    }
+                  },
+                  {
+                    "priority": 5,
+                    "te-bandwidth": {
+                      "generic": "0x1p10"
+                    }
+                  },
+                  {
+                    "priority": 6,
+                    "te-bandwidth": {
+                      "generic": "0x1p10"
+                    }
+                  },
+                  {
+                    "priority": 7,
+                    "te-bandwidth": {
+                      "generic": "0x1p10"
+                    }
+                  }
+                ],
+                "admin-status": "up"
+              },
+              "oper-status": "up"
+            }
+          },
+          {
+            "// __COMMENT__.LINK": "P-1 <-- P-3",
+            "link-id": "teNodeId/198.51.100.3/teLinkId/10.1.3.2",
+            "source": {
+              "source-node": "198.51.100.3",
+              "source-tp": "10.1.3.2"
+            },
+            "destination": {
+              "dest-node": "198.51.100.1",
+              "dest-tp": "10.1.3.1"
+            },
+            "ietf-te-topology:te": {
+              "te-link-attributes": {
+                "name": "from P-3 to P-1",
+                "interface-switching-capability": [
+                  {
+                    "switching-capability": "ietf-te-types:switching-psc1",
+                    "encoding": "ietf-te-types:lsp-encoding-packet",
+                    "max-lsp-bandwidth": [
+                      {
+                        "priority": 0,
+                        "te-bandwidth": {
+                          "generic": "0x1p10"
+                        }
+                      },
+                      {
+                        "priority": 1,
+                        "te-bandwidth": {
+                          "generic": "0x1p10"
+                        }
+                      },
+                      {
+                        "priority": 2,
+                        "te-bandwidth": {
+                          "generic": "0x1p10"
+                        }
+                      },
+                      {
+                        "priority": 3,
+                        "te-bandwidth": {
+                          "generic": "0x1p10"
+                        }
+                      },
+                      {
+                        "priority": 4,
+                        "te-bandwidth": {
+                          "generic": "0x1p10"
+                        }
+                      },
+                      {
+                        "priority": 5,
+                        "te-bandwidth": {
+                          "generic": "0x1p10"
+                        }
+                      },
+                      {
+                        "priority": 6,
+                        "te-bandwidth": {
+                          "generic": "0x1p10"
+                        }
+                      },
+                      {
+                        "priority": 7,
+                        "te-bandwidth": {
+                          "generic": "0x1p10"
+                        }
+                      }
+                    ]
+                  }
+                ],
+                "max-link-bandwidth": {
+                  "te-bandwidth": {
+                    "generic": "0x1p10"
+                  }
+                },
+                "max-resv-link-bandwidth": {
+                  "te-bandwidth": {
+                    "generic": "0x1p10"
+                  }
+                },
+                "unreserved-bandwidth": [
+                  {
+                    "priority": 0,
+                    "te-bandwidth": {
+                      "generic": "0x1p10"
+                    }
+                  },
+                  {
+                    "priority": 1,
+                    "te-bandwidth": {
+                      "generic": "0x1p10"
+                    }
+                  },
+                  {
+                    "priority": 2,
+                    "te-bandwidth": {
+                      "generic": "0x1p10"
+                    }
+                  },
+                  {
+                    "priority": 3,
+                    "te-bandwidth": {
+                      "generic": "0x1p10"
+                    }
+                  },
+                  {
+                    "priority": 4,
+                    "te-bandwidth": {
+                      "generic": "0x1p10"
+                    }
+                  },
+                  {
+                    "priority": 5,
+                    "te-bandwidth": {
+                      "generic": "0x1p10"
+                    }
+                  },
+                  {
+                    "priority": 6,
+                    "te-bandwidth": {
+                      "generic": "0x1p10"
+                    }
+                  },
+                  {
+                    "priority": 7,
+                    "te-bandwidth": {
+                      "generic": "0x1p10"
+                    }
+                  }
+                ],
+                "admin-status": "up"
+              },
+              "oper-status": "up"
+            }
+          },
+          {
+            "// __COMMENT__.LINK": "P-2 --> P-3",
+            "link-id": "teNodeId/198.51.100.2/teLinkId/10.2.3.1",
+            "source": {
+              "source-node": "198.51.100.2",
+              "source-tp": "10.2.3.1"
+            },
+            "destination": {
+              "dest-node": "198.51.100.3",
+              "dest-tp": "10.2.3.2"
+            },
+            "ietf-te-topology:te": {
+              "te-link-attributes": {
+                "name": "from P-2 to P-3",
+                "interface-switching-capability": [
+                  {
+                    "switching-capability": "ietf-te-types:switching-psc1",
+                    "encoding": "ietf-te-types:lsp-encoding-packet",
+                    "max-lsp-bandwidth": [
+                      {
+                        "priority": 0,
+                        "te-bandwidth": {
+                          "generic": "0x1p10"
+                        }
+                      },
+                      {
+                        "priority": 1,
+                        "te-bandwidth": {
+                          "generic": "0x1p10"
+                        }
+                      },
+                      {
+                        "priority": 2,
+                        "te-bandwidth": {
+                          "generic": "0x1p10"
+                        }
+                      },
+                      {
+                        "priority": 3,
+                        "te-bandwidth": {
+                          "generic": "0x1p10"
+                        }
+                      },
+                      {
+                        "priority": 4,
+                        "te-bandwidth": {
+                          "generic": "0x1p10"
+                        }
+                      },
+                      {
+                        "priority": 5,
+                        "te-bandwidth": {
+                          "generic": "0x1p10"
+                        }
+                      },
+                      {
+                        "priority": 6,
+                        "te-bandwidth": {
+                          "generic": "0x1p10"
+                        }
+                      },
+                      {
+                        "priority": 7,
+                        "te-bandwidth": {
+                          "generic": "0x1p10"
+                        }
+                      }
+                    ]
+                  }
+                ],
+                "max-link-bandwidth": {
+                  "te-bandwidth": {
+                    "generic": "0x1p10"
+                  }
+                },
+                "max-resv-link-bandwidth": {
+                  "te-bandwidth": {
+                    "generic": "0x1p10"
+                  }
+                },
+                "unreserved-bandwidth": [
+                  {
+                    "priority": 0,
+                    "te-bandwidth": {
+                      "generic": "0x1p10"
+                    }
+                  },
+                  {
+                    "priority": 1,
+                    "te-bandwidth": {
+                      "generic": "0x1p10"
+                    }
+                  },
+                  {
+                    "priority": 2,
+                    "te-bandwidth": {
+                      "generic": "0x1p10"
+                    }
+                  },
+                  {
+                    "priority": 3,
+                    "te-bandwidth": {
+                      "generic": "0x1p10"
+                    }
+                  },
+                  {
+                    "priority": 4,
+                    "te-bandwidth": {
+                      "generic": "0x1p10"
+                    }
+                  },
+                  {
+                    "priority": 5,
+                    "te-bandwidth": {
+                      "generic": "0x1p10"
+                    }
+                  },
+                  {
+                    "priority": 6,
+                    "te-bandwidth": {
+                      "generic": "0x1p10"
+                    }
+                  },
+                  {
+                    "priority": 7,
+                    "te-bandwidth": {
+                      "generic": "0x1p10"
+                    }
+                  }
+                ],
+                "admin-status": "up"
+              },
+              "oper-status": "up"
+            }
+          },
+          {
+            "// __COMMENT__.LINK": "P-2 <-- P-3",
+            "link-id": "teNodeId/198.51.100.3/teLinkId/10.2.3.2",
+            "source": {
+              "source-node": "198.51.100.3",
+              "source-tp": "10.2.3.2"
+            },
+            "destination": {
+              "dest-node": "198.51.100.2",
+              "dest-tp": "10.2.3.1"
+            },
+            "ietf-te-topology:te": {
+              "te-link-attributes": {
+                "name": "from P-3 to P-2",
+                "interface-switching-capability": [
+                  {
+                    "switching-capability": "ietf-te-types:switching-psc1",
+                    "encoding": "ietf-te-types:lsp-encoding-packet",
+                    "max-lsp-bandwidth": [
+                      {
+                        "priority": 0,
+                        "te-bandwidth": {
+                          "generic": "0x1p10"
+                        }
+                      },
+                      {
+                        "priority": 1,
+                        "te-bandwidth": {
+                          "generic": "0x1p10"
+                        }
+                      },
+                      {
+                        "priority": 2,
+                        "te-bandwidth": {
+                          "generic": "0x1p10"
+                        }
+                      },
+                      {
+                        "priority": 3,
+                        "te-bandwidth": {
+                          "generic": "0x1p10"
+                        }
+                      },
+                      {
+                        "priority": 4,
+                        "te-bandwidth": {
+                          "generic": "0x1p10"
+                        }
+                      },
+                      {
+                        "priority": 5,
+                        "te-bandwidth": {
+                          "generic": "0x1p10"
+                        }
+                      },
+                      {
+                        "priority": 6,
+                        "te-bandwidth": {
+                          "generic": "0x1p10"
+                        }
+                      },
+                      {
+                        "priority": 7,
+                        "te-bandwidth": {
+                          "generic": "0x1p10"
+                        }
+                      }
+                    ]
+                  }
+                ],
+                "max-link-bandwidth": {
+                  "te-bandwidth": {
+                    "generic": "0x1p10"
+                  }
+                },
+                "max-resv-link-bandwidth": {
+                  "te-bandwidth": {
+                    "generic": "0x1p10"
+                  }
+                },
+                "unreserved-bandwidth": [
+                  {
+                    "priority": 0,
+                    "te-bandwidth": {
+                      "generic": "0x1p10"
+                    }
+                  },
+                  {
+                    "priority": 1,
+                    "te-bandwidth": {
+                      "generic": "0x1p10"
+                    }
+                  },
+                  {
+                    "priority": 2,
+                    "te-bandwidth": {
+                      "generic": "0x1p10"
+                    }
+                  },
+                  {
+                    "priority": 3,
+                    "te-bandwidth": {
+                      "generic": "0x1p10"
+                    }
+                  },
+                  {
+                    "priority": 4,
+                    "te-bandwidth": {
+                      "generic": "0x1p10"
+                    }
+                  },
+                  {
+                    "priority": 5,
+                    "te-bandwidth": {
+                      "generic": "0x1p10"
+                    }
+                  },
+                  {
+                    "priority": 6,
+                    "te-bandwidth": {
+                      "generic": "0x1p10"
+                    }
+                  },
+                  {
+                    "priority": 7,
+                    "te-bandwidth": {
+                      "generic": "0x1p10"
+                    }
+                  }
+                ],
+                "admin-status": "up"
+              },
+              "oper-status": "up"
+            }
+          },
+          {
+            "// __COMMENT__.LINK": "PE-076 --> P-1",
+            "link-id": "teNodeId/198.51.100.76/teLinkId/10.1.76.2",
+            "source": {
+              "source-node": "198.51.100.76",
+              "source-tp": "10.1.76.2"
+            },
+            "destination": {
+              "dest-node": "198.51.100.2",
+              "dest-tp": "10.2.76.1"
+            },
+            "ietf-te-topology:te": {
+              "te-link-attributes": {
+                "name": "from PE-076 to P-1",
+                "interface-switching-capability": [
+                  {
+                    "switching-capability": "ietf-te-types:switching-psc1",
+                    "encoding": "ietf-te-types:lsp-encoding-packet",
+                    "max-lsp-bandwidth": [
+                      {
+                        "priority": 0,
+                        "te-bandwidth": {
+                          "generic": "0x1p10"
+                        }
+                      },
+                      {
+                        "priority": 1,
+                        "te-bandwidth": {
+                          "generic": "0x1p10"
+                        }
+                      },
+                      {
+                        "priority": 2,
+                        "te-bandwidth": {
+                          "generic": "0x1p10"
+                        }
+                      },
+                      {
+                        "priority": 3,
+                        "te-bandwidth": {
+                          "generic": "0x1p10"
+                        }
+                      },
+                      {
+                        "priority": 4,
+                        "te-bandwidth": {
+                          "generic": "0x1p10"
+                        }
+                      },
+                      {
+                        "priority": 5,
+                        "te-bandwidth": {
+                          "generic": "0x1p10"
+                        }
+                      },
+                      {
+                        "priority": 6,
+                        "te-bandwidth": {
+                          "generic": "0x1p10"
+                        }
+                      },
+                      {
+                        "priority": 7,
+                        "te-bandwidth": {
+                          "generic": "0x1p10"
+                        }
+                      }
+                    ]
+                  }
+                ],
+                "max-link-bandwidth": {
+                  "te-bandwidth": {
+                    "generic": "0x1p10"
+                  }
+                },
+                "max-resv-link-bandwidth": {
+                  "te-bandwidth": {
+                    "generic": "0x1p10"
+                  }
+                },
+                "unreserved-bandwidth": [
+                  {
+                    "priority": 0,
+                    "te-bandwidth": {
+                      "generic": "0x1p10"
+                    }
+                  },
+                  {
+                    "priority": 1,
+                    "te-bandwidth": {
+                      "generic": "0x1p10"
+                    }
+                  },
+                  {
+                    "priority": 2,
+                    "te-bandwidth": {
+                      "generic": "0x1p10"
+                    }
+                  },
+                  {
+                    "priority": 3,
+                    "te-bandwidth": {
+                      "generic": "0x1p10"
+                    }
+                  },
+                  {
+                    "priority": 4,
+                    "te-bandwidth": {
+                      "generic": "0x1p10"
+                    }
+                  },
+                  {
+                    "priority": 5,
+                    "te-bandwidth": {
+                      "generic": "0x1p10"
+                    }
+                  },
+                  {
+                    "priority": 6,
+                    "te-bandwidth": {
+                      "generic": "0x1p10"
+                    }
+                  },
+                  {
+                    "priority": 7,
+                    "te-bandwidth": {
+                      "generic": "0x1p10"
+                    }
+                  }
+                ],
+                "admin-status": "up"
+              },
+              "oper-status": "up"
+            }
+          },
+          {
+            "// __COMMENT__.LINK": "PE-076 <-- P-1",
+            "link-id": "teNodeId/198.51.100.1/teLinkId/10.1.76.1",
+            "source": {
+              "source-node": "198.51.100.1",
+              "source-tp": "10.1.76.1"
+            },
+            "destination": {
+              "dest-node": "198.51.100.76",
+              "dest-tp": "10.1.76.2"
+            },
+            "ietf-te-topology:te": {
+              "te-link-attributes": {
+                "name": "from P-1 to PE-076",
+                "interface-switching-capability": [
+                  {
+                    "switching-capability": "ietf-te-types:switching-psc1",
+                    "encoding": "ietf-te-types:lsp-encoding-packet",
+                    "max-lsp-bandwidth": [
+                      {
+                        "priority": 0,
+                        "te-bandwidth": {
+                          "generic": "0x1p10"
+                        }
+                      },
+                      {
+                        "priority": 1,
+                        "te-bandwidth": {
+                          "generic": "0x1p10"
+                        }
+                      },
+                      {
+                        "priority": 2,
+                        "te-bandwidth": {
+                          "generic": "0x1p10"
+                        }
+                      },
+                      {
+                        "priority": 3,
+                        "te-bandwidth": {
+                          "generic": "0x1p10"
+                        }
+                      },
+                      {
+                        "priority": 4,
+                        "te-bandwidth": {
+                          "generic": "0x1p10"
+                        }
+                      },
+                      {
+                        "priority": 5,
+                        "te-bandwidth": {
+                          "generic": "0x1p10"
+                        }
+                      },
+                      {
+                        "priority": 6,
+                        "te-bandwidth": {
+                          "generic": "0x1p10"
+                        }
+                      },
+                      {
+                        "priority": 7,
+                        "te-bandwidth": {
+                          "generic": "0x1p10"
+                        }
+                      }
+                    ]
+                  }
+                ],
+                "max-link-bandwidth": {
+                  "te-bandwidth": {
+                    "generic": "0x1p10"
+                  }
+                },
+                "max-resv-link-bandwidth": {
+                  "te-bandwidth": {
+                    "generic": "0x1p10"
+                  }
+                },
+                "unreserved-bandwidth": [
+                  {
+                    "priority": 0,
+                    "te-bandwidth": {
+                      "generic": "0x1p10"
+                    }
+                  },
+                  {
+                    "priority": 1,
+                    "te-bandwidth": {
+                      "generic": "0x1p10"
+                    }
+                  },
+                  {
+                    "priority": 2,
+                    "te-bandwidth": {
+                      "generic": "0x1p10"
+                    }
+                  },
+                  {
+                    "priority": 3,
+                    "te-bandwidth": {
+                      "generic": "0x1p10"
+                    }
+                  },
+                  {
+                    "priority": 4,
+                    "te-bandwidth": {
+                      "generic": "0x1p10"
+                    }
+                  },
+                  {
+                    "priority": 5,
+                    "te-bandwidth": {
+                      "generic": "0x1p10"
+                    }
+                  },
+                  {
+                    "priority": 6,
+                    "te-bandwidth": {
+                      "generic": "0x1p10"
+                    }
+                  },
+                  {
+                    "priority": 7,
+                    "te-bandwidth": {
+                      "generic": "0x1p10"
+                    }
+                  }
+                ],
+                "admin-status": "up"
+              },
+              "oper-status": "up"
+            }
+          },
+          {
+            "// __COMMENT__.LINK": "PE-235 --> P-3",
+            "link-id": "teNodeId/198.51.100.235/teLinkId/10.3.235.2",
+            "source": {
+              "source-node": "198.51.100.235",
+              "source-tp": "10.3.235.2"
+            },
+            "destination": {
+              "dest-node": "198.51.100.3",
+              "dest-tp": "10.3.235.1"
+            },
+            "ietf-te-topology:te": {
+              "te-link-attributes": {
+                "name": "from PE-235 to P-3",
+                "interface-switching-capability": [
+                  {
+                    "switching-capability": "ietf-te-types:switching-psc1",
+                    "encoding": "ietf-te-types:lsp-encoding-packet",
+                    "max-lsp-bandwidth": [
+                      {
+                        "priority": 0,
+                        "te-bandwidth": {
+                          "generic": "0x1p10"
+                        }
+                      },
+                      {
+                        "priority": 1,
+                        "te-bandwidth": {
+                          "generic": "0x1p10"
+                        }
+                      },
+                      {
+                        "priority": 2,
+                        "te-bandwidth": {
+                          "generic": "0x1p10"
+                        }
+                      },
+                      {
+                        "priority": 3,
+                        "te-bandwidth": {
+                          "generic": "0x1p10"
+                        }
+                      },
+                      {
+                        "priority": 4,
+                        "te-bandwidth": {
+                          "generic": "0x1p10"
+                        }
+                      },
+                      {
+                        "priority": 5,
+                        "te-bandwidth": {
+                          "generic": "0x1p10"
+                        }
+                      },
+                      {
+                        "priority": 6,
+                        "te-bandwidth": {
+                          "generic": "0x1p10"
+                        }
+                      },
+                      {
+                        "priority": 7,
+                        "te-bandwidth": {
+                          "generic": "0x1p10"
+                        }
+                      }
+                    ]
+                  }
+                ],
+                "max-link-bandwidth": {
+                  "te-bandwidth": {
+                    "generic": "0x1p10"
+                  }
+                },
+                "max-resv-link-bandwidth": {
+                  "te-bandwidth": {
+                    "generic": "0x1p10"
+                  }
+                },
+                "unreserved-bandwidth": [
+                  {
+                    "priority": 0,
+                    "te-bandwidth": {
+                      "generic": "0x1p10"
+                    }
+                  },
+                  {
+                    "priority": 1,
+                    "te-bandwidth": {
+                      "generic": "0x1p10"
+                    }
+                  },
+                  {
+                    "priority": 2,
+                    "te-bandwidth": {
+                      "generic": "0x1p10"
+                    }
+                  },
+                  {
+                    "priority": 3,
+                    "te-bandwidth": {
+                      "generic": "0x1p10"
+                    }
+                  },
+                  {
+                    "priority": 4,
+                    "te-bandwidth": {
+                      "generic": "0x1p10"
+                    }
+                  },
+                  {
+                    "priority": 5,
+                    "te-bandwidth": {
+                      "generic": "0x1p10"
+                    }
+                  },
+                  {
+                    "priority": 6,
+                    "te-bandwidth": {
+                      "generic": "0x1p10"
+                    }
+                  },
+                  {
+                    "priority": 7,
+                    "te-bandwidth": {
+                      "generic": "0x1p10"
+                    }
+                  }
+                ],
+                "admin-status": "up"
+              },
+              "oper-status": "up"
+            }
+          },
+          {
+            "// __COMMENT__.LINK": "PE-235 <-- P-3",
+            "link-id": "teNodeId/198.51.100.3/teLinkId/10.3.235.1",
+            "source": {
+              "source-node": "198.51.100.3",
+              "source-tp": "10.3.235.1"
+            },
+            "destination": {
+              "dest-node": "198.51.100.76",
+              "dest-tp": "10.3.235.2"
+            },
+            "ietf-te-topology:te": {
+              "te-link-attributes": {
+                "name": "from P-3 to PE-235",
+                "interface-switching-capability": [
+                  {
+                    "switching-capability": "ietf-te-types:switching-psc1",
+                    "encoding": "ietf-te-types:lsp-encoding-packet",
+                    "max-lsp-bandwidth": [
+                      {
+                        "priority": 0,
+                        "te-bandwidth": {
+                          "generic": "0x1p10"
+                        }
+                      },
+                      {
+                        "priority": 1,
+                        "te-bandwidth": {
+                          "generic": "0x1p10"
+                        }
+                      },
+                      {
+                        "priority": 2,
+                        "te-bandwidth": {
+                          "generic": "0x1p10"
+                        }
+                      },
+                      {
+                        "priority": 3,
+                        "te-bandwidth": {
+                          "generic": "0x1p10"
+                        }
+                      },
+                      {
+                        "priority": 4,
+                        "te-bandwidth": {
+                          "generic": "0x1p10"
+                        }
+                      },
+                      {
+                        "priority": 5,
+                        "te-bandwidth": {
+                          "generic": "0x1p10"
+                        }
+                      },
+                      {
+                        "priority": 6,
+                        "te-bandwidth": {
+                          "generic": "0x1p10"
+                        }
+                      },
+                      {
+                        "priority": 7,
+                        "te-bandwidth": {
+                          "generic": "0x1p10"
+                        }
+                      }
+                    ]
+                  }
+                ],
+                "max-link-bandwidth": {
+                  "te-bandwidth": {
+                    "generic": "0x1p10"
+                  }
+                },
+                "max-resv-link-bandwidth": {
+                  "te-bandwidth": {
+                    "generic": "0x1p10"
+                  }
+                },
+                "unreserved-bandwidth": [
+                  {
+                    "priority": 0,
+                    "te-bandwidth": {
+                      "generic": "0x1p10"
+                    }
+                  },
+                  {
+                    "priority": 1,
+                    "te-bandwidth": {
+                      "generic": "0x1p10"
+                    }
+                  },
+                  {
+                    "priority": 2,
+                    "te-bandwidth": {
+                      "generic": "0x1p10"
+                    }
+                  },
+                  {
+                    "priority": 3,
+                    "te-bandwidth": {
+                      "generic": "0x1p10"
+                    }
+                  },
+                  {
+                    "priority": 4,
+                    "te-bandwidth": {
+                      "generic": "0x1p10"
+                    }
+                  },
+                  {
+                    "priority": 5,
+                    "te-bandwidth": {
+                      "generic": "0x1p10"
+                    }
+                  },
+                  {
+                    "priority": 6,
+                    "te-bandwidth": {
+                      "generic": "0x1p10"
+                    }
+                  },
+                  {
+                    "priority": 7,
+                    "te-bandwidth": {
+                      "generic": "0x1p10"
+                    }
+                  }
+                ],
+                "admin-status": "up"
+              },
+              "oper-status": "up"
+            }
+          }
+        ]
+      }
+    ]
+  }
+}
+
