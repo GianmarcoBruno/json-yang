@@ -25,5 +25,5 @@ for STRATEGY in pyang yanglint; do
     done
 done
 echo "pyang validation expected to fail with data documents"
-echo "because it does not accept empty leaft encoded as ''"
+echo "because it does not accept empty leaf encoded as ''"
 exit $EXIT

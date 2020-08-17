@@ -1,37 +1,50 @@
 #!/bin/bash
 
-function run_this {
-    # every script actually run a set of tests
-    # exit code is O only if they exit all with 0
-    # output is already suppressed by the invoked script
+TESTDIR=tests
+declare -A results
 
-    if [ -f ".skipTest" ]; then
-	echo -e "\e[1;32mSKIPPED\e[0m\n"
-	return 0
-    fi
-
-    dir=`basename "$2"`
-    "$1"
-    if [ $? = 0 ]
-    then
-	echo -e "\e[1;32m$dir OK\e[0m\n"
-    else
-	echo -e "\e[1;31m$dir FAILED\e[0m\n"
-    fi
+print_results () {
+    FMT="%-32s%-16s\n"
+    printf "$FMT" "tests" "result"
+    echo "------------------------------------------------"
+    for key in "${!results[@]}"; do
+        printf "$FMT" "$key" "${results[$key]}"
+    done
 }
 
-TESTDIR=tests
-echo "-----------------------------------------------------"
-echo "Running tests in $TESTDIR: false positives possible"
-echo "Run from their respective directory to see full trace"
-echo "-----------------------------------------------------"
-cd $TESTDIR
-for dir in `ls -d ./*/`; do
-    echo `basename $dir`
-    cd $dir
-    for script in `ls *.sh`; do
-	run_this $script $dir
+function run_all_tests () {
+    cd "$TESTDIR" || echo "cannot cd to $TESTDIR" || exit 2
+
+    for dir in *; do
+        [ ! -d "$dir" ] && continue
+        cd "$dir" || echo "cannot cd to $TESTDIR" || exit 2
+	echo "running $dir tests .."
+        for script in *.sh; do
+	    [ -e $script ] || break
+
+            # skip
+	    if [ -f ".skipTest" ]; then
+	        echo "SKIPPED $dir"
+	        results[$dir]="SKIPPED"
+                echo -e "\e[1;32m$dir SKIPPED\e[0m\n"
+                continue
+            fi
+
+	    # execute
+	    "$script" "$dir"
+            if [ $? = 0 ]; then
+	        results[$dir]="OK"
+                echo -e "\e[1;32m$dir OK\e[0m\n"
+            else
+	        results[$dir]="FAILED"
+                echo -e "\e[1;31m$dir FAILED\e[0m\n"
+            fi
+
+        done
+        cd ..
     done
     cd ..
-done
-cd ..
+}
+
+run_all_tests $TESTDIR
+print_results

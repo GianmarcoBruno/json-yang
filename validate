@@ -1,6 +1,8 @@
 #!/bin/bash
 # gianmarco.bruno@ericsson.com, carlo.perocchio@ericsson.com
 
+PREREQUISITES="pyang"
+
 print_usage() {
     echo "usage: validate -j <JSON_FILE> -w <WHAT> [options]"
     echo ""
@@ -213,7 +215,15 @@ function validate_pyang() {
     popd
 }
 
+function check_prerequisites() {
+    for PROGRAM in $@; do
+	[ -z "$(command -v $PROGRAM)" ] &&
+	   echo "missing $PROGRAM - try 'sudo apt install $PROGRAM'" && exit 1
+    done
+}
+
 main() {
+    check_prerequisites "$PREREQUISITES"
     process_args $@
 
     if [ $VERBOSE = true ]; then
