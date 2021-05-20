@@ -81,28 +81,3 @@ config|data -> yanglint-script ---> output
 
 ```
 
-How to use the tool
-----------------
-```
-validate -j <JSON> -w <WHAT> [-y <DIR>] -s <STRATEGY> [-f] [-k] [-v]
-
-JSON       the instance to be validated
-WHAT       is one of: data, config"
-DIR        the directory where YANG models can be found (default .)
-STRATEGY   one of pyang (default) or yanglint
-
-flags:
--f        (fetch) validation is made using modules specified in the
-           JSON instance itself as, for example"
-      "// __REFERENCE_DRAFTS__": {
-          "ietf-network@2017-12-18":  "draft-ietf-i2rs-yang-network-topo-20",
-      .. }
--k         to keep the temporary directory (it is removed by default)
--v        verbose
-
-exit codes:
-0         validation is successful
-1         validation has been done and failed
-2         validation cannot done (e.g. bad parameters, presence of target directory)
-
-```
