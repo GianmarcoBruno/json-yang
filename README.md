@@ -9,7 +9,7 @@ NBI Design Team (https://github.com/danielkinguk/transport-nbi).
 How the toolchain is designed is described in `toolchain.md`.  
 Details on the validation process can be found in `validation.md`
 
-## Docker installation
+## Docker installation (preferred)
 
 The easiest way is to build and use the docker image on Linux.  
 Say this is version 1:  
@@ -28,7 +28,7 @@ function validate() {
 Now you can use the containerized tool as just ```validate```.  
 **Note**: do not specify the path because this is actually a function call.
 
-### Installation from source on Linux
+### Installation from source on Linux (discouraged)
 
 Prerequisites:
 - `bash 4.3`
@@ -51,8 +51,26 @@ To run the tool from source:
 **Note**: specify the path to the script or add its location to your ```$PATH```.
 The tool has been tested on Linux so far.
 
+## Description
+
+The tool receives an annotated JSON file which represents a RESTCONF instance.
+The annotations declare the YANG modules and relevant IETF documents from where
+they can be downloaded. The tool automatically retrieves the documents, extracts
+the YANG modules and use them to validate the JSON file. The user can specify
+"yanglint" or "pyang" as validation engine.
+
 ## How to use the tool
 
+1) create or obtain the annotated JSON file you want to validate.    
+    For example you might extract it from a IETF I-D.
+    Currently the tool operates only on a JSON file at a time.
+   
+2) determine if the said file is of kind "config" or "data" which
+   means respectively configuration or operational data.
+   
+3) finally run the validation tool as follows:
+
+```
 validate -j <JSON> -w <WHAT> [-y <DIR>] -s <STRATEGY> [-f] [-k] [-v]
 
 JSON       the instance to be validated
@@ -68,6 +86,7 @@ flags:
       .. }
 -k         to keep the temporary directory (it is removed by default)
 -v        verbose
+```
 
 exit codes:
 0         validation is successful
