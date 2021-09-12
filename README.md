@@ -93,12 +93,12 @@ exit codes:
 1         validation has been done and failed
 2         validation cannot done (e.g. bad parameters, presence of target directory)
 
-```
 
 ## Versions
 
 | version | pyang   | yanglint | notes |
 | ------- | ------- | -------- | ------|
+| 1.0 | 1.7.1 | 1.0-rc2 | corrected documentation |
 | 0.8 | 1.7.1 | 1.0-rc2 | fixes, improvements and added "fuf" |
 | 0.7 | 1.7.1 | 1.0-rc2 | distinct "downloads", "models" and "target" directories |
 | 0.6 | 1.7.1 | 1.0-rc2 | reduced images size from 1.46G to 248M -  only 69M on top of the base image |
