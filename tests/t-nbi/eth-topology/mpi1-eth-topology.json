@@ -1,0 +1,203 @@
+{
+  "// __LAST_UPDATE__": "August 20,2021",
+  "// __TITLE__": "ETH Black Topology @ MPI1",
+  "// __REFERENCE_DRAFTS__": {
+    "ietf-routing-types@2017-12-04": "rfc8294",
+    "ietf-te-types@2020-06-10": "rfc8776",
+    "ietf-network@2018-02-26": "rfc8345",
+    "ietf-network-topology@2018-02-26": "rfc8345",
+    "ietf-te-topology@2020-08-06": "rfc8795",
+    "ietf-eth-tran-types@2021-07-07": "draft-ietf-ccamp-client-signal-yang-05",
+    "ietf-eth-te-topology@2019-11-18": "draft-ietf-ccamp-eth-client-te-topo-yang-00"
+  },
+  "// __MISSING_ATTRIBUTES__": true,
+  "ietf-network:networks": {
+    "network": [
+      {
+        "network-id": "providerId/201/clientId/300/topologyId/eth-black-topology",
+        "network-types": {
+          "ietf-te-topology:te-topology": {
+            "ietf-eth-te-topology:eth-tran-topology": {}
+          }
+        },
+        "ietf-te-topology:te-topology-identifier": {
+          "provider-id": 201,
+          "client-id": 300,
+          "topology-id": "eth-black-topology"
+        },
+        "// __COMMENT__ ietf-te-topology:te": "presence container requires: provider-id, client-id and te-topology-id",
+        "ietf-te-topology:te": {
+          "name": "ETH Black Topology @ MPI1"
+        },
+        "ietf-network:node": [
+          {
+            "// __NODE__:__DESCRIPTION__": {
+              "name": "AN1",
+              "identifier": "10.0.0.1",
+              "type": "Abstract Node",
+              "physical node(s)": "The whole network domain 1"
+            },
+            "node-id": "10.0.0.1",
+            "ietf-te-topology:te-node-id": "10.0.0.1",
+            "// __COMMENT__ supporting-node": "Not used because topology hierarchy is outside the scope of this JSON example",
+            "ietf-te-topology:te": {
+              "te-node-attributes": {
+                "name": "AN11",
+                "is-abstract": [
+                  null
+                ],
+                "admin-status": "up"
+              },
+              "oper-status": "up",
+              "// __NOT-PRESENT__ tunnel-termination-point": "ETH Access Links only (no ETH TE switching)"
+            },
+            "ietf-network-topology:termination-point": [
+              {
+                "// __DESCRIPTION__:__LTP__": {
+                  "name": "AN1-1 LTP",
+                  "link type(s)": "Multi-function (OTU2, STM-64 and 10GE)",
+                  "physical node": "S3",
+                  "unnumberd/ifIndex": 1,
+                  "port type": "tributary port",
+                  "connected to": "R1"
+                },
+                "tp-id": "1",
+                "ietf-te-topology:te-tp-id": 1,
+                "ietf-te-topology:te": {
+                  "name": "AN1-1 LTP",
+                  "// __NOT-PRESENT__ interface-switching-capability": "ETH Access Link only (no ETH TE switching)",
+                  "// __COMMENT__ inter-domain-plug-id": "Use of plug-id for access Link is outside the scope of this document",
+                  "// __COMMENT__ inter-layer-lock-id": "AN1-1 ILL-ID (1)",
+                  "inter-layer-lock-id": [
+                    1
+                  ],
+                  "admin-status": "up",
+                  "oper-status": "up"
+                },
+                "// __COMMENT__ ietf-eth-te-topology:ingress-bandwidth-profile": "Outside the scope of this JSON example",
+                "ietf-eth-te-topology:eth-svc": {
+                  "client-facing": true,
+                  "supported-classification": {
+                    "port-classification": true,
+                    "vlan-classification": {
+                      "vlan-tag-classification": true,
+                      "outer-tag": {
+                        "supported-tag-types": [
+                          "ietf-eth-tran-types:classify-c-vlan"
+                        ],
+                        "vlan-range": "1-4094"
+                      }
+                    }
+                  },
+                  "supported-vlan-operations": {
+                    "transparent-vlan-operations": true
+                  }
+                }
+              },
+              {
+                "// __DESCRIPTION__:__LTP__": {
+                  "name": "AN1-8 LTP",
+                  "link type(s)": "10GE",
+                  "physical node": "S6",
+                  "unnumberd/ifIndex": 1,
+                  "port type": "tributary port",
+                  "connected to": "R2"
+                },
+                "tp-id": "8",
+                "ietf-te-topology:te-tp-id": 8,
+                "ietf-te-topology:te": {
+                  "name": "AN1-8 LTP",
+                  "// __COMMENT__ inter-layer-lock-id": "AN1-8 ILL-ID (8)",
+                  "// __NOT-PRESENT__ interface-switching-capability": "ETH Access Link only (no ETH TE switching)",
+                  "// __COMMENT__ inter-domain-plug-id": "Use of plug-id for access Link is outside the scope of this document",
+                  "inter-layer-lock-id": [
+                    8
+                  ],
+                  "admin-status": "up",
+                  "oper-status": "up"
+                },
+                "// __COMMENT__ ingress-bandwidth-profile": "Outside the scope of this JSON example",
+                "ietf-eth-te-topology:eth-svc": {
+                  "client-facing": true,
+                  "supported-classification": {
+                    "port-classification": true,
+                    "vlan-classification": {
+                      "vlan-tag-classification": true,
+                      "outer-tag": {
+                        "supported-tag-types": [
+                          "ietf-eth-tran-types:classify-c-vlan"
+                        ],
+                        "vlan-range": "1-4094"
+                      }
+                    }
+                  },
+                  "supported-vlan-operations": {
+                    "transparent-vlan-operations": true
+                  }
+                }
+              }
+            ]
+          }
+        ],
+        "ietf-network-topology:link": [
+          {
+            "// __DESCRIPTION__:__LINK__": {
+              "name": "Access Link from AN1-1",
+              "type": "Multi-function access link (OTU2, STM-64 and 10GE)",
+              "physical link": "Link from S3-1 to R1"
+            },
+            "link-id": "teNodeId/10.0.0.1/teLinkId/1",
+            "source": {
+              "source-node": "10.0.0.1",
+              "source-tp": "1"
+            },
+            "// __NOT-PRESENT__ destination": "access link",
+            "ietf-te-topology:te": {
+              "te-link-attributes": {
+                "name": "Access Link from AN1-1",
+                "// __NOT-PRESENT__ external-domain": "The plug-id is used instead of this container",
+                "// __NOT-PRESENT__ is-abstract": "The access link is not abstract",
+                "// __NOT-PRESENT__ interface-switching-capability": "ETH Access Link only (no ETH TE switching)",
+                "// __NOT-PRESENT__ label-restrictions": "ETH Access Link only (no ETH TE switching)",
+                "// __NOT-PRESENT__ max-link-bandwidth": "ETH Access Link only (no ETH TE switching)",
+                "// __NOT-PRESENT__ max-resv-link-bandwidth": "ETH Access Link only (no ETH TE switching)",
+                "// __NOT-PRESENT__ unreserved-bandwidth": "ETH Access Link only (no ETH TE switching)",
+                "admin-status": "up"
+              },
+              "oper-status": "up",
+              "// __NOT-PRESENT__ is-transitional": "It is not a transitional link"
+            }
+          },
+          {
+            "// __DESCRIPTION__:__LINK__": {
+              "name": "Access Link from AN1-8",
+              "type": "10GE access link",
+              "physical link": "Link from S6-1 to R2"
+            },
+            "link-id": "teNodeId/10.0.0.1/teLinkId/8",
+            "source": {
+              "source-node": "10.0.0.1",
+              "source-tp": "8"
+            },
+            "// __NOT-PRESENT__ destination": "access link",
+            "ietf-te-topology:te": {
+              "te-link-attributes": {
+                "name": "Access Link from AN1-8",
+                "// __NOT-PRESENT__ external-domain": "The plug-id is used instead of this container",
+                "// __NOT-PRESENT__ is-abstract": "The access link is not abstract",
+                "// __NOT-PRESENT__ interface-switching-capability": "ETH Access Link only (no ETH TE switching)",
+                "// __NOT-PRESENT__ label-restrictions": "ETH Access Link only (no ETH TE switching)",
+                "// __NOT-PRESENT__ max-link-bandwidth": "ETH Access Link only (no ETH TE switching)",
+                "// __NOT-PRESENT__ max-resv-link-bandwidth": "ETH Access Link only (no ETH TE switching)",
+                "// __NOT-PRESENT__ unreserved-bandwidth": "ETH Access Link only (no ETH TE switching)",
+                "admin-status": "up"
+              },
+              "oper-status": "up",
+              "// __NOT-PRESENT__ is-transitional": "It is not a transitional link"
+            }
+          }
+        ]
+      }
+    ]
+  }
+}

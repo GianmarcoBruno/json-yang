@@ -1,0 +1,94 @@
+{
+  "// __LAST_UPDATE__": "August 20,2021",
+  "// __TITLE__": "ODU2 Tunnel Configuration @ MPI1",
+  "// __REFERENCE_DRAFTS__": {
+    "ietf-routing-types@2017-12-04": "rfc8294",
+    "ietf-te-types@2020-06-10": "rfc8776",
+    "ietf-layer1-types@2021-02-19": "draft-ietf-ccamp-layer1-types-10",
+    "ietf-te@2021-02-20": "draft-ietf-teas-yang-te-26",
+    "ietf-otn-tunnel@2021-06-25": "draft-ietf-ccamp-otn-tunnel-model-14"
+  },
+  "// __MISSING_ATTRIBUTES__": true,
+  "// __RESTCONF_OPERATION__": {
+    "operation": "POST",
+    "url": "http://{{PNC1-ADDR}}/restconf/data/ietf-te:te/tunnels"
+  },
+  "ietf-te:te": {
+    "tunnels": {
+      "tunnel": [
+        {
+          "name": "mpi1-odu2-tunnel",
+          "// __COMMENT__ identifier": "ODU2-TUNNEL-ID @ MPI1",
+          "identifier": 2,
+          "description": "TNBI Example for an ODU2 Head Tunnel Segment @ MPI1",
+          "// __COMMENT__ encoding and switching-type": "OTN (ODU)",
+          "encoding": "ietf-te-types:lsp-encoding-oduk",
+          "switching-type": "ietf-te-types:switching-otn",
+          "// __COMMENT__ source": "AN1 Node-ID",
+          "source": "10.0.0.1",
+          "// __COMMENT__ src-tunnel-tp-id": "AN1-1 TTP-ID (1 -> 0x01 -> 'AQ==' in base64)",
+          "src-tunnel-tp-id": "AQ==",
+          "// __NOT-PRESENT__ destination": "Head tunnel segment",
+          "// __NOT-PRESENT__ dst-tunnel-tp-id": "Head tunnel segment",
+          "bidirectional": true,
+          "// __ DEFAULT __ protection": {
+            "// __ DEFAULT __ enable": false
+          },
+          "// __ DEFAULT __ restoration": {
+            "// __ DEFAULT __ enable": false
+          },
+          "// __COMMENT__ te-topology-identifier": "ODU Black Topology @ MPI1",
+          "te-topology-identifier": {
+            "provider-id": 201,
+            "client-id": 300,
+            "topology-id": "otn-black-topology"
+          },
+          "te-bandwidth": {
+            "ietf-otn-tunnel:otn": {
+              "ietf-otn-tunnel:odu-type": "ietf-layer1-types:ODU2"
+            }
+          },
+          "admin-state": "ietf-te:tunnel-admin-auto",
+          "primary-paths": {
+            "primary-path": [
+              {
+                "name": "mpi1-odu2-tunnel-primary-path",
+                "// __NOT-PRESENT__ te-bandwidth": "The tunnel bandwidth is used",
+                "explicit-route-objects-always": {
+                  "route-object-include-exclude": [
+                    {
+                      "// __COMMENT__": "Tunnel hand-off OTU4 egress interface (AN1-7 LTP)",
+                      "index": 1,
+                      "explicit-route-usage": "ietf-te-types:route-include-object",
+                      "unnumbered-link-hop": {
+                        "// __COMMENT__ node-id": "AN1 NODE-ID",
+                        "node-id": "10.0.0.1",
+                        "// __COMMENT__ link-tp-id": "AN1-7 LTP-ID",
+                        "link-tp-id": 7,
+                        "// __DEFAULT__ hop-type": "strict",
+                        "// __DEFAULT__ direction": "outgoing"
+                      }
+                    },
+                    {
+                      "// __COMMENT__": "Tunnel hand-off ODU2 egress label (ODU2 over OTU4)",
+                      "index": 2,
+                      "explicit-route-usage": "ietf-te-types:route-include-object",
+                      "label-hop": {
+                        "te-label": {
+                          "ietf-otn-tunnel:otn-tpn": 2,
+                          "ietf-otn-tunnel:tsg": "ietf-layer1-types:tsg-1.25G",
+                          "ietf-otn-tunnel:ts-list": "9-16",
+                          "// __DEFAULT__ direction": "forward"
+                        }
+                      }
+                    }
+                  ]
+                }
+              }
+            ]
+          }
+        }
+      ]
+    }
+  }
+}
