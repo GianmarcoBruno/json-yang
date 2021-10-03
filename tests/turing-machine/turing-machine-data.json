@@ -1,6 +1,6 @@
 {
   "turing-machine:turing-machine": {
-    "head-position" : 666666666,
+    "head-position" : "666666666",
     "state" : 13172,
     "transition-function": {
       "delta": [

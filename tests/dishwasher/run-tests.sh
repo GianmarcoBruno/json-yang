@@ -24,6 +24,4 @@ for STRATEGY in pyang yanglint; do
 	rm -f .stderr
     done
 done
-echo "pyang validation expected to fail with data documents"
-echo "because it does not accept empty leaf encoded as ''"
 exit $EXIT

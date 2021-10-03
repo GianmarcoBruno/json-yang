@@ -1,7 +1,7 @@
 {
   "dishwasher:dishwasher": {
     "cycle": "dishwasher-types:quick-rinse",
-    "is-standalone": "",
+    "is-standalone": [ null ],
     "phase": "dishwasher-types:warm-up",
     "operating": true,
     "s-n": "AS640MX-E",

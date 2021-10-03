@@ -6,27 +6,26 @@ A standalone tool to validate instances in JSON format of YANG models.
 
 The need for some automated tool was expressed in the IETF CCAMP Transport
 NBI Design Team (https://github.com/danielkinguk/transport-nbi).
-How the toolchain is designed is described in `toolchain.md`.  
-Details on the validation process can be found in `validation.md`
+The toolchain design is described in `toolchain.md`.  
+The validation process is detailed in `validation.md`.
 
 ## Docker installation (preferred)
 
 The easiest way is to build and use the docker image on Linux.  
-Say this is version 1:  
+Say this is version 1.1:  
 ```
-docker build . -t jy:1
+docker build . -t jy:1.1
 ```
 
 Then add this function to your ```.bashrc```:
 
 ```
 function validate() {
-    docker run --rm -it --mount type=bind,source="$(pwd)",target=/home/app jy:1 "$@"
+    docker run --rm -it --mount type=bind,source="$(pwd)",target=/home/app jy:1.1 "$@"
 }
 ```
 
 Now you can use the containerized tool as just ```validate```.  
-**Note**: do not specify the path because this is actually a function call.
 
 ### Installation from source on Linux (discouraged)
 
@@ -98,6 +97,7 @@ exit codes:
 
 | version | pyang   | yanglint | notes |
 | ------- | ------- | -------- | ------|
+| 1.1 | 2.5.0 | 2.0.88 | uplifted validation engines and aligned tests (new versions are stricter) |
 | 1.0 | 1.7.1 | 1.0-rc2 | corrected documentation |
 | 0.8 | 1.7.1 | 1.0-rc2 | fixes, improvements and added "fuf" |
 | 0.7 | 1.7.1 | 1.0-rc2 | distinct "downloads", "models" and "target" directories |

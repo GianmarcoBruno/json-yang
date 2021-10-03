@@ -1009,7 +1009,7 @@
             "link-id": "teNodeId/198.51.100.31/teLinkId/6",
             "source": {
               "source-node": "198.51.100.31",
-              "source-tp": 6
+              "source-tp": "6"
             },
             "// __COMMENT__": "Access link: destination not present",
             "ietf-te-topology:te": {
@@ -1057,7 +1057,7 @@
             "link-id": "teNodeId/198.51.100.76/teLinkId/3",
             "source": {
               "source-node": "198.51.100.76",
-              "source-tp": 3
+              "source-tp": "3"
             },
             "// __COMMENT__": "Access link: destination not present",
             "ietf-te-topology:te": {
@@ -1105,7 +1105,7 @@
             "link-id": "teNodeId/198.51.100.235/teLinkId/1",
             "source": {
               "source-node": "198.51.100.235",
-              "source-tp": 1
+              "source-tp": "1"
             },
             "// __COMMENT__": "Access link: destination not present",
             "ietf-te-topology:te": {

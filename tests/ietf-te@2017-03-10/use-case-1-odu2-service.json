@@ -99,12 +99,12 @@
           "bandwidth": {
             "config": {
 	      "specification-type": "SPECIFIED",
-              "set-bandwidth": 10000
+              "set-bandwidth": "10000"
              },
             "state": {
 	      "specification-type": "SPECIFIED",
-              "set-bandwidth": 10000,
-              "signaled-bandwidth": 10000
+              "set-bandwidth": "10000",
+              "signaled-bandwidth": "10000"
             }
           },
           "p2p-primary-paths": {
