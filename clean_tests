@@ -1,8 +1,13 @@
 #!/bin/bash
-cd tests
-for dir in `ls -d ./*/`; do
-    echo -ne "cleaning $dir\n" 
-    cd $dir
-    rm -rf *.xml *.sch *.jtox *.rng *.dsrl target
-    cd ..
+
+TEST_DIRECTORY=tests
+VALIDATION_TEST=validate
+
+for jy_test in $(find ${TEST_DIRECTORY} -name "${VALIDATION_TEST}"); do
+    jy_test_dir=$(dirname ${jy_test})
+    echo -ne "cleaning ${jy_test_dir}\n" 
+    current_dir=$(pwd)
+    cd "$jy_test_dir" || echo "cannot cd to $jy_test_dir" || exit 2
+    rm -rf target
+    cd ${current_dir}
 done

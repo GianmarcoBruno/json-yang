@@ -1,0 +1,16 @@
+#!/bin/bash -i
+
+# "test suite" exits 0 only if all tests exit with 0
+
+EXIT=0
+printf '%-16s%-8s\n' "WHAT" "OUT"
+for WHAT in config data; do
+    rm -rf target downloads
+
+    validate -j turing-machine-$WHAT.json -w "$WHAT" -m . 2> .stderr 1> /dev/null
+    OUT=$?
+    EXIT=$((EXIT + OUT))
+    printf '%-16s%-8s\n' "$WHAT" "$OUT"
+    rm -f .stderr
+done
+exit $EXIT

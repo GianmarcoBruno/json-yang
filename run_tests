@@ -1,6 +1,7 @@
 #!/bin/bash
 
-TESTDIR=tests
+TEST_DIRECTORY=tests
+VALIDATION_TEST=validate
 declare -A results
 
 print_results () {
@@ -13,38 +14,26 @@ print_results () {
 }
 
 function run_all_tests () {
-    cd "$TESTDIR" || echo "cannot cd to $TESTDIR" || exit 2
 
-    for dir in *; do
-        [ ! -d "$dir" ] && continue
-        cd "$dir" || echo "cannot cd to $TESTDIR" || exit 2
-	echo "running $dir tests .."
-        for script in *.sh; do
-	    [ -e $script ] || break
+    for jy_test in $(find ${TEST_DIRECTORY} -name "${VALIDATION_TEST}"); do
+        jy_test_dir=$(dirname ${jy_test})
+	current_dir=$(pwd)
+        cd "$jy_test_dir" || echo "cannot cd to $jy_test_dir" || exit 2
+	echo "running $jy_test .."
 
-            # skip
-	    if [ -f ".skipTest" ]; then
-	        echo "SKIPPED $dir"
-	        results[$dir]="SKIPPED"
-                echo -e "\e[1;32m$dir SKIPPED\e[0m\n"
-                continue
-            fi
+	# execute
+	./${VALIDATION_TEST}
+        if [ $? = 0 ]; then
+	    results[$jy_test_dir]="OK"
+            echo -e "\e[1;32m$jy_test_dir OK\e[0m\n"
+        else
+	    results[$jy_test_dir]="FAILED"
+            echo -e "\e[1;31m$jy_test_dir FAILED\e[0m\n"
+        fi
 
-	    # execute
-	    "$script" "$dir"
-            if [ $? = 0 ]; then
-	        results[$dir]="OK"
-                echo -e "\e[1;32m$dir OK\e[0m\n"
-            else
-	        results[$dir]="FAILED"
-                echo -e "\e[1;31m$dir FAILED\e[0m\n"
-            fi
-
-        done
-        cd ..
+        cd ${current_dir}
     done
-    cd ..
 }
 
-run_all_tests $TESTDIR
+run_all_tests
 print_results

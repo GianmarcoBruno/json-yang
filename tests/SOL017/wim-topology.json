@@ -1,20 +1,20 @@
 {
-  "// __LAST_UPDATE__": "July 7, 2020",
-  "// __TITLE__": "ETSI SOL017 mapping with IETF ACTN mapping: WIM Topology example",
-  "// __REFERENCE_DRAFTS__": {
-    "ietf-routing-types@2017-12-04": "rfc8294",
-    "ietf-te-types@2020-06-10": "rfc8776",
-    "ietf-network@2018-02-26": "rfc8345",
-    "ietf-network-topology@2018-02-26": "rfc8345",
-    "ietf-te-topology@2019-02-07": "draft-ietf-teas-yang-te-topo-22"
+  "// header": {
+    "last-update": "July 7, 2020",
+    "title": "ETSI SOL017 mapping with IETF ACTN mapping: WIM Topology example",
+    "reference-drafts": {
+      "ietf-routing-types@2017-12-04": "rfc8294",
+      "ietf-te-types@2020-06-10": "rfc8776",
+      "ietf-network@2018-02-26": "rfc8345",
+      "ietf-network-topology@2018-02-26": "rfc8345",
+      "ietf-te-topology@2019-02-07": "draft-ietf-teas-yang-te-topo-22"
+    },
+    "missing-attributes": false,
+    "comment": [
+      "TE router ids from 198.51.100.0/24 reserved for documentation by RFC5737",
+      "Single domain network 64511  reserved for documentation by RFC5398"
+    ]
   },
-  "// __MISSING_ATTRIBUTES__": false,
-
-  "// __COMMENT__ ": [
-    "TE router ids from 198.51.100.0/24 reserved for documentation by RFC5737",
-    "Single domain network 64511  reserved for documentation by RFC5398"
-  ],
-
   "ietf-network:networks": {
     "network": [
       {
@@ -32,7 +32,7 @@
         },
         "ietf-network:node": [
           {
-            "// __COMMENT__: PE-031": [
+            "// comment: PE-031": [
               "The PE node where Site#3 is attached where is located the ERP of the blacksmith workshop",
               "Interfaces:",
               "1. ge-1/0/1 to backbone P-1 node ",
@@ -117,13 +117,13 @@
                 }
               },
               {
-                "// __COMMENT__": "INTERFACE TO CE",
+                "// comment": "INTERFACE TO CE",
                 "tp-id": "6",
                 "ietf-te-topology:te-tp-id": 6,
                 "ietf-te-topology:te": {
                   "name": "ge-0/0/6",
                   "admin-status": "up",
-                  "// __COMMENT__": [
+                  "// comment": [
                     "used bearer-reference for service creation can be equal to inter-domain-plug-id",
                     "in used service creation example is INVENTORY-ID=FIBER:Site#3-ANVIL:10143",
                     "for PE-031"
@@ -135,7 +135,7 @@
             ]
           },
           {
-            "// __COMMENT__: P-1": [
+            "// comment: P-1": [
               "The P node of the backbone nexthop for PE-031 and for PE-076",
               "Interfaces:",
               "1. ge-0/1/1 to backbone PE-031 node",
@@ -422,7 +422,7 @@
             ]
           },
           {
-            "// __COMMENT__: P-2": [
+            "// comment: P-2": [
               "The P node of the backbone ",
               "Interfaces:",
               "1. ge-0/2/1 to backbone P-1 node",
@@ -575,7 +575,7 @@
             ]
           },
           {
-            "// __COMMENT__: P-3": [
+            "// comment: P-3": [
               "The P node of the backbone nexthop for PE-235",
               "Interfaces:",
               "1. ge-0/3/1 to backbone P-1 node nexthop for PE-031 and PE-076",
@@ -795,7 +795,7 @@
             ]
           },
           {
-            "// __COMMENT__: PE-076": [
+            "// comment: PE-076": [
               "The PE node attached via South access of Site#2 where is located the control system for the creation of the rocket propeller",
               "Interfaces:",
               "1. ge-0/1/1 to backbone P-1",
@@ -881,13 +881,13 @@
                 }
               },
               {
-                "// __COMMENT__": "INTERFACE TO CE",
+                "// comment": "INTERFACE TO CE",
                 "tp-id": "3",
                 "ietf-te-topology:te-tp-id": 3,
                 "ietf-te-topology:te": {
                   "name": "ge-0/0/3",
                   "admin-status": "up",
-                  "// __COMMENT__": [
+                  "// comment": [
                     "used bearer-reference for service creation can be equal to inter-domain-plug-id",
                     "in used service creation example is INVENTORY-ID=FIBER:Site#2-BAILEY:90006",
                     "for PE-076"
@@ -899,7 +899,7 @@
             ]
           },
           {
-            "// __COMMENT__: PE-235": [
+            "// comment: PE-235": [
               "The PE node attached via North access of Site#2 where is located the control system for the creation of the rocket propeller.",
               "Interfaces:",
               "1. ge-0/1/1 to backbone P-3",
@@ -985,13 +985,13 @@
                 }
               },
               {
-                "// __COMMENT__": "INTERFACE TO CE",
+                "// comment": "INTERFACE TO CE",
                 "tp-id": "1",
                 "ietf-te-topology:te-tp-id": 1,
                 "ietf-te-topology:te": {
                   "name": "ge-0/0/1",
                   "admin-status": "up",
-                  "// __COMMENT__": [
+                  "// comment": [
                     "used bearer-reference for service creation can be equal to inter-domain-plug-id",
                     "in used service creation example is INVENTORY-ID=FIBER:Site#2-ACME:50003",
                     "for PE-235"
@@ -1005,13 +1005,13 @@
         ],
         "ietf-network-topology:link": [
           {
-            "// __COMMENT__.ACCESS LINK": "PE-031 --> CE Site #3",
+            "// comment.ACCESS LINK": "PE-031 --> CE Site #3",
             "link-id": "teNodeId/198.51.100.31/teLinkId/6",
             "source": {
               "source-node": "198.51.100.31",
               "source-tp": "6"
             },
-            "// __COMMENT__": "Access link: destination not present",
+            "// comment": "Access link: destination not present",
             "ietf-te-topology:te": {
               "te-link-attributes": {
                 "name": "Access Link PE-031",
@@ -1053,13 +1053,13 @@
             }
           },
           {
-            "// __COMMENT__.ACCESS LINK": "PE-076 --> CE South Site #2",
+            "// comment.ACCESS LINK": "PE-076 --> CE South Site #2",
             "link-id": "teNodeId/198.51.100.76/teLinkId/3",
             "source": {
               "source-node": "198.51.100.76",
               "source-tp": "3"
             },
-            "// __COMMENT__": "Access link: destination not present",
+            "// comment": "Access link: destination not present",
             "ietf-te-topology:te": {
               "te-link-attributes": {
                 "name": "Access Link PE-076",
@@ -1101,13 +1101,13 @@
             }
           },
           {
-            "// __COMMENT__.ACCESS LINK": "PE-235 --> CE North Site #2",
+            "// comment.ACCESS LINK": "PE-235 --> CE North Site #2",
             "link-id": "teNodeId/198.51.100.235/teLinkId/1",
             "source": {
               "source-node": "198.51.100.235",
               "source-tp": "1"
             },
-            "// __COMMENT__": "Access link: destination not present",
+            "// comment": "Access link: destination not present",
             "ietf-te-topology:te": {
               "te-link-attributes": {
                 "name": "Access Link PE-235",
@@ -1149,7 +1149,7 @@
             }
           },
           {
-            "// __COMMENT__.LINK": "PE-031 --> P-1",
+            "// comment.LINK": "PE-031 --> P-1",
             "link-id": "teNodeId/198.51.100.31/teLinkId/10.1.31.2",
             "source": {
               "source-node": "198.51.100.31",
@@ -1284,7 +1284,7 @@
             }
           },
           {
-            "// __COMMENT__.LINK": "PE-031 <-- P-1",
+            "// comment.LINK": "PE-031 <-- P-1",
             "link-id": "teNodeId/198.51.100.1/teLinkId/10.1.31.1",
             "source": {
               "source-node": "198.51.100.1",
@@ -1419,7 +1419,7 @@
             }
           },
           {
-            "// __COMMENT__.LINK": "P-1 --> P-2",
+            "// comment.LINK": "P-1 --> P-2",
             "link-id": "teNodeId/198.51.100.1/teLinkId/10.1.2.1",
             "source": {
               "source-node": "198.51.100.1",
@@ -1554,7 +1554,7 @@
             }
           },
           {
-            "// __COMMENT__.LINK": "P-1 <-- P-2",
+            "// comment.LINK": "P-1 <-- P-2",
             "link-id": "teNodeId/198.51.100.2/teLinkId/10.1.2.2",
             "source": {
               "source-node": "198.51.100.2",
@@ -1689,7 +1689,7 @@
             }
           },
           {
-            "// __COMMENT__.LINK": "P-1 --> P-3",
+            "// comment.LINK": "P-1 --> P-3",
             "link-id": "teNodeId/198.51.100.1/teLinkId/10.1.3.1",
             "source": {
               "source-node": "198.51.100.1",
@@ -1824,7 +1824,7 @@
             }
           },
           {
-            "// __COMMENT__.LINK": "P-1 <-- P-3",
+            "// comment.LINK": "P-1 <-- P-3",
             "link-id": "teNodeId/198.51.100.3/teLinkId/10.1.3.2",
             "source": {
               "source-node": "198.51.100.3",
@@ -1959,7 +1959,7 @@
             }
           },
           {
-            "// __COMMENT__.LINK": "P-2 --> P-3",
+            "// comment.LINK": "P-2 --> P-3",
             "link-id": "teNodeId/198.51.100.2/teLinkId/10.2.3.1",
             "source": {
               "source-node": "198.51.100.2",
@@ -2094,7 +2094,7 @@
             }
           },
           {
-            "// __COMMENT__.LINK": "P-2 <-- P-3",
+            "// comment.LINK": "P-2 <-- P-3",
             "link-id": "teNodeId/198.51.100.3/teLinkId/10.2.3.2",
             "source": {
               "source-node": "198.51.100.3",
@@ -2229,7 +2229,7 @@
             }
           },
           {
-            "// __COMMENT__.LINK": "PE-076 --> P-1",
+            "// comment.LINK": "PE-076 --> P-1",
             "link-id": "teNodeId/198.51.100.76/teLinkId/10.1.76.2",
             "source": {
               "source-node": "198.51.100.76",
@@ -2364,7 +2364,7 @@
             }
           },
           {
-            "// __COMMENT__.LINK": "PE-076 <-- P-1",
+            "// comment.LINK": "PE-076 <-- P-1",
             "link-id": "teNodeId/198.51.100.1/teLinkId/10.1.76.1",
             "source": {
               "source-node": "198.51.100.1",
@@ -2499,7 +2499,7 @@
             }
           },
           {
-            "// __COMMENT__.LINK": "PE-235 --> P-3",
+            "// comment.LINK": "PE-235 --> P-3",
             "link-id": "teNodeId/198.51.100.235/teLinkId/10.3.235.2",
             "source": {
               "source-node": "198.51.100.235",
@@ -2634,7 +2634,7 @@
             }
           },
           {
-            "// __COMMENT__.LINK": "PE-235 <-- P-3",
+            "// comment.LINK": "PE-235 <-- P-3",
             "link-id": "teNodeId/198.51.100.3/teLinkId/10.3.235.1",
             "source": {
               "source-node": "198.51.100.3",

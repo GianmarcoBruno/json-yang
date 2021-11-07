@@ -1,25 +1,27 @@
 {
-  "// __LAST_UPDATE__": "August 20,2021",
-  "// __TITLE__": "EPL Configuration @ MPI1",
-  "// __REFERENCE_DRAFTS__": {
-    "ietf-routing-types@2017-12-04": "rfc8294",
-    "ietf-te@2021-05-16": "draft-ietf-teas-yang-te-27",
-    "ietf-te-types@2020-06-10": "rfc8776",
-    "ietf-eth-tran-types@2021-07-07": "draft-ietf-ccamp-client-signal-yang-05",
-    "ietf-eth-tran-service@2021-01-11": "draft-ietf-ccamp-client-signal-yang-05"
-  },
-  "// __MISSING_ATTRIBUTES__": true,
-  "// __RESTCONF_OPERATION__": {
-    "operation": "POST",
-    "url": "http://{{PNC1-ADDR}}/restconf/data/ietf-eth-tran-service:etht-svc/etht-svc-instances"
+  "// header": {
+    "last-update": "January 29, 2022",
+    "title": "EPL Configuration @ MPI1",
+    "reference-drafts": {
+      "ietf-routing-types@2017-12-04": "rfc8294",
+      "ietf-te@2021-05-16": "draft-ietf-teas-yang-te-27",
+      "ietf-te-types@2020-06-10": "rfc8776",
+      "ietf-eth-tran-types@2021-07-07": "draft-ietf-ccamp-client-signal-yang-05",
+      "ietf-eth-tran-service@2021-01-11": "draft-ietf-ccamp-client-signal-yang-05"
+    },
+    "missing-attributes": true,
+    "restconf-operation": {
+      "operation": "POST",
+      "url": "http://{{PNC1-ADDR}}/restconf/data/ietf-eth-tran-service:etht-svc/etht-svc-instances"
+    }
   },
   "ietf-eth-tran-service:etht-svc": {
     "etht-svc-instances": [
       {
         "etht-svc-name": "mpi1-epl-service",
         "etht-svc-descr": "TNBI Example for an EPL over ODU2 Service @ MPI1",
-        "// __DEFAULT__ etht-svc-type": "ietf-eth-tran-types:p2p-svc",
-        "// __COMMENT__ te-topology-identifier": "ETH Black Topology @ MPI1",
+        "// default etht-svc-type": "ietf-eth-tran-types:p2p-svc",
+        "// comment te-topology-identifier": "ETH Black Topology @ MPI1",
         "te-topology-identifier": {
           "provider-id": 201,
           "client-id": 300,
@@ -27,28 +29,28 @@
         },
         "etht-svc-end-points": [
           {
-            "// __COMMENT__": "10GE Service End-Point at the access interface (S3-1 -> AN1-1)",
+            "// comment": "10GE Service End-Point at the access interface (S3-1 -> AN1-1)",
             "etht-svc-end-point-name": "mpi1-epl-an1-1-service-end-point",
             "etht-svc-end-point-descr": "Ethernet Service End-Point at S3-1 (AN1-1) access link",
             "etht-svc-access-points": [
               {
-                "// __COMMENT__": "10GE Service Access Point at the access interface (S3-1 -> AN1-1)",
+                "// comment": "10GE Service Access Point at the access interface (S3-1 -> AN1-1)",
                 "access-point-id": "mpi-epl-an1-1-service-access-point",
-                "// __COMMENT__ access-node-id": "AN1 NODE-ID",
+                "// comment access-node-id": "AN1 NODE-ID",
                 "access-node-id": "10.0.0.1",
-                "// __COMMENT__ access-ltp-id": "AN1-1 LTP-ID",
+                "// comment access-ltp-id": "AN1-1 LTP-ID",
                 "access-ltp-id": 1
               }
             ],
             "service-classification-type": "ietf-eth-tran-types:port-classification",
-            "// __COMMENT__ ingress-egress-bandwidth-profile": "Outside the scope of this JSON example",
-            "// __NOT-PRESENT__ vlan-operations": "Transparent VLAN operations"
+            "// comment ingress-egress-bandwidth-profile": "Outside the scope of this JSON example",
+            "// comment not present vlan-operations": "Transparent VLAN operations"
           }
         ],
         "underlay": {
           "otn-tunnels": [
             {
-              "// __COMMENT__ tunnel-name": "ODU2 Head Tunnel Segment @ MPI1",
+              "// comment tunnel-name": "ODU2 Head Tunnel Segment @ MPI1",
               "name": "mpi1-odu2-tunnel"
             }
           ]

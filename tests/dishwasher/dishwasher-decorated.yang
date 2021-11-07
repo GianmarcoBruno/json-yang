@@ -19,9 +19,9 @@ module dishwasher-decorated {
 
   contact
       "Gianmarco Bruno
-       <mailto: gianmarco.bruno@ericsson.com>
-       Carlo Perocchio
-       <mailto: carlo.perocchio@ericsson.com>";
+       <mailto: giantabasco@gmail.com>
+       Carlo Perocchio;
+       <mailto: carlo.perocchio@gmail.com>";
 
   description
     "A decorated dishwasher is a dishwasher with a certain wood color.

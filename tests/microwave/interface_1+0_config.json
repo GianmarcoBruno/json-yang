@@ -1,11 +1,13 @@
 {
-  "//RLT-A": "1+0 configuration of Near End node",
-  "// __REFERENCE_DRAFTS__": {
-    "ietf-interfaces@2014-05-08": "rfc7223",
-    "iana-if-type": "rfc7224",
-    "ietf-microwave-radio-link@2018-03-30": "draft-ietf-ccamp-mw-yang-05",
-    "ietf-interface-protection@2018-03-30": "draft-ietf-ccamp-mw-yang-05",
-    "ietf-microwave-types@2018-03-30": "draft-ietf-ccamp-mw-yang-05"
+  "// header": {
+    "reference-drafts": {
+      "ietf-interfaces@2014-05-08": "rfc7223",
+      "iana-if-type": "rfc7224",
+      "ietf-microwave-radio-link@2018-03-30": "draft-ietf-ccamp-mw-yang-05",
+      "ietf-interface-protection@2018-03-30": "draft-ietf-ccamp-mw-yang-05",
+      "ietf-microwave-types@2018-03-30": "draft-ietf-ccamp-mw-yang-05"
+    },
+    "title": "1+0 configuration of Near End node"
   },
   "ietf-interfaces:interfaces": {
     "ietf-interfaces:interface": [

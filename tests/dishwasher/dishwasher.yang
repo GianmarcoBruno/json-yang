@@ -11,9 +11,9 @@ module dishwasher {
 
   contact
       "Gianmarco Bruno
-       <mailto: gianmarco.bruno@ericsson.com>
+       <mailto: gianmarco.bruno@gmail.com>
        Carlo Perocchio
-       <mailto: carlo.perocchio@ericsson.com>";
+       <mailto: carlo.perocchio@gmail.com>";
 
   description
     "Model for the dishwasher.";
