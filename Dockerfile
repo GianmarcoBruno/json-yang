@@ -32,9 +32,11 @@ RUN cd /opt2/libyang/ && mkdir build && cd build && \
 
 # builder pattern
 
-FROM ubuntu:20.04
+FROM bitnami/minideb:stretch
 
-RUN apt-get update && apt install -y curl
+RUN apt-get update && apt install -y curl && \
+    rm -rf /var/lib/apt/lists/*
+
 # we want jq 1.6 but Ubuntu archives still have 1.5
 RUN curl -L https://github.com/stedolan/jq/releases/download/jq-1.6/jq-linux64 \
     -o /usr/local/bin/jq && chmod 755 /usr/local/bin/jq
@@ -62,7 +64,7 @@ ENV PATH="/opt/app:${PATH}"
 USER app
 
 # make the container aware of the versions
-ENV JY_VERSION=2.0
+ENV JY_VERSION=2.1
 ENV LIBYANG_VERSION=v2.0.112
 
 ENTRYPOINT ["validate"]

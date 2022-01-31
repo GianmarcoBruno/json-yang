@@ -11,23 +11,23 @@ The validation process is detailed in `validation.md`.
 
 ## installation
 
-The easiest way is to build the docker image on Linux. Say this is version 2.0:  
+The easiest way is to build the docker image on Linux:  
 ```
-docker build . -t jy:2.0
+docker build . -t <my-name>
 ```
 
 Then add this function to your ```.bashrc```:
 
 ```
 function validate {
-    docker run --rm -it --mount type=bind,source="$(pwd)",target=/home/app jy:2.0 "$@"
+    docker run --rm -it --mount type=bind,source="$(pwd)",target=/home/app <my-name> "$@"
 }
 ```
 
-Now you can use the containerized tool as just ```validate```.  
+That's all: use the containerized tool as just ```validate```.  
 
-It is possible to run the non-containerized tool: in this case you need to compile
-libyang and have wget and jq 1.6 available on your executing environment.
+It is possible to run the tool as-is without using containers. In this case you need to
+compile libyang and have wget and jq 1.6 available on your executing environment.
 
 The tool has been tested on Linux only so far.
 
@@ -78,6 +78,7 @@ exit codes:
 
 | version | pyang   | yanglint | notes |
 | ------- | ------- | -------- | ------|
+| 2.1 | N/A   | 2.0.112 | replaced ubuntu base image with minideb (image is 89M) and refactoring |
 | 2.0 | N/A   | 2.0.112 | removed pyang validation and python code (image is now 135M). Use simplified annotations. Upgraded to latest yanglint |
 | 1.1 | 2.5.0 | 2.0.88 | uplifted validation engines and aligned tests (new versions are stricter) |
 | 1.0 | 1.7.1 | 1.0-rc2 | corrected documentation |
@@ -88,7 +89,7 @@ exit codes:
 | 0.4 | 1.7.1 | 1.0-rc2 | moved back to 1.7.1 as it seems to be the only version to have DSDL plugin supporting Yang 1.1 |
 | 0.3 | 2.0.2 | 1.0-rc2 | initial dockerized version |
 
-The folding/unfolding program in ```scripts/fuf``` has been extracted from https://datatracker.ietf.org/doc/html/rfc8792.
+The folding/unfolding program in ```scripts/fuf``` has been extracted from https://www.rfc-editor.org/rfc/rfc8792.txt.
 
 ## Thanks
 

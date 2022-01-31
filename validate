@@ -16,6 +16,7 @@ function print_usage {
     echo '    "ietf-eth-tran-service@2019-03-27": "draft-ietf-ccamp-client-signal-yang-00"'
     echo '   }'
     echo ' },'
+    echo ""
     echo "WHAT is one of: data, config"
     echo ""
     echo "options:"
@@ -35,23 +36,12 @@ function print_usage {
 JSON_FILE=""
 WHAT=""
 TARGET_DIR=target
+YANGLINT_CODE=$TARGET_DIR/yanglint.cmd
 MODELS_DIR=""
 DOWNLOAD_DIR=downloads
 FETCH=false
 KEEP=false
-STRATEGY=yanglint
 VERBOSE=false
-
-THIS_SCRIPT_DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
-
-# to suppress pushd/popd messages
-function pushd {
-    command pushd "$@" > /dev/null
-}
-
-function popd {
-    command popd "$@" > /dev/null
-}
 
 function exit_if_failed {
     if [ $? -ne 0 ]
@@ -62,7 +52,7 @@ function exit_if_failed {
     fi
 }
 
-# usage: fetch_model $fragment $model $document $download_dir
+# usage: fetch_model $fragment $model $document
 function fetch_model {
     kind=$1
     model=$2
@@ -79,7 +69,7 @@ function fetch_models {
     models=$(jq -r '."// header"."reference-drafts" | keys[]' "$1")
     for model in $models; do
         echo "fetching model $model"
-        document=$(jq -r --arg M $model '."// header"."reference-drafts"[$M]' "$1")
+        document=$(jq -r --arg M "$model" '."// header"."reference-drafts"[$M]' "$1")
         echo "fetching document $document"
         if [[ x$document =~ xrfc-* ]]; then
 	    fetch_model "rfc" "$model" "$document"
@@ -91,10 +81,6 @@ function fetch_models {
 	fi
     done
 }
-
-# pseudo-comments has been provisionally defined in the IETF TEAS Transport NBI
-# Design Team in JSON as fictitious key/value pairs on a single line:
-# "// TEXT" :" OTHER TEXT", for example "// router-id": "NODE-S3-ID"
 
 function cleanup {
     [ $KEEP = true ] || rm -rf $TARGET_DIR
@@ -143,55 +129,41 @@ function process_args {
 
 function validate_yanglint {
     JSON_FILE=$1
-    WHAT=$2
-    TARGET_DIR=$3
 
-    JTOX_FILE=$TARGET_DIR/_temp.yanglint
     JSON_STRIPPED=${TARGET_DIR}/${JSON_FILE%.json}-stripped.json
-    cp $JSON_FILE $JSON_STRIPPED
+    cp "$JSON_FILE" "$JSON_STRIPPED"
 
-    echo "searchpath ${TARGET_DIR}" >> $JTOX_FILE
+    echo "searchpath ${TARGET_DIR}" >> "$YANGLINT_CODE"
     for i in $ALL_YANG_FILES; do
-        echo "add -i $i" >> $JTOX_FILE
+        echo "add -i $i" >> "$YANGLINT_CODE"
     done
-    echo "data -t $WHAT $JSON_STRIPPED" >> $JTOX_FILE
-    echo "exit" >> $JTOX_FILE
+    echo "data -t $WHAT $JSON_STRIPPED" >> "$YANGLINT_CODE"
+    echo "exit" >> "$YANGLINT_CODE"
 
-    [ $VERBOSE = true ] && echo "<<<" && cat $JTOX_FILE && echo ">>>"
+    [ $VERBOSE = true ] && echo "<<<" && cat "$YANGLINT_CODE" && echo ">>>"
 
     # strip comments
     jq 'walk(if type == "object" then with_entries(select(.key | test("^// ") | not)) else . end)' \
-        $JSON_FILE > $JSON_STRIPPED
+        "$JSON_FILE" > "$JSON_STRIPPED"
     exit_if_failed "stripping comments"
 
     # the contract with yanglint is that validation is OK iff
     # nothing is written on STDERR so we capture and check it
     # and our testsuite currently expects the magic string
     # "No errors found." to be happy
-    ANSWER=$(cat $JTOX_FILE | yanglint 2>&1)
+    ANSWER=$(yanglint < "$YANGLINT_CODE" 2>&1)
 
     EXIT_CODE=0
     if [ "z$ANSWER" == "z" ]; then
         >&2 echo "No errors found."
     else
-        echo $ANSWER
+        echo "$ANSWER"
         EXIT_CODE=1
     fi
     return $EXIT_CODE
 }
 
-function check_prerequisites {
-    for PROGRAM in $@; do
-	[ -z "$(command -v $PROGRAM)" ] &&
-	   echo "missing $PROGRAM - try 'sudo apt install $PROGRAM'" && exit 1
-    done
-}
-
-function main {
-    check_prerequisites "$PREREQUISITES"
-    process_args $@
-
-    if [ $VERBOSE = true ]; then
+function print_intro {
     echo "----------------"
     echo "JSON FILE      $JSON_FILE"
     echo "WHAT           $WHAT"
@@ -203,39 +175,43 @@ function main {
     echo "MODELS DIR     $MODELS_DIR"
     echo "TARGET DIR     $TARGET_DIR"
     echo "----------------"
-    fi
+}
 
-    if [ -d "$TARGET_DIR" ]; then
-        echo "target directory exists .. exiting"
-        exit 2
-    fi
-    mkdir $TARGET_DIR
+function prepare_target_directory {
+    for THIS_MODELS_DIR in $MODELS_DIR; do
+        [ $VERBOSE == "true" ] && echo "using models in $THIS_MODELS_DIR"
+        MODELS=$(ls "$THIS_MODELS_DIR"/*.yang 2> /dev/null)
+        [ -z "$MODELS" ] && echo "warning: no models in $THIS_MODELS_DIR"
+        cp "$THIS_MODELS_DIR"/*.yang -t "$TARGET_DIR" 2> /dev/null
+    done
 
-    # fetch to $DOWNLOAD_DIR
+    ALL_YANG_FILES="$(ls "${TARGET_DIR}"/*.yang 2> /dev/null)"
+    [ -z "$ALL_YANG_FILES" ] && echo "no yang files in $TARGET_DIR to be evaluated" && cleanup && exit 2
+}
+
+function main {
+    process_args "$@"
+
+    [ $VERBOSE = true ] && print_intro
+
+    [ -d "$TARGET_DIR" ] && echo "target directory exists .. exiting" exit 2
+    mkdir "$TARGET_DIR"
+
+    # fetch models to $DOWNLOAD_DIR
     if [ $FETCH == "true" ]; then
         rm -rf $DOWNLOAD_DIR && mkdir -p $DOWNLOAD_DIR
         [ $VERBOSE == "true" ] && echo "download references and models to $DOWNLOAD_DIR"
-        fetch_models $JSON_FILE
+        fetch_models "$JSON_FILE"
     fi
 
+
     # copy yang files from all model directories
-    for THIS_MODELS_DIR in $MODELS_DIR; do
-        [ $VERBOSE == "true" ] && echo "using models in $THIS_MODELS_DIR"
-        MODELS=$(ls $THIS_MODELS_DIR/*.yang 2> /dev/null)
-        [ -z "$MODELS" ] && echo "warning: no models in $THIS_MODELS_DIR"
-        cp $THIS_MODELS_DIR/*.yang -t $TARGET_DIR 2> /dev/null
-    done
+    prepare_target_directory
 
-    ALL_YANG_FILES="$(ls ${TARGET_DIR}/*.yang 2> /dev/null)"
-    [ -z "$ALL_YANG_FILES" ] && echo "no yang files in $TARGET_DIR to be evaluated" && cleanup && exit 2
-    sed "s/ /\n/g" <<< $ALL_YANG_FILES > /dev/null
-
-    validate_yanglint $JSON_FILE $WHAT $TARGET_DIR
-
+    validate_yanglint "$JSON_FILE"
     exit_if_failed "validation"
 
-    # do not write anything on stdout otherwise
-    # the test driver gets confused
+    # do not write anything on stdout on purpose
     cleanup
     return 0
 }
