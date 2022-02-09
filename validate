@@ -59,7 +59,12 @@ function fetch_model {
     name=$3
 
     full_name="${name}.txt"
-    curl -s "${IETF_URL[$kind]}/${full_name}" --output "${DOWNLOAD_DIR}/${full_name}"
+
+    # Busybox wget cannot overwrite already downloaded files so we remove them
+    # This happens when multiple YANG modules comes from the same IETF document
+    rm -rf "${DOWNLOAD_DIR}/${full_name}"
+    wget -q -P "${DOWNLOAD_DIR}" "${IETF_URL[$kind]}/${full_name}" &> /dev/null
+    exit_if_failed "downloading $full_name"
     rfcstrip -d "$DOWNLOAD_DIR" -f "${model}.yang" "${DOWNLOAD_DIR}/${full_name}"
 }
 
@@ -204,10 +209,8 @@ function main {
         fetch_models "$JSON_FILE"
     fi
 
-
     # copy yang files from all model directories
     prepare_target_directory
-
     validate_yanglint "$JSON_FILE"
     exit_if_failed "validation"
 
