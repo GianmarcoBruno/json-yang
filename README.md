@@ -78,6 +78,7 @@ exit codes:
 
 | version | pyang   | yanglint | notes |
 | ------- | ------- | -------- | ------|
+| 2.3 | N/A   | 2.0.112 | Dockerfile linting. Image size reduced to 27.2MB |
 | 2.2 | N/A   | 2.0.112 | image size reduced to 29.5MB using Alpine and statically-linked yanglint |
 | 2.1 | N/A   | 2.0.112 | replaced ubuntu base image with minideb (image is 89M) and refactoring |
 | 2.0 | N/A   | 2.0.112 | removed pyang validation and python code (image is now 135M). Use simplified annotations. Upgraded to latest yanglint |
