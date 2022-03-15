@@ -1,6 +1,6 @@
 {
   "// header": {
-    "last-update": "August 20,2021",
+    "last-update": "March 15, 2022",
     "title": "ODU2 Tunnel Configuration @ MPI1",
     "reference-drafts": {
       "ietf-routing-types@2017-12-04": "rfc8294",
@@ -27,7 +27,7 @@
           "encoding": "ietf-te-types:lsp-encoding-oduk",
           "switching-type": "ietf-te-types:switching-otn",
           "// comment source": "AN1 Node-ID",
-          "source": "10.0.0.1",
+          "source": "192.0.2.1",
           "// comment src-tunnel-tp-id": "AN1-1 TTP-ID (1 -> 0x01 -> 'AQ==' in base64)",
           "src-tunnel-tp-id": "AQ==",
           "// not-present destination": "Head tunnel segment",
@@ -64,7 +64,7 @@
                       "explicit-route-usage": "ietf-te-types:route-include-object",
                       "unnumbered-link-hop": {
                         "// comment node-id": "AN1 NODE-ID",
-                        "node-id": "10.0.0.1",
+                        "node-id": "192.0.2.1",
                         "// comment link-tp-id": "AN1-7 LTP-ID",
                         "link-tp-id": 7,
                         "// default hop-type": "strict",

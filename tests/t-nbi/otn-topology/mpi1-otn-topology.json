@@ -1,6 +1,6 @@
 {
   "// header": {
-    "last-update": "August 20,2021",
+    "last-update": "March 15, 2022",
     "title": "ODU Black Topology @ MPI1",
     "missing-attributes": true,
     "reference-drafts": {
@@ -33,14 +33,14 @@
         },
         "ietf-network:node": [
           {
-            "// node:description": {
+            "// node description": {
               "name": "AN1",
-              "identifier": "10.0.0.1",
+              "identifier": "192.0.2.1",
               "type": "Abstract Node",
               "physical node(s)": "The whole network domain 1"
             },
-            "node-id": "10.0.0.1",
-            "ietf-te-topology:te-node-id": "10.0.0.1",
+            "node-id": "192.0.2.1",
+            "ietf-te-topology:te-node-id": "192.0.2.1",
             "ietf-te-topology:te": {
               "te-node-attributes": {
                 "name": "AN11",
@@ -111,7 +111,7 @@
             },
             "ietf-network-topology:termination-point": [
               {
-                "// description:ltp": {
+                "// ltp description": {
                   "name": "AN1-1 LTP",
                   "link type(s)": "Multi-function (OTU2, STM-64 and 10GE)",
                   "physical node": "S3",
@@ -156,7 +156,7 @@
                 }
               },
               {
-                "// description:ltp": {
+                "// ltp description": {
                   "name": "AN1-2 LTP",
                   "link type(s)": "Multi-function (OTU2 and STM-64)",
                   "physical node": "S6",
@@ -201,7 +201,7 @@
                 }
               },
               {
-                "// description:ltp": {
+                "// ltp description": {
                   "name": "AN1-3 LTP",
                   "link type(s)": "STM-64",
                   "physical node": "S6",
@@ -230,7 +230,7 @@
                 }
               },
               {
-                "// description:ltp": {
+                "// ltp description": {
                   "name": "AN1-4 LTP",
                   "link type(s)": "OTU4",
                   "physical node": "S7",
@@ -268,7 +268,7 @@
                 }
               },
               {
-                "// description:ltp": {
+                "// ltp description": {
                   "name": "AN1-5 LTP",
                   "link type(s)": "OTU4",
                   "physical node": "S8",
@@ -306,7 +306,7 @@
                 }
               },
               {
-                "// description:ltp": {
+                "// ltp description": {
                   "name": "AN1-6 LTP",
                   "link type(s)": "OTU4",
                   "physical node": "S8",
@@ -344,7 +344,7 @@
                 }
               },
               {
-                "// description:ltp": {
+                "// ltp description": {
                   "name": "AN1-7 LTP",
                   "link type(s)": "OTU4",
                   "physical node": "S2",
@@ -386,14 +386,14 @@
         ],
         "ietf-network-topology:link": [
           {
-            "// description:link": {
+            "// link description": {
               "name": "Access Link from AN1-1",
               "type": "Multi-function access link (OTU2, STM-64 and 10GE)",
               "physical link": "Link from S3-1 to R1"
             },
-            "link-id": "teNodeId/10.0.0.1/teLinkId/1",
+            "link-id": "teNodeId/192.0.2.1/teLinkId/1",
             "source": {
-              "source-node": "10.0.0.1",
+              "source-node": "192.0.2.1",
               "source-tp": "1"
             },
             "// not-present destination": "access link",
@@ -461,14 +461,14 @@
             }
           },
           {
-            "// description:link": {
+            "// link description": {
               "name": "Access Link from AN1-2",
               "type": "Multi-function access link (OTU2 and STM-64)",
               "physical link": "Link from S6-2 to R3"
             },
-            "link-id": "teNodeId/10.0.0.1/teLinkId/2",
+            "link-id": "teNodeId/192.0.2.1/teLinkId/2",
             "source": {
-              "source-node": "10.0.0.1",
+              "source-node": "192.0.2.1",
               "source-tp": "2"
             },
             "// not-present destination": "access link",
@@ -536,14 +536,14 @@
             }
           },
           {
-            "// description:link": {
+            "// link description": {
               "name": "Access Link from AN1-3",
               "type": "STM-64 Access link",
               "physical link": "Link from S6-3 to R4"
             },
-            "link-id": "teNodeId/10.0.0.1/teLinkId/3",
+            "link-id": "teNodeId/192.0.2.1/teLinkId/3",
             "source": {
-              "source-node": "10.0.0.1",
+              "source-node": "192.0.2.1",
               "source-tp": "3"
             },
             "// not-present destination": "access link",
@@ -564,14 +564,14 @@
             }
           },
           {
-            "// description:link": {
+            "// link description": {
               "name": "Inter-domain Link from AN1-4",
               "type": "OTU4 inter-domain link",
               "physical link": "Link from S7-3 to S11"
             },
-            "link-id": "teNodeId/10.0.0.1/teLinkId/4",
+            "link-id": "teNodeId/192.0.2.1/teLinkId/4",
             "source": {
-              "source-node": "10.0.0.1",
+              "source-node": "192.0.2.1",
               "source-tp": "4"
             },
             "// not-present destination": "inter-domain link",
@@ -663,14 +663,14 @@
             }
           },
           {
-            "// description:link": {
+            "// link description": {
               "name": "Inter-domain Link from AN1-5",
               "type": "OTU4 inter-domain link",
               "physical link": "Link from S8-4 to S12"
             },
-            "link-id": "teNodeId/10.0.0.1/teLinkId/5",
+            "link-id": "teNodeId/192.0.2.1/teLinkId/5",
             "source": {
-              "source-node": "10.0.0.1",
+              "source-node": "192.0.2.1",
               "source-tp": "5"
             },
             "// not-present destination": "inter-domain link",
@@ -762,14 +762,14 @@
             }
           },
           {
-            "// description:link": {
+            "// link description": {
               "name": "Inter-domain Link from AN1-6",
               "type": "OTU4 inter-domain link",
               "physical link": "Link from S8-5 to S32"
             },
-            "link-id": "teNodeId/10.0.0.1/teLinkId/6",
+            "link-id": "teNodeId/192.0.2.1/teLinkId/6",
             "source": {
-              "source-node": "10.0.0.1",
+              "source-node": "192.0.2.1",
               "source-tp": "6"
             },
             "// not-present destination": "inter-domain link",
@@ -861,14 +861,14 @@
             }
           },
           {
-            "// description:link": {
+            "// link description": {
               "name": "Inter-domain Link from AN1-7",
               "type": "OTU4 inter-domain link",
               "physical link": "Link from S2-3 to S31"
             },
-            "link-id": "teNodeId/10.0.0.1teLinkId/7",
+            "link-id": "teNodeId/192.0.2.1teLinkId/7",
             "source": {
-              "source-node": "10.0.0.1",
+              "source-node": "192.0.2.1",
               "source-tp": "7"
             },
             "// not-present destination": "inter-domain link",

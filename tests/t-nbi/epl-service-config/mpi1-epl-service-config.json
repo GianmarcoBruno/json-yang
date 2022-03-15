@@ -1,6 +1,6 @@
 {
   "// header": {
-    "last-update": "January 29, 2022",
+    "last-update": "March 15, 2022",
     "title": "EPL Configuration @ MPI1",
     "reference-drafts": {
       "ietf-routing-types@2017-12-04": "rfc8294",
@@ -37,7 +37,7 @@
                 "// comment": "10GE Service Access Point at the access interface (S3-1 -> AN1-1)",
                 "access-point-id": "mpi-epl-an1-1-service-access-point",
                 "// comment access-node-id": "AN1 NODE-ID",
-                "access-node-id": "10.0.0.1",
+                "access-node-id": "192.0.2.1",
                 "// comment access-ltp-id": "AN1-1 LTP-ID",
                 "access-ltp-id": 1
               }

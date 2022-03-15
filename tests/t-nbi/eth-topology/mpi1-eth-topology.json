@@ -1,6 +1,6 @@
 {
   "// header": {
-    "last-update": "January 29,2021",
+    "last-update": "March 15, 2022",
     "title": "ETH Black Topology @ MPI1",
     "reference-drafts": {
       "ietf-routing-types@2017-12-04": "rfc8294",
@@ -32,14 +32,14 @@
         },
         "ietf-network:node": [
           {
-            "// comment node description": {
+            "// node description": {
               "name": "AN1",
-              "identifier": "10.0.0.1",
+              "identifier": "192.0.2.1",
               "type": "Abstract Node",
               "physical node(s)": "The whole network domain 1"
             },
-            "node-id": "10.0.0.1",
-            "ietf-te-topology:te-node-id": "10.0.0.1",
+            "node-id": "192.0.2.1",
+            "ietf-te-topology:te-node-id": "192.0.2.1",
             "// comment supporting-node": "Not used because topology hierarchy is outside the scope of this JSON example",
             "ietf-te-topology:te": {
               "te-node-attributes": {
@@ -54,7 +54,7 @@
             },
             "ietf-network-topology:termination-point": [
               {
-                "// description LTP": {
+                "// ltp description": {
                   "name": "AN1-1 LTP",
                   "link type(s)": "Multi-function (OTU2, STM-64 and 10GE)",
                   "physical node": "S3",
@@ -96,7 +96,7 @@
                 }
               },
               {
-                "// description LTP": {
+                "// ltp description": {
                   "name": "AN1-8 LTP",
                   "link type(s)": "10GE",
                   "physical node": "S6",
@@ -142,14 +142,14 @@
         ],
         "ietf-network-topology:link": [
           {
-            "// __DESCRIPTION__:__LINK__": {
+            "// link description": {
               "name": "Access Link from AN1-1",
               "type": "Multi-function access link (OTU2, STM-64 and 10GE)",
               "physical link": "Link from S3-1 to R1"
             },
-            "link-id": "teNodeId/10.0.0.1/teLinkId/1",
+            "link-id": "teNodeId/192.0.2.1/teLinkId/1",
             "source": {
-              "source-node": "10.0.0.1",
+              "source-node": "192.0.2.1",
               "source-tp": "1"
             },
             "// not-present destination": "access link",
@@ -170,14 +170,14 @@
             }
           },
           {
-            "// __DESCRIPTION__:__LINK__": {
+            "// link description": {
               "name": "Access Link from AN1-8",
               "type": "10GE access link",
               "physical link": "Link from S6-1 to R2"
             },
-            "link-id": "teNodeId/10.0.0.1/teLinkId/8",
+            "link-id": "teNodeId/192.0.2.1/teLinkId/8",
             "source": {
-              "source-node": "10.0.0.1",
+              "source-node": "192.0.2.1",
               "source-tp": "8"
             },
             "// not-present destination": "access link",
